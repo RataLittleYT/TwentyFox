@@ -6,7 +6,7 @@ document.addEventListener('DOMContentLoaded', function() {
         preloader.classList.add('fade-out');
         setTimeout(() => {
             preloader.style.display = 'none';
-        }, 500);
+        }, 2000);
     });
 
     // Mobile Menu
@@ -123,7 +123,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // Check on scroll
     window.addEventListener('scroll', checkScroll);
 
-    // Form Submission
+    // Form Submission with Formspree
     const contactForm = document.querySelector('.contact-form form');
     if (contactForm) {
         contactForm.addEventListener('submit', function(e) {
@@ -131,25 +131,48 @@ document.addEventListener('DOMContentLoaded', function() {
             
             const formData = new FormData(this);
             const submitBtn = this.querySelector('button[type="submit"]');
+            const originalBtnText = submitBtn.innerHTML;
+            const originalBtnBg = submitBtn.style.backgroundColor;
             
             // Change button text and disable it
-            submitBtn.innerHTML = 'Enviando...';
+            submitBtn.innerHTML = '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Enviando...';
             submitBtn.disabled = true;
             
-            // Here you would typically send the form data to Formspree
-            // For demo purposes, we'll just simulate a success response
-            setTimeout(() => {
-                submitBtn.innerHTML = 'Mensaje Enviado!';
-                submitBtn.style.backgroundColor = '#28a745';
-                
-                // Reset form after 3 seconds
+            // Send form data to Formspree
+            fetch('https://formspree.io/f/meokrele', {
+                method: 'POST',
+                body: formData,
+                headers: {
+                    'Accept': 'application/json'
+                }
+            })
+            .then(response => {
+                if (response.ok) {
+                    // Success message
+                    submitBtn.innerHTML = '<i class="fas fa-check-circle"></i> Mensaje Enviado!';
+                    submitBtn.style.backgroundColor = '#28a745';
+                    
+                    // Reset form after 3 seconds
+                    setTimeout(() => {
+                        this.reset();
+                        submitBtn.innerHTML = originalBtnText;
+                        submitBtn.style.backgroundColor = originalBtnBg;
+                        submitBtn.disabled = false;
+                    }, 3000);
+                } else {
+                    throw new Error('Error en el envío');
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                submitBtn.innerHTML = '<i class="fas fa-exclamation-circle"></i> Error, intenta de nuevo';
+                submitBtn.style.backgroundColor = '#dc3545';
                 setTimeout(() => {
-                    this.reset();
-                    submitBtn.innerHTML = 'Enviar mensaje';
-                    submitBtn.style.backgroundColor = '';
+                    submitBtn.innerHTML = originalBtnText;
+                    submitBtn.style.backgroundColor = originalBtnBg;
                     submitBtn.disabled = false;
                 }, 3000);
-            }, 1500);
+            });
         });
     }
 });
