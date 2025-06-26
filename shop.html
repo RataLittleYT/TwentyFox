@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>TwentyFox Shop - Tecnología Reacondicionada</title>
+    <link rel="icon" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMjgiIGhlaWdodD0iMTI4IiB2aWV3Qm94PSIwIDAgNDggNDgiPjxnIGZpbGw9Im5vbmUiIHN0cm9rZT0iI2ZmMDAzNyIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIiBzdHJva2Utd2lkdGg9IjQiPjxwYXRoIGZpbGw9IiNmZjAwMzciIGQ9Ik00IDEyaDQwdjhsLTEuMzk4Ljg0YTcgNyAwIDAgMS03LjIwMyAwTDM0IDIwbC0xLjM5OC44NGE3IDcgMCAwIDEtNy4yMDMgMEwyNCAyMGwtMS4zOTguODRhNyA3IDAgMCAxLTcuMjAzIDBMMTQgMjBsLTEuMzk5Ljg0YTcgNyAwIDAgMS03LjIwMiAwTDQgMjB6Ii8+PHBhdGggZD0iTTggMjIuNDg5VjQ0aDMyVjIyTTggMTEuODIyVjRoMzJ2OCIvPjxwYXRoIGZpbGw9IiNmZjAwMzciIGQ9Ik0xOSAzMmgxMHYxMkgxOXoiLz48L2c+PC9zdmc+" type="image/x-icon">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
@@ -822,7 +823,7 @@
     <header>
         <div class="header-container">
             <a href="#" class="logo">
-                <img src="https://via.placeholder.com/40" alt="TwentyFox Logo" id="logo-img">
+                <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMjgiIGhlaWdodD0iMTI4IiB2aWV3Qm94PSIwIDAgNDggNDgiPjxnIGZpbGw9Im5vbmUiIHN0cm9rZT0iI2ZmMDAzNyIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIiBzdHJva2Utd2lkdGg9IjQiPjxwYXRoIGZpbGw9IiNmZjAwMzciIGQ9Ik00IDEyaDQwdjhsLTEuMzk4Ljg0YTcgNyAwIDAgMS03LjIwMyAwTDM0IDIwbC0xLjM5OC44NGE3IDcgMCAwIDEtNy4yMDMgMEwyNCAyMGwtMS4zOTguODRhNyA3IDAgMCAxLTcuMjAzIDBMMTQgMjBsLTEuMzk5Ljg0YTcgNyAwIDAgMS03LjIwMiAwTDQgMjB6Ii8+PHBhdGggZD0iTTggMjIuNDg5VjQ0aDMyVjIyTTggMTEuODIyVjRoMzJ2OCIvPjxwYXRoIGZpbGw9IiNmZjAwMzciIGQ9Ik0xOSAzMmgxMHYxMkgxOXoiLz48L2c+PC9zdmc+" alt="TwentyFox Logo" id="logo-img">
                 <span class="logo-text">TwentyFox</span>
             </a>
             <button class="mobile-menu-btn" id="mobile-menu-btn">
@@ -1038,17 +1039,9 @@
                     <li><a href="#home">Inicio</a></li>
                     <li><a href="#about">Quiénes somos</a></li>
                     <li><a href="#products">Productos</a></li>
-                    <li><a href="#">Términos y condiciones</a></li>
-                    <li><a href="#">Política de privacidad</a></li>
                 </ul>
             </div>
             <div class="footer-col scroll-animate">
-                <h3>Contacto</h3>
-                <ul>
-                    <li><i class="fas fa-envelope"></i> contacto@twentyfox.lat</li>
-                    <li><i class="fas fa-phone"></i> +52 55 1234 5678</li>
-                    <li><i class="fas fa-map-marker-alt"></i> Ciudad de México, México</li>
-                </ul>
             </div>
         </div>
         <div class="copyright scroll-animate">
@@ -1060,46 +1053,140 @@
         // Productos
         const products = [
             // iPhones
+            //iphone12
             {
-                id: "iphone-12-128",
-                name: "iPhone 12 128GB",
+                id: "iphone-12-128-black",
+                name: "iPhone 12 128GB (Negro)",
                 category: "iphones",
-                price: 9999,
-                image: "https://images.unsplash.com/photo-1603921326210-6edd2d60ca68?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80",
-                description: "iPhone 12 reacondicionado con 128GB de almacenamiento. Incluye cargador y cable originales.",
-                details: "<h4>Especificaciones</h4><ul><li>Pantalla Super Retina XDR de 6.1 pulgadas</li><li>Chip A14 Bionic</li><li>Resistencia al agua IP68</li><li>Sistema de doble cámara de 12 MP</li></ul><h4>Incluye en la caja</h4><ul><li>iPhone 12</li><li>Cable Lightning a USB-C</li><li>Cargador de 20W</li><li>Manuales y accesorios</li></ul>",
-                badge: "Garantía 6 meses"
+                price: 6000,
+                image: "https://http2.mlstatic.com/D_NQ_NP_870738-MLA46153583473_052021-O.webp",
+                description: "iPhone 12 reacondicionado con 128GB de almacenamiento. Incluye cargador y cable.",
+                details: "<h4>Especificaciones</h4><ul><li>Pantalla Super Retina XDR de 6.1 pulgadas</li><li>Chip A14 Bionic</li><li>Resistencia al agua IP68</li><li>Sistema de doble cámara de 12 MP</li></ul><h4>Incluye en la caja</h4><ul><li>iPhone 12</li><li>Cable Lightning a USB</li><li>Cargador de 20W</li><li>Manuales y accesorios</li></ul>",
+                badge: "Mas Comprado"
             },
             {
-                id: "iphone-13-256",
-                name: "iPhone 13 256GB",
+                id: "iphone-12-128-white",
+                name: "iPhone 12 128GB (Blanco)",
                 category: "iphones",
-                price: 12999,
-                image: "https://images.unsplash.com/photo-1632660677896-04a4d0b03f0c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80",
+                price: 6500,
+                image: "https://refaccionestechhouse.mx/cdn/shop/files/D_969706-MLA46153567838_052021-B_50bd4003-3679-4c23-b643-305e5749a7c7.jpg?v=1725059568&width=1946",
+                description: "iPhone 12 reacondicionado con 128GB de almacenamiento. Incluye cargador y cable.",
+                details: "<h4>Especificaciones</h4><ul><li>Pantalla Super Retina XDR de 6.1 pulgadas</li><li>Chip A14 Bionic</li><li>Resistencia al agua IP68</li><li>Sistema de doble cámara de 12 MP</li></ul><h4>Incluye en la caja</h4><ul><li>iPhone 12</li><li>Cable Lightning a USB</li><li>Cargador de 20W</li><li>Manuales y accesorios</li></ul>",
+                badge: "Ultimas Piezas"
+            },
+            {
+                id: "iphone-12-128-purple",
+                name: "iPhone 12 128GB (Púrpura)",
+                category: "iphones",
+                price: 6200,
+                image: "https://ishopmx.vtexassets.com/arquivos/ids/266391-800-auto?v=638133926548600000&width=800&height=auto&aspect=true",
+                description: "iPhone 12 reacondicionado con 128GB de almacenamiento. Incluye cargador y cable.",
+                details: "<h4>Especificaciones</h4><ul><li>Pantalla Super Retina XDR de 6.1 pulgadas</li><li>Chip A14 Bionic</li><li>Resistencia al agua IP68</li><li>Sistema de doble cámara de 12 MP</li></ul><h4>Incluye en la caja</h4><ul><li>iPhone 12</li><li>Cable Lightning a USB</li><li>Cargador de 20W</li><li>Manuales y accesorios</li></ul>",
+                badge: "Top Trend"
+            },
+            //Iphone13
+            {
+                id: "iphone-13-256-pink",
+                name: "iPhone 13 256GB (Rosa)",
+                category: "iphones",
+                price: 8000,
+                image: "https://resources.sears.com.mx/medios-plazavip/t1/17147674472ROSAjpg?scale=500&qlty=75",
                 description: "iPhone 13 reacondicionado con 256GB de almacenamiento. Estado como nuevo.",
-                details: "<h4>Especificaciones</h4><ul><li>Pantalla Super Retina XDR de 6.1 pulgadas</li><li>Chip A15 Bionic</li><li>Resistencia al agua IP68</li><li>Sistema de doble cámara de 12 MP con modo Cinematic</li></ul><h4>Incluye en la caja</h4><ul><li>iPhone 13</li><li>Cable Lightning a USB-C</li><li>Manuales</li></ul>",
-                badge: "Garantía 1 año"
+                details: "<h4>Especificaciones</h4><ul><li>Pantalla Super Retina XDR de 6.1 pulgadas</li><li>Chip A15 Bionic</li><li>Resistencia al agua IP68</li><li>Sistema de doble cámara de 12 MP con modo Cinematic</li></ul><h4>Incluye en la caja</h4><ul><li>iPhone 13</li><li>Cable Lightning a USB</li><li>Manuales</li></ul>",
+                badge: "Mas Comprado"
             },
             {
-                id: "iphone-se-64",
-                name: "iPhone SE (3ra gen) 64GB",
+                id: "iphone-13-256-white",
+                name: "iPhone 13 256GB (Blanco Estrella)",
                 category: "iphones",
-                price: 6999,
-                image: "https://images.unsplash.com/photo-1655720828012-585b4244b1af?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80",
-                description: "iPhone SE de tercera generación con 64GB. Diseño compacto con potencia A15.",
-                details: "<h4>Especificaciones</h4><ul><li>Pantalla Retina HD de 4.7 pulgadas</li><li>Chip A15 Bionic</li><li>Resistencia al agua IP67</li><li>Cámara única de 12 MP</li></ul><h4>Incluye en la caja</h4><ul><li>iPhone SE</li><li>Cable Lightning a USB-C</li><li>Manuales</li></ul>",
-                badge: "Garantía 6 meses"
+                price: 8300,
+                image: "https://www.achemex.com/cdn/shop/products/31HigBgVGAL.jpg?v=1693426694",
+                description: "iPhone 13 reacondicionado con 256GB de almacenamiento. Estado como nuevo.",
+                details: "<h4>Especificaciones</h4><ul><li>Pantalla Super Retina XDR de 6.1 pulgadas</li><li>Chip A15 Bionic</li><li>Resistencia al agua IP68</li><li>Sistema de doble cámara de 12 MP con modo Cinematic</li></ul><h4>Incluye en la caja</h4><ul><li>iPhone 13</li><li>Cable Lightning a USB</li><li>Manuales</li></ul>",
+                badge: "Top Trend"
+            },
+            {
+                id: "iphone-13-256-red",
+                name: "iPhone 13 256GB (Rojo)",
+                category: "iphones",
+                price: 8700,
+                image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSugC4BGj5g6qBcJPI4KFJnau0NrNwCaqWZOA&s",
+                description: "iPhone 13 reacondicionado con 256GB de almacenamiento. Estado como nuevo.",
+                details: "<h4>Especificaciones</h4><ul><li>Pantalla Super Retina XDR de 6.1 pulgadas</li><li>Chip A15 Bionic</li><li>Resistencia al agua IP68</li><li>Sistema de doble cámara de 12 MP con modo Cinematic</li></ul><h4>Incluye en la caja</h4><ul><li>iPhone 13</li><li>Cable Lightning a USB</li><li>Manuales</li></ul>",
+                badge: "Ultimas piezas"
+            },
+            //Iphone14
+            {
+                id: "iphone-14-128-purple",
+                name: "iPhone 14 128GB (Púrpura)",
+                category: "iphones",
+                price: 8500,
+                image: "https://m.media-amazon.com/images/I/71BcQW-u8xL.jpg",
+                description: "iPhone 14 reacondicionado con 128GB en color rojo. Certificado Premium..",
+                details: "<h4>Especificaciones</h4><ul><li>Pantalla Super Retina XDR 6.1'</li><li>Chip A15 Bionic</li><li>Resistencia IP68</li><li>Cámaras duales 12MP con Night mode</li><li>Modo Cinemático 4K HDR</li><li>iOS 14 actualizable</li><li>Autonomía: 20h video</li></ul><h4>Incluye</h4><ul><li>iPhone 14 128GB Púrpura</li><li>Cable Lightning/USB</li><li>Cargador 20W</li></ul><h4>Exclusivo</h4><ul><li>Detección de accidentes</li><li>Emergency SOS satelital</li><li>Ceramic Shield</li></ul>",
+                badge: "Top Trend"
+            },
+            {
+                id: "iphone-14-256-white",
+                name: "iPhone 14 256GB (Blanco)",
+                category: "iphones",
+                price: 10300,
+                image: "https://m.media-amazon.com/images/I/718muFN+T+L._UF350,350_QL80_.jpg",
+                description: "iPhone 14 reacondicionado con 256GB en color blanco. Certificado Premium.",
+                details: "<h4>Especificaciones</h4><ul><li>Pantalla Super Retina XDR 6.1'</li><li>Chip A15 Bionic</li><li>Resistencia IP68</li><li>Cámaras duales 12MP con Night mode</li><li>Modo Cinemático 4K HDR</li><li>iOS 16 actualizable</li><li>Autonomía: 20h video</li></ul><h4>Incluye</h4><ul><li>iPhone 14 256GB Blanco</li><li>Cable Lightning/USB</li><li>Cargador 20W</li></ul><h4>Exclusivo</h4><ul><li>Detección de accidentes</li><li>Emergency SOS satelital</li><li>Ceramic Shield</li></ul>",
+                badge: "Mas Vendido"
+            },
+            {
+                id: "iphone-14-pro-256-black",
+                name: "iPhone 14 Pro 256GB (Negro)",
+                category: "iphones",
+                price: 12800,
+                image: "https://i5.walmartimages.com.mx/mg/gm/1p/images/product-images/img_large/00085369892777-1l.jpg?odnHeight=612&odnWidth=612&odnBg=FFFFFF",
+                description: "iPhone 14 Pro reacondicionado con 256GB en color negro.",
+                details: "<h4>Especificaciones</h4><ul><li>Pantalla Super Retina XDR ProMotion 6.1'</li><li>Chip A16 Bionic</li><li>Dynamic Island</li><li>Resistencia IP68</li><li>Sistema triple cámara 48MP + 12MP + 12MP</li><li>Modo Cinemático 4K HDR</li><li>iOS 16 actualizable</li><li>Autonomía: 23h video</li></ul><h4>Incluye</h4><ul><li>iPhone 14 Pro 256GB Negro</li><li>Cable Lightning/USB</li><li>Manuales</li></ul><h4>Exclusivo Pro</h4><ul><li>Always-On Display</li><li>Cámara principal de 48MP</li><li>Acero inoxidable grado quirúrgico</li></ul>",
+                badge: "Perfect Gift"
+            },
+            //Iphone 15
+            {
+                id: "iphone-15-128-black",
+                name: "iPhone 15 128GB (Negro)",
+                category: "iphones",
+                price: 13000,
+                image: "https://resources.sears.com.mx/medios-plazavip/t1/1737483785IPHONE15NEGROCELULARESNOCHITLAN4jpg?scale=500&qlty=75",
+                description: "iPhone 15 nuevo con 128GB en color negro. Tecnología USB-C y Dynamic Island.",
+                details: "<h4>Especificaciones</h4><ul><li>Pantalla Super Retina XDR 6.1'</li><li>Chip A16 Bionic</li><li>Dynamic Island</li><li>Resistencia IP68</li><li>Cámara dual 48MP + 12MP</li><li>USB-C</li><li>iOS 17</li><li>Autonomía: 20h video</li></ul><h4>Incluye</h4><ul><li>iPhone 15 128GB Negro</li><li>Cable USB-C/USB</li><li>Manuales</li></ul><h4>Novedades</h4><ul><li>Diseño con aluminio aerospacial</li><li>Cámara principal de 48MP</li><li>Modo Retrato avanzado</li></ul>",
+                badge: "Top Trend"
+            },
+            {
+                id: "iphone-16-plus-128-black",
+                name: "iPhone 16 Plus 128GB (Negro)",
+                category: "iphones",
+                price: 20000,
+                image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRRF_kKCbrP9X4PYdOTMf34V2GA3Oi1WoTolg&s", // Imagen representativa
+                description: "iPhone 16 Plus con 128GB en exclusivo color negro. Última tecnología con pantalla ProMotion.",
+                details: "<h4>Especificaciones</h4><ul><li>Pantalla Super Retina XDR ProMotion 6.7'</li><li>Chip A18 Pro</li><li>Dynamic Island 2.0</li><li>Resistencia IP69</li><li>Sistema triple cámara 48MP + 12MP + 12MP</li><li>USB-C 3.2 Gen 2</li><li>iOS 18</li><li>Autonomía: 26h video</li></ul><h4>Incluye</h4><ul><li>iPhone 16 Plus 128GB Negro</li><li>Cable USB-C/USB-C</li><li>Manuales</li></ul><h4>Novedades 16 Plus</h4><ul><li>Nuevo diseño con titanio reciclado</li><li>Sensores de salud avanzados</li><li>Carga inalámbrica reversible</li></ul>",
+                badge: "Mas Vendido"
+            },
+            {
+                id: "iphone-16e-128-white",
+                name: "iPhone 16e 128GB (Blanco-Nuevo)",
+                category: "iphones",
+                price: 16000,
+                image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTGP97DgRoek3p2C9je5PKAAYFjnyKyR-ZwDA&s",
+                description: "iPhone 16e en color blanco con 128GB. Modelo económico con lo esencial de Apple.",
+                details: "<h4>Especificaciones</h4><ul><li>Pantalla Liquid Retina HD 6.1'</li><li>Chip A16 Bionic</li><li>Notch tradicional</li><li>Resistencia IP67</li><li>Cámara única 12MP avanzada</li><li>USB-C</li><li>iOS 18</li><li>Autonomía: 18h video</li></ul><h4>Incluye</h4><ul><li>iPhone 16e 128GB Blanco</li><li>Manuales</li></ul><h4>Ventajas</h4><ul><li>Precio más accesible</li><li>Mismo chip que iPhone 15</li><li>Compatibilidad completa con ecosistema Apple</li></ul>",
+                badge: "Producto Nuevo"
             },
             // Computadoras
             {
                 id: "macbook-air-m1",
                 name: "MacBook Air M1 256GB",
                 category: "computadoras",
-                price: 17999,
+                price: 12200,
                 image: "https://images.unsplash.com/photo-1611186871348-b1ce696e52c9?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80",
                 description: "MacBook Air con chip M1 y 256GB SSD. Rendimiento excepcional y batería de larga duración.",
                 details: "<h4>Especificaciones</h4><ul><li>Chip Apple M1 con CPU de 8 núcleos y GPU de 7 núcleos</li><li>8GB de memoria unificada</li><li>Pantalla Retina de 13.3 pulgadas</li><li>Hasta 18 horas de batería</li></ul><h4>Incluye en la caja</h4><ul><li>MacBook Air</li><li>Cargador USB-C de 30W</li><li>Cable USB-C</li><li>Manuales</li></ul>",
-                badge: "Garantía 1 año"
+                badge: "Sin Stock"
             },
             {
                 id: "imac-24-m1",
@@ -1109,17 +1196,17 @@
                 image: "https://images.unsplash.com/photo-1629131726692-1accd0c53ce0?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80",
                 description: "iMac de 24 pulgadas con chip M1. Diseño delgado y colorido con pantalla 4.5K.",
                 details: "<h4>Especificaciones</h4><ul><li>Chip Apple M1 con CPU de 8 núcleos y GPU de 7 núcleos</li><li>8GB de memoria unificada</li><li>Pantalla Retina 4.5K de 24 pulgadas</li><li>2 puertos Thunderbolt/USB 4</li></ul><h4>Incluye en la caja</h4><ul><li>iMac</li><li>Teclado Magic Keyboard</li><li>Mouse Magic Mouse</li><li>Cable de alimentación</li></ul>",
-                badge: "Garantía 1 año"
+                badge: "Sin Stock"
             },
             {
                 id: "mac-mini-m2",
                 name: "Mac mini M2 256GB",
                 category: "computadoras",
                 price: 14999,
-                image: "https://images.unsplash.com/photo-1614632537197-38a17061d8e1?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1632&q=80",
+                image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQzZMeAzlhoIudMP2--fEDUy8EPYh16Z3Encw&s",
                 description: "Mac mini con chip M2. Potencia de escritorio en un diseño compacto.",
                 details: "<h4>Especificaciones</h4><ul><li>Chip Apple M2 con CPU de 8 núcleos y GPU de 10 núcleos</li><li>8GB de memoria unificada</li><li>2 puertos Thunderbolt 4</li><li>2 puertos USB-A</li></ul><h4>Incluye en la caja</h4><ul><li>Mac mini</li><li>Cable de alimentación</li><li>Manuales</li></ul>",
-                badge: "Garantía 1 año"
+                badge: "Sin Stock"
             },
             // Monitores
             {
@@ -1130,7 +1217,7 @@
                 image: "https://images.unsplash.com/photo-1551645120-d70bfe84c826?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1632&q=80",
                 description: "Monitor LG 27 pulgadas 4K UHD con USB-C. Ideal para diseño y productividad.",
                 details: "<h4>Especificaciones</h4><ul><li>Pantalla IPS de 27 pulgadas</li><li>Resolución 3840 x 2160 4K UHD</li><li>Puerto USB-C con 60W de carga</li><li>HDR10 compatible</li></ul><h4>Incluye en la caja</h4><ul><li>Monitor</li><li>Base</li><li>Cable de alimentación</li><li>Cable USB-C</li></ul>",
-                badge: "Garantía 6 meses"
+                badge: "Sin Stock"
             },
             {
                 id: "dell-u2720q",
@@ -1140,7 +1227,7 @@
                 image: "https://images.unsplash.com/photo-1540932239986-30128078f3c5?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1374&q=80",
                 description: "Monitor Dell UltraSharp 27\" 4K con USB-C. Precisión de color excepcional.",
                 details: "<h4>Especificaciones</h4><ul><li>Pantalla IPS de 27 pulgadas</li><li>Resolución 3840 x 2160 4K UHD</li><li>99% sRGB y 95% DCI-P3</li><li>Puerto USB-C con 90W de carga</li></ul><h4>Incluye en la caja</h4><ul><li>Monitor</li><li>Base ajustable</li><li>Cables de alimentación y USB-C</li></ul>",
-                badge: "Garantía 1 año"
+                badge: "Sin Stock"
             },
             // Gráficas
             {
@@ -1151,17 +1238,17 @@
                 image: "https://images.unsplash.com/photo-1591488320449-011701bb6704?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80",
                 description: "Tarjeta gráfica NVIDIA RTX 3080 con 10GB GDDR6X. Rendimiento para gaming y creación.",
                 details: "<h4>Especificaciones</h4><ul><li>NVIDIA Ampere Architecture</li><li>10GB GDDR6X</li><li>8704 CUDA Cores</li><li>HDMI 2.1, DisplayPort 1.4a</li></ul><h4>Incluye en la caja</h4><ul><li>Tarjeta gráfica</li><li>Soporte anti-sag</li><li>Manuales</li></ul>",
-                badge: "Garantía 1 año"
+                badge: "Sin Stock"
             },
             {
                 id: "rx-6800xt",
                 name: "AMD Radeon RX 6800 XT",
                 category: "graficas",
                 price: 13999,
-                image: "https://images.unsplash.com/photo-1635776062367-93e0c6de2a6a?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1632&q=80",
+                image: "https://i.pcmag.com/imagery/reviews/02QL3dNmJenoAPIgw4n91aZ-1.fit_lim.size_1050x.jpg",
                 description: "Tarjeta gráfica AMD Radeon RX 6800 XT con 16GB GDDR6. Potencia para 4K.",
                 details: "<h4>Especificaciones</h4><ul><li>AMD RDNA 2 Architecture</li><li>16GB GDDR6</li><li>4608 Stream Processors</li><li>HDMI 2.1, DisplayPort 1.4a</li></ul><h4>Incluye en la caja</h4><ul><li>Tarjeta gráfica</li><li>Manuales</li></ul>",
-                badge: "Garantía 1 año"
+                badge: "Sin Stock"
             }
         ];
 
