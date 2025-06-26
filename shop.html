@@ -1,0 +1,1398 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TwentyFox Shop - Tecnología Reacondicionada</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #e63946;
+            --primary-dark: #c1121f;
+            --secondary: #f1faee;
+            --dark: #1d3557;
+            --light-dark: #457b9d;
+            --light: #a8dadc;
+            --white: #ffffff;
+            --black: #0a0a0a;
+            --gray: #e5e5e5;
+            scroll-behavior: smooth;
+            --dark-gray: #6c757d;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--secondary);
+            color: var(--black);
+            overflow-x: hidden;
+            -webkit-user-select: none; 
+            -moz-user-select: none; 
+            -ms-user-select: none; 
+            user-select: none; 
+        }
+
+        /* Animaciones */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
+        @keyframes slideInLeft {
+            from { transform: translateX(-100%); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+
+        @keyframes slideInRight {
+            from { transform: translateX(100%); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+
+        .animate {
+            animation: fadeIn 0.8s ease-out forwards;
+        }
+
+        .animate-left {
+            animation: slideInLeft 0.8s ease-out forwards;
+        }
+
+        .animate-right {
+            animation: slideInRight 0.8s ease-out forwards;
+        }
+
+        /* Header */
+        header {
+            background-color: var(--white);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            position: fixed;
+            width: 100%;
+            z-index: 1000;
+            padding: 1rem 0;
+        }
+
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            text-decoration: none;
+        }
+
+        .logo img {
+            height: 40px;
+        }
+
+        .logo-text {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary);
+            letter-spacing: -1px;
+        }
+
+        /* Menú de navegación */
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        nav ul li a {
+            text-decoration: none;
+            color: var(--dark);
+            font-weight: 600;
+            font-size: 1rem;
+            transition: color 0.3s;
+            position: relative;
+        }
+
+        nav ul li a:hover {
+            color: var(--primary);
+        }
+
+        nav ul li a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background-color: var(--primary);
+            transition: width 0.3s;
+        }
+
+        nav ul li a:hover::after {
+            width: 100%;
+        }
+
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            color: var(--dark);
+            cursor: pointer;
+        }
+
+        /* Hero Section */
+        .hero {
+            height: 100vh;
+            background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('https://images.unsplash.com/photo-1517336714731-489689fd1ca8?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1926&q=80') no-repeat center center/cover;
+            color: var(--white);
+            display: flex;
+            align-items: center;
+            padding-top: 80px;
+        }
+
+        .hero-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            width: 100%;
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+            line-height: 1.2;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            max-width: 600px;
+            margin-bottom: 2rem;
+            opacity: 0.9;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 0.8rem 1.8rem;
+            background-color: var(--primary);
+            color: var(--white);
+            border: none;
+            border-radius: 50px;
+            font-weight: 600;
+            text-decoration: none;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 4px 15px rgba(230, 57, 70, 0.4);
+        }
+
+        .btn:hover {
+            background-color: var(--primary-dark);
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(230, 57, 70, 0.6);
+        }
+
+        /* About Section */
+        .section {
+            padding: 6rem 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 3rem;
+            position: relative;
+        }
+
+        .section-title h2 {
+            font-size: 2.5rem;
+            color: var(--dark);
+            margin-bottom: 1rem;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 4px;
+            background-color: var(--primary);
+            border-radius: 2px;
+        }
+
+        .about-content {
+            display: flex;
+            align-items: center;
+            gap: 3rem;
+        }
+
+        .about-text {
+            flex: 1;
+        }
+
+        .about-text h3 {
+            font-size: 1.8rem;
+            color: var(--dark);
+            margin-bottom: 1.5rem;
+        }
+
+        .about-text p {
+            margin-bottom: 1rem;
+            line-height: 1.6;
+            color: var(--dark-gray);
+        }
+
+        .about-image {
+            flex: 1;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .about-image img {
+            width: 100%;
+            height: auto;
+            display: block;
+            transition: transform 0.5s;
+        }
+
+        .about-image:hover img {
+            transform: scale(1.05);
+        }
+
+        /* Products Section */
+        .products {
+            background-color: var(--white);
+        }
+
+        .categories {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .category-btn {
+            padding: 0.6rem 1.5rem;
+            background-color: var(--secondary);
+            border: none;
+            border-radius: 50px;
+            font-weight: 600;
+            color: var(--dark);
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .category-btn.active, .category-btn:hover {
+            background-color: var(--primary);
+            color: var(--white);
+        }
+
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 2rem;
+        }
+
+        .product-card {
+            background-color: var(--white);
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s, box-shadow 0.3s;
+            position: relative;
+        }
+
+        .product-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+        }
+
+        .product-badge {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background-color: var(--primary);
+            color: var(--white);
+            padding: 0.3rem 0.8rem;
+            border-radius: 50px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            z-index: 1;
+        }
+
+        .product-image {
+            height: 200px;
+            overflow: hidden;
+        }
+
+        .product-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s;
+        }
+
+        .product-card:hover .product-image img {
+            transform: scale(1.1);
+        }
+
+        .product-info {
+            padding: 1.5rem;
+        }
+
+        .product-category {
+            display: inline-block;
+            font-size: 0.8rem;
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+        }
+
+        .product-title {
+            font-size: 1.2rem;
+            margin-bottom: 0.5rem;
+            color: var(--dark);
+        }
+
+        .product-price {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 1rem;
+        }
+
+        .product-description {
+            color: var(--dark-gray);
+            font-size: 0.9rem;
+            margin-bottom: 1.5rem;
+            line-height: 1.5;
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .product-actions {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .view-more {
+            background: none;
+            border: none;
+            color: var(--primary);
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 0.3rem;
+            transition: color 0.3s;
+        }
+
+        .view-more:hover {
+            color: var(--primary-dark);
+        }
+
+        .buy-btn {
+            display: none;
+            padding: 0.5rem 1.2rem;
+            background-color: var(--primary);
+            color: var(--white);
+            border: none;
+            border-radius: 5px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .buy-btn:hover {
+            background-color: var(--primary-dark);
+        }
+
+        /* Product Details */
+        .product-details {
+            display: none;
+            padding: 1.5rem;
+            background-color: var(--secondary);
+            border-top: 1px solid var(--gray);
+        }
+
+        .product-details h4 {
+            margin-bottom: 1rem;
+            color: var(--dark);
+        }
+
+        .product-details ul {
+            margin-bottom: 1.5rem;
+            padding-left: 1.5rem;
+        }
+
+        .product-details ul li {
+            margin-bottom: 0.5rem;
+            color: var(--dark-gray);
+        }
+
+        /* Checkout Modal */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0, 0, 0, 0.7);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 2000;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s;
+        }
+
+        .modal-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .modal {
+            background-color: var(--white);
+            border-radius: 10px;
+            width: 90%;
+            max-width: 600px;
+            max-height: 90vh;
+            overflow-y: auto;
+            padding: 2rem;
+            position: relative;
+            transform: translateY(50px);
+            transition: transform 0.3s;
+        }
+
+        .modal-overlay.active .modal {
+            transform: translateY(0);
+        }
+
+        .close-modal {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            font-size: 1.5rem;
+            background: none;
+            border: none;
+            cursor: pointer;
+            color: var(--dark-gray);
+            transition: color 0.3s;
+        }
+
+        .close-modal:hover {
+            color: var(--primary);
+        }
+
+        .modal h3 {
+            font-size: 1.8rem;
+            margin-bottom: 1.5rem;
+            color: var(--dark);
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: var(--dark);
+        }
+
+        .form-group input, .form-group select {
+            width: 100%;
+            padding: 0.8rem;
+            border: 1px solid var(--gray);
+            border-radius: 5px;
+            font-size: 1rem;
+        }
+
+        .form-row {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .form-row .form-group {
+            flex: 1;
+        }
+
+        .order-summary {
+            background-color: var(--secondary);
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin-top: 2rem;
+        }
+
+        .order-summary h4 {
+            margin-bottom: 1rem;
+            color: var(--dark);
+        }
+
+        .summary-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.5rem;
+        }
+
+        .summary-total {
+            font-weight: 700;
+            font-size: 1.1rem;
+            margin-top: 1rem;
+            padding-top: 1rem;
+            border-top: 1px solid var(--gray);
+        }
+
+        .submit-btn {
+            width: 100%;
+            padding: 1rem;
+            background-color: var(--primary);
+            color: var(--white);
+            border: none;
+            border-radius: 5px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            margin-top: 1.5rem;
+            transition: background-color 0.3s;
+        }
+
+        .submit-btn:hover {
+            background-color: var(--primary-dark);
+        }
+
+        .payment-btn {
+            display: none;
+            width: 100%;
+            padding: 1rem;
+            background-color: #635bff;
+            color: var(--white);
+            border: none;
+            border-radius: 5px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            margin-top: 1.5rem;
+            text-align: center;
+            text-decoration: none;
+            transition: background-color 0.3s;
+        }
+
+        .payment-btn:hover {
+            background-color: #4a42d6;
+        }
+
+        .success-message {
+            text-align: center;
+            display: none;
+        }
+
+        .success-message i {
+            font-size: 4rem;
+            color: #28a745;
+            margin-bottom: 1.5rem;
+        }
+
+        .success-message h3 {
+            font-size: 1.8rem;
+            margin-bottom: 1rem;
+            color: var(--dark);
+        }
+
+        .success-message p {
+            color: var(--dark-gray);
+            margin-bottom: 2rem;
+        }
+
+        .order-id {
+            background-color: var(--secondary);
+            padding: 0.8rem;
+            border-radius: 5px;
+            font-weight: 600;
+            color: var(--dark);
+            margin-bottom: 2rem;
+            display: inline-block;
+        }
+
+        /* Footer */
+        footer {
+            background-color: var(--dark);
+            color: var(--white);
+            padding: 3rem 2rem 1.5rem;
+        }
+
+        .footer-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+        }
+
+        .footer-col h3 {
+            font-size: 1.2rem;
+            margin-bottom: 1.5rem;
+            position: relative;
+        }
+
+        .footer-col h3::after {
+            content: '';
+            position: absolute;
+            bottom: -8px;
+            left: 0;
+            width: 40px;
+            height: 3px;
+            background-color: var(--primary);
+        }
+
+        .footer-col ul {
+            list-style: none;
+        }
+
+        .footer-col ul li {
+            margin-bottom: 0.8rem;
+        }
+
+        .footer-col ul li a {
+            color: var(--light);
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .footer-col ul li a:hover {
+            color: var(--primary);
+        }
+
+        .social-links {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .social-links a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            color: var(--white);
+            transition: all 0.3s;
+        }
+
+        .social-links a:hover {
+            background-color: var(--primary);
+            transform: translateY(-3px);
+        }
+
+        .copyright {
+            text-align: center;
+            margin-top: 3rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: var(--light);
+            font-size: 0.9rem;
+        }
+
+        .copyright a {
+            color: var(--primary);
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .copyright a:hover {
+            color: var(--white);
+        }
+
+        /* Scroll Animations */
+        .scroll-animate {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+        }
+
+        .scroll-animate.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Responsive */
+        @media (max-width: 992px) {
+            .about-content {
+                flex-direction: column;
+            }
+            
+            .about-image {
+                order: -1;
+            }
+        }
+
+        @media (max-width: 768px) {
+            nav ul {
+                position: fixed;
+                top: 80px;
+                left: -100%;
+                width: 100%;
+                height: calc(100vh - 80px);
+                background-color: var(--white);
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                gap: 2rem;
+                transition: left 0.3s;
+                z-index: 999;
+            }
+
+            nav ul.active {
+                left: 0;
+            }
+
+            .mobile-menu-btn {
+                display: block;
+            }
+
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+
+            .hero p {
+                font-size: 1rem;
+            }
+
+            .section {
+                padding: 4rem 1.5rem;
+            }
+
+            .section-title h2 {
+                font-size: 2rem;
+            }
+
+            .modal {
+                width: 95%;
+                padding: 1.5rem;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .header-container {
+                padding: 0 1rem;
+            }
+
+            .hero h1 {
+                font-size: 2rem;
+            }
+
+            .btn {
+                padding: 0.7rem 1.5rem;
+            }
+
+            .form-row {
+                flex-direction: column;
+                gap: 0;
+            }
+
+            .footer-container {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="header-container">
+            <a href="#" class="logo">
+                <img src="https://via.placeholder.com/40" alt="TwentyFox Logo" id="logo-img">
+                <span class="logo-text">TwentyFox</span>
+            </a>
+            <button class="mobile-menu-btn" id="mobile-menu-btn">
+                <i class="fas fa-bars"></i>
+            </button>
+            <nav>
+                <ul id="nav-menu">
+                    <li><a href="#home">Home</a></li>
+                    <li><a href="#about">Who we are?</a></li>
+                    <li><a href="#products">Products</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+        <div class="hero-content scroll-animate">
+            <h1>Tecnología reacondicionada con garantía</h1>
+            <p>En TwentyFox ofrecemos los mejores productos tecnológicos reacondicionados con garantía y a precios increíbles. Calidad premium a tu alcance.</p>
+            <a href="#products" class="btn">Ver productos</a>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section class="section" id="about">
+        <div class="section-title scroll-animate">
+            <h2>Who we are?</h2>
+            <p>Conoce más sobre nuestra empresa</p>
+        </div>
+        <div class="about-content">
+            <div class="about-text scroll-animate">
+                <h3>TwentyFox - Tecnología con confianza</h3>
+                <p>Somos una empresa mexicana especializada en la venta de productos tecnológicos reacondicionados con los más altos estándares de calidad.</p>
+                <p>Cada producto pasa por un riguroso proceso de revisión y testing para garantizar su perfecto funcionamiento antes de llegar a tus manos.</p>
+                <p>Nuestro compromiso es ofrecer tecnología de última generación a precios accesibles, contribuyendo a reducir el desperdicio electrónico.</p>
+            </div>
+            <div class="about-image scroll-animate">
+                <img src="https://images.unsplash.com/photo-1552664730-d307ca884978?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" alt="About TwentyFox">
+            </div>
+        </div>
+    </section>
+
+    <!-- Products Section -->
+    <section class="section products" id="products">
+        <div class="section-title scroll-animate">
+            <h2>Nuestros Productos</h2>
+            <p>Selecciona la categoría que te interesa</p>
+        </div>
+        <div class="categories scroll-animate">
+            <button class="category-btn active" data-category="all">Todos</button>
+            <button class="category-btn" data-category="iphones">iPhones</button>
+            <button class="category-btn" data-category="computadoras">Computadoras</button>
+            <button class="category-btn" data-category="monitores">Monitores</button>
+            <button class="category-btn" data-category="graficas">Gráficas</button>
+        </div>
+        <div class="products-grid">
+            <!-- Productos se generan dinámicamente con JS -->
+        </div>
+    </section>
+
+    <!-- Checkout Modal -->
+    <div class="modal-overlay" id="checkout-modal">
+        <div class="modal">
+            <button class="close-modal" id="close-modal">&times;</button>
+            <div id="checkout-form">
+                <h3>Finalizar compra</h3>
+                <form id="order-form" action="https://formspree.io/f/mgvyprlb" method="POST">
+                    <input type="hidden" name="product_id" id="product-id">
+                    <input type="hidden" name="product_name" id="product-name">
+                    <input type="hidden" name="product_price" id="product-price">
+                    <input type="hidden" name="order_id" id="order-id">
+                    <input type="hidden" name="order_date" id="order-date">
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="first-name">Nombre(s)</label>
+                            <input type="text" id="first-name" name="first_name" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="last-name">Apellidos</label>
+                            <input type="text" id="last-name" name="last_name" required>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="email">Correo electrónico</label>
+                        <input type="email" id="email" name="email" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="phone">Número de teléfono</label>
+                        <input type="tel" id="phone" name="phone" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="state">Estado</label>
+                        <select id="state" name="state" required>
+                            <option value="">Selecciona tu estado</option>
+                            <option value="Aguascalientes">Aguascalientes</option>
+                            <option value="Baja California">Baja California</option>
+                            <option value="Baja California Sur">Baja California Sur</option>
+                            <option value="Campeche">Campeche</option>
+                            <option value="Chiapas">Chiapas</option>
+                            <option value="Chihuahua">Chihuahua</option>
+                            <option value="Ciudad de México">Ciudad de México</option>
+                            <option value="Coahuila">Coahuila</option>
+                            <option value="Colima">Colima</option>
+                            <option value="Durango">Durango</option>
+                            <option value="Estado de México">Estado de México</option>
+                            <option value="Guanajuato">Guanajuato</option>
+                            <option value="Guerrero">Guerrero</option>
+                            <option value="Hidalgo">Hidalgo</option>
+                            <option value="Jalisco">Jalisco</option>
+                            <option value="Michoacán">Michoacán</option>
+                            <option value="Morelos">Morelos</option>
+                            <option value="Nayarit">Nayarit</option>
+                            <option value="Nuevo León">Nuevo León</option>
+                            <option value="Oaxaca">Oaxaca</option>
+                            <option value="Puebla">Puebla</option>
+                            <option value="Querétaro">Querétaro</option>
+                            <option value="Quintana Roo">Quintana Roo</option>
+                            <option value="San Luis Potosí">San Luis Potosí</option>
+                            <option value="Sinaloa">Sinaloa</option>
+                            <option value="Sonora">Sonora</option>
+                            <option value="Tabasco">Tabasco</option>
+                            <option value="Tamaulipas">Tamaulipas</option>
+                            <option value="Tlaxcala">Tlaxcala</option>
+                            <option value="Veracruz">Veracruz</option>
+                            <option value="Yucatán">Yucatán</option>
+                            <option value="Zacatecas">Zacatecas</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="municipality">Municipio/Alcaldía</label>
+                            <input type="text" id="municipality" name="municipality" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="postal-code">Código Postal</label>
+                            <input type="text" id="postal-code" name="postal_code" required>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="street">Calle</label>
+                        <input type="text" id="street" name="street" required>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="ext-number">Número exterior</label>
+                            <input type="text" id="ext-number" name="ext_number" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="int-number">Número interior (opcional)</label>
+                            <input type="text" id="int-number" name="int_number">
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="references">Referencias</label>
+                        <input type="text" id="references" name="references" placeholder="Ej. Entre calles, color de casa, etc.">
+                    </div>
+                    
+                    <div class="order-summary">
+                        <h4>Resumen de orden</h4>
+                        <div class="summary-item">
+                            <span>Producto:</span>
+                            <span id="summary-product">iPhone 12 128GB</span>
+                        </div>
+                        <div class="summary-item">
+                            <span>Precio:</span>
+                            <span id="summary-price">$9,999.00 MXN</span>
+                        </div>
+                        <div class="summary-item summary-total">
+                            <span>Total:</span>
+                            <span id="summary-total">$9,999.00 MXN</span>
+                        </div>
+                    </div>
+                    
+                    <button type="submit" class="submit-btn">Confirmar compra</button>
+                </form>
+            </div>
+            
+            <div class="success-message" id="success-message">
+                <i class="fas fa-check-circle"></i>
+                <h3>¡Orden confirmada!</h3>
+                <p>Tu pedido ha sido procesado correctamente. Procede al pago para completar tu compra.</p>
+                <div class="order-id">ID de orden: <span id="display-order-id">#TF123456-MX</span></div>
+                <a href="#" class="payment-btn" id="payment-btn">Pagar ahora</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-container">
+            <div class="footer-col scroll-animate">
+                <h3>TwentyFox</h3>
+                <p>Tecnología reacondicionada con garantía y los mejores precios del mercado.</p>
+                <div class="social-links">
+                    <a href="#"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-youtube"></i></a>
+                </div>
+            </div>
+            <div class="footer-col scroll-animate">
+                <h3>Enlaces rápidos</h3>
+                <ul>
+                    <li><a href="#home">Inicio</a></li>
+                    <li><a href="#about">Quiénes somos</a></li>
+                    <li><a href="#products">Productos</a></li>
+                    <li><a href="#">Términos y condiciones</a></li>
+                    <li><a href="#">Política de privacidad</a></li>
+                </ul>
+            </div>
+            <div class="footer-col scroll-animate">
+                <h3>Contacto</h3>
+                <ul>
+                    <li><i class="fas fa-envelope"></i> contacto@twentyfox.lat</li>
+                    <li><i class="fas fa-phone"></i> +52 55 1234 5678</li>
+                    <li><i class="fas fa-map-marker-alt"></i> Ciudad de México, México</li>
+                </ul>
+            </div>
+        </div>
+        <div class="copyright scroll-animate">
+            <p>&copy; 2025 Copyright <a href="https://twentyfox.lat">TwentyFox</a> | Página desarrollada por <a href="https://twentyfox.lat/ale.html">Alejandro Tellez</a></p>
+        </div>
+    </footer>
+
+    <script>
+        // Productos
+        const products = [
+            // iPhones
+            {
+                id: "iphone-12-128",
+                name: "iPhone 12 128GB",
+                category: "iphones",
+                price: 9999,
+                image: "https://images.unsplash.com/photo-1603921326210-6edd2d60ca68?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80",
+                description: "iPhone 12 reacondicionado con 128GB de almacenamiento. Incluye cargador y cable originales.",
+                details: "<h4>Especificaciones</h4><ul><li>Pantalla Super Retina XDR de 6.1 pulgadas</li><li>Chip A14 Bionic</li><li>Resistencia al agua IP68</li><li>Sistema de doble cámara de 12 MP</li></ul><h4>Incluye en la caja</h4><ul><li>iPhone 12</li><li>Cable Lightning a USB-C</li><li>Cargador de 20W</li><li>Manuales y accesorios</li></ul>",
+                badge: "Garantía 6 meses"
+            },
+            {
+                id: "iphone-13-256",
+                name: "iPhone 13 256GB",
+                category: "iphones",
+                price: 12999,
+                image: "https://images.unsplash.com/photo-1632660677896-04a4d0b03f0c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80",
+                description: "iPhone 13 reacondicionado con 256GB de almacenamiento. Estado como nuevo.",
+                details: "<h4>Especificaciones</h4><ul><li>Pantalla Super Retina XDR de 6.1 pulgadas</li><li>Chip A15 Bionic</li><li>Resistencia al agua IP68</li><li>Sistema de doble cámara de 12 MP con modo Cinematic</li></ul><h4>Incluye en la caja</h4><ul><li>iPhone 13</li><li>Cable Lightning a USB-C</li><li>Manuales</li></ul>",
+                badge: "Garantía 1 año"
+            },
+            {
+                id: "iphone-se-64",
+                name: "iPhone SE (3ra gen) 64GB",
+                category: "iphones",
+                price: 6999,
+                image: "https://images.unsplash.com/photo-1655720828012-585b4244b1af?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80",
+                description: "iPhone SE de tercera generación con 64GB. Diseño compacto con potencia A15.",
+                details: "<h4>Especificaciones</h4><ul><li>Pantalla Retina HD de 4.7 pulgadas</li><li>Chip A15 Bionic</li><li>Resistencia al agua IP67</li><li>Cámara única de 12 MP</li></ul><h4>Incluye en la caja</h4><ul><li>iPhone SE</li><li>Cable Lightning a USB-C</li><li>Manuales</li></ul>",
+                badge: "Garantía 6 meses"
+            },
+            // Computadoras
+            {
+                id: "macbook-air-m1",
+                name: "MacBook Air M1 256GB",
+                category: "computadoras",
+                price: 17999,
+                image: "https://images.unsplash.com/photo-1611186871348-b1ce696e52c9?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80",
+                description: "MacBook Air con chip M1 y 256GB SSD. Rendimiento excepcional y batería de larga duración.",
+                details: "<h4>Especificaciones</h4><ul><li>Chip Apple M1 con CPU de 8 núcleos y GPU de 7 núcleos</li><li>8GB de memoria unificada</li><li>Pantalla Retina de 13.3 pulgadas</li><li>Hasta 18 horas de batería</li></ul><h4>Incluye en la caja</h4><ul><li>MacBook Air</li><li>Cargador USB-C de 30W</li><li>Cable USB-C</li><li>Manuales</li></ul>",
+                badge: "Garantía 1 año"
+            },
+            {
+                id: "imac-24-m1",
+                name: "iMac 24\" M1 256GB",
+                category: "computadoras",
+                price: 22999,
+                image: "https://images.unsplash.com/photo-1629131726692-1accd0c53ce0?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80",
+                description: "iMac de 24 pulgadas con chip M1. Diseño delgado y colorido con pantalla 4.5K.",
+                details: "<h4>Especificaciones</h4><ul><li>Chip Apple M1 con CPU de 8 núcleos y GPU de 7 núcleos</li><li>8GB de memoria unificada</li><li>Pantalla Retina 4.5K de 24 pulgadas</li><li>2 puertos Thunderbolt/USB 4</li></ul><h4>Incluye en la caja</h4><ul><li>iMac</li><li>Teclado Magic Keyboard</li><li>Mouse Magic Mouse</li><li>Cable de alimentación</li></ul>",
+                badge: "Garantía 1 año"
+            },
+            {
+                id: "mac-mini-m2",
+                name: "Mac mini M2 256GB",
+                category: "computadoras",
+                price: 14999,
+                image: "https://images.unsplash.com/photo-1614632537197-38a17061d8e1?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1632&q=80",
+                description: "Mac mini con chip M2. Potencia de escritorio en un diseño compacto.",
+                details: "<h4>Especificaciones</h4><ul><li>Chip Apple M2 con CPU de 8 núcleos y GPU de 10 núcleos</li><li>8GB de memoria unificada</li><li>2 puertos Thunderbolt 4</li><li>2 puertos USB-A</li></ul><h4>Incluye en la caja</h4><ul><li>Mac mini</li><li>Cable de alimentación</li><li>Manuales</li></ul>",
+                badge: "Garantía 1 año"
+            },
+            // Monitores
+            {
+                id: "lg-27un850",
+                name: "LG 27UN850-W 4K",
+                category: "monitores",
+                price: 8999,
+                image: "https://images.unsplash.com/photo-1551645120-d70bfe84c826?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1632&q=80",
+                description: "Monitor LG 27 pulgadas 4K UHD con USB-C. Ideal para diseño y productividad.",
+                details: "<h4>Especificaciones</h4><ul><li>Pantalla IPS de 27 pulgadas</li><li>Resolución 3840 x 2160 4K UHD</li><li>Puerto USB-C con 60W de carga</li><li>HDR10 compatible</li></ul><h4>Incluye en la caja</h4><ul><li>Monitor</li><li>Base</li><li>Cable de alimentación</li><li>Cable USB-C</li></ul>",
+                badge: "Garantía 6 meses"
+            },
+            {
+                id: "dell-u2720q",
+                name: "Dell UltraSharp U2720Q",
+                category: "monitores",
+                price: 10999,
+                image: "https://images.unsplash.com/photo-1540932239986-30128078f3c5?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1374&q=80",
+                description: "Monitor Dell UltraSharp 27\" 4K con USB-C. Precisión de color excepcional.",
+                details: "<h4>Especificaciones</h4><ul><li>Pantalla IPS de 27 pulgadas</li><li>Resolución 3840 x 2160 4K UHD</li><li>99% sRGB y 95% DCI-P3</li><li>Puerto USB-C con 90W de carga</li></ul><h4>Incluye en la caja</h4><ul><li>Monitor</li><li>Base ajustable</li><li>Cables de alimentación y USB-C</li></ul>",
+                badge: "Garantía 1 año"
+            },
+            // Gráficas
+            {
+                id: "rtx-3080",
+                name: "NVIDIA RTX 3080 10GB",
+                category: "graficas",
+                price: 14999,
+                image: "https://images.unsplash.com/photo-1591488320449-011701bb6704?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80",
+                description: "Tarjeta gráfica NVIDIA RTX 3080 con 10GB GDDR6X. Rendimiento para gaming y creación.",
+                details: "<h4>Especificaciones</h4><ul><li>NVIDIA Ampere Architecture</li><li>10GB GDDR6X</li><li>8704 CUDA Cores</li><li>HDMI 2.1, DisplayPort 1.4a</li></ul><h4>Incluye en la caja</h4><ul><li>Tarjeta gráfica</li><li>Soporte anti-sag</li><li>Manuales</li></ul>",
+                badge: "Garantía 1 año"
+            },
+            {
+                id: "rx-6800xt",
+                name: "AMD Radeon RX 6800 XT",
+                category: "graficas",
+                price: 13999,
+                image: "https://images.unsplash.com/photo-1635776062367-93e0c6de2a6a?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1632&q=80",
+                description: "Tarjeta gráfica AMD Radeon RX 6800 XT con 16GB GDDR6. Potencia para 4K.",
+                details: "<h4>Especificaciones</h4><ul><li>AMD RDNA 2 Architecture</li><li>16GB GDDR6</li><li>4608 Stream Processors</li><li>HDMI 2.1, DisplayPort 1.4a</li></ul><h4>Incluye en la caja</h4><ul><li>Tarjeta gráfica</li><li>Manuales</li></ul>",
+                badge: "Garantía 1 año"
+            }
+        ];
+
+        // DOM Elements
+        const productsGrid = document.querySelector('.products-grid');
+        const categoryBtns = document.querySelectorAll('.category-btn');
+        const checkoutModal = document.getElementById('checkout-modal');
+        const closeModalBtn = document.getElementById('close-modal');
+        const orderForm = document.getElementById('order-form');
+        const successMessage = document.getElementById('success-message');
+        const paymentBtn = document.getElementById('payment-btn');
+        const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+        const navMenu = document.getElementById('nav-menu');
+        const scrollAnimateElements = document.querySelectorAll('.scroll-animate');
+
+        // Mostrar productos
+        function displayProducts(category = 'all') {
+            productsGrid.innerHTML = '';
+            
+            const filteredProducts = category === 'all' 
+                ? products 
+                : products.filter(product => product.category === category);
+            
+            filteredProducts.forEach(product => {
+                const productCard = document.createElement('div');
+                productCard.className = 'product-card scroll-animate';
+                productCard.dataset.category = product.category;
+                
+                productCard.innerHTML = `
+                    ${product.badge ? `<span class="product-badge">${product.badge}</span>` : ''}
+                    <div class="product-image">
+                        <img src="${product.image}" alt="${product.name}">
+                    </div>
+                    <div class="product-info">
+                        <span class="product-category">${getCategoryName(product.category)}</span>
+                        <h3 class="product-title">${product.name}</h3>
+                        <div class="product-price">$${product.price.toLocaleString('es-MX')}.00 MXN</div>
+                        <p class="product-description">${product.description}</p>
+                        <div class="product-actions">
+                            <button class="view-more">Ver más <i class="fas fa-chevron-down"></i></button>
+                            <button class="buy-btn" data-id="${product.id}" data-name="${product.name}" data-price="${product.price}">Comprar</button>
+                        </div>
+                    </div>
+                    <div class="product-details">
+                        ${product.details}
+                    </div>
+                `;
+                
+                productsGrid.appendChild(productCard);
+            });
+            
+            // Inicializar observador de intersección para animaciones
+            initIntersectionObserver();
+            
+            // Agregar eventos a los botones recién creados
+            addProductEvents();
+        }
+
+        // Obtener nombre de categoría
+        function getCategoryName(category) {
+            const names = {
+                'iphones': 'iPhone',
+                'computadoras': 'Computadora',
+                'monitores': 'Monitor',
+                'graficas': 'Tarjeta gráfica'
+            };
+            return names[category] || category;
+        }
+
+        // Agregar eventos a los productos
+        function addProductEvents() {
+            // Botón Ver más/Ver menos
+            document.querySelectorAll('.view-more').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const productCard = this.closest('.product-card');
+                    const details = productCard.querySelector('.product-details');
+                    const buyBtn = productCard.querySelector('.buy-btn');
+                    
+                    if (details.style.display === 'block') {
+                        details.style.display = 'none';
+                        this.innerHTML = 'Ver más <i class="fas fa-chevron-down"></i>';
+                        buyBtn.style.display = 'none';
+                    } else {
+                        details.style.display = 'block';
+                        this.innerHTML = 'Ver menos <i class="fas fa-chevron-up"></i>';
+                        buyBtn.style.display = 'block';
+                    }
+                });
+            });
+            
+            // Botón Comprar
+            document.querySelectorAll('.buy-btn').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const productId = this.dataset.id;
+                    const productName = this.dataset.name;
+                    const productPrice = this.dataset.price;
+                    
+                    // Actualizar formulario con datos del producto
+                    document.getElementById('product-id').value = productId;
+                    document.getElementById('product-name').value = productName;
+                    document.getElementById('product-price').value = productPrice;
+                    
+                    // Actualizar resumen
+                    document.getElementById('summary-product').textContent = productName;
+                    document.getElementById('summary-price').textContent = `$${parseInt(productPrice).toLocaleString('es-MX')}.00 MXN`;
+                    document.getElementById('summary-total').textContent = `$${parseInt(productPrice).toLocaleString('es-MX')}.00 MXN`;
+                    
+                    // Generar ID de orden
+                    const orderId = generateOrderId();
+                    document.getElementById('order-id').value = orderId;
+                    document.getElementById('display-order-id').textContent = orderId;
+                    
+                    // Generar fecha
+                    const now = new Date();
+                    document.getElementById('order-date').value = now.toLocaleString('es-MX');
+                    
+                    // Mostrar modal
+                    checkoutModal.classList.add('active');
+                    document.body.style.overflow = 'hidden';
+                    
+                    // Resetear formulario
+                    successMessage.style.display = 'none';
+                    orderForm.style.display = 'block';
+                    paymentBtn.style.display = 'none';
+                });
+            });
+        }
+
+        // Generar ID de orden
+        function generateOrderId() {
+            const letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+            const numbers = '0123456789';
+            let id = '#';
+            
+            for (let i = 0; i < 6; i++) {
+                id += numbers.charAt(Math.floor(Math.random() * numbers.length));
+            }
+            
+            id += '-';
+            
+            for (let i = 0; i < 3; i++) {
+                id += letters.charAt(Math.floor(Math.random() * letters.length));
+            }
+            
+            return id;
+        }
+
+        // Filtrar productos por categoría
+        categoryBtns.forEach(btn => {
+            btn.addEventListener('click', function() {
+                // Quitar clase active de todos los botones
+                categoryBtns.forEach(b => b.classList.remove('active'));
+                
+                // Agregar clase active al botón clickeado
+                this.classList.add('active');
+                
+                // Filtrar productos
+                const category = this.dataset.category;
+                displayProducts(category);
+            });
+        });
+
+        // Cerrar modal
+        closeModalBtn.addEventListener('click', function() {
+            checkoutModal.classList.remove('active');
+            document.body.style.overflow = 'auto';
+        });
+
+        // Enviar formulario
+        orderForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Simular envío del formulario (en producción usaría Formspree)
+            setTimeout(() => {
+                // Ocultar formulario y mostrar mensaje de éxito
+                orderForm.style.display = 'none';
+                successMessage.style.display = 'block';
+                paymentBtn.style.display = 'block';
+                
+                // Configurar botón de pago (en producción sería el link real de Stripe)
+                paymentBtn.href = `https://buy.stripe.com/test_${document.getElementById('product-id').value}`;
+            }, 1500);
+        });
+
+        // Menú móvil
+        mobileMenuBtn.addEventListener('click', function() {
+            navMenu.classList.toggle('active');
+            this.innerHTML = navMenu.classList.contains('active') 
+                ? '<i class="fas fa-times"></i>' 
+                : '<i class="fas fa-bars"></i>';
+        });
+
+        // Cerrar menú al hacer clic en un enlace
+        document.querySelectorAll('#nav-menu a').forEach(link => {
+            link.addEventListener('click', function() {
+                navMenu.classList.remove('active');
+                mobileMenuBtn.innerHTML = '<i class="fas fa-bars"></i>';
+            });
+        });
+
+        // Animaciones al hacer scroll
+        function initIntersectionObserver() {
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                    }
+                });
+            }, { threshold: 0.1 });
+            
+            document.querySelectorAll('.scroll-animate').forEach(el => {
+                observer.observe(el);
+            });
+        }
+
+        // Inicializar
+        displayProducts();
+        initIntersectionObserver();
+
+        // Cambiar logo en hover
+        const logoImg = document.getElementById('logo-img');
+        const originalLogoSrc = logoImg.src;
+        const hoverLogoSrc = 'https://via.placeholder.com/40/ff0000'; // Cambia esto por tu logo hover
+        
+        logoImg.parentElement.addEventListener('mouseenter', () => {
+            logoImg.src = hoverLogoSrc;
+        });
+        
+        logoImg.parentElement.addEventListener('mouseleave', () => {
+            logoImg.src = originalLogoSrc;
+        });
+    </script>
+</body>
+</html>
