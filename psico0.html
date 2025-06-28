@@ -3,445 +3,399 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PsyMind - Psicología Moderna</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <title>TwentyFox - Clínica Psicológica</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
         :root {
-            --primary: #4a6fa5;
-            --primary-dark: #3a5a8a;
-            --primary-light: #e8f0fe;
-            --secondary: #ff7e5f;
-            --dark: #2c3e50;
-            --light: #f8f9fa;
-            --gray: #6c757d;
-            --transition: all 0.5s cubic-bezier(0.165, 0.84, 0.44, 1);
+            --turquesa-oscuro: #0a9396;
+            --turquesa-medio: #48cae4;
+            --turquesa-claro: #90e0ef;
+            --turquesa-pastel: #caf0f8;
+            --blanco: #ffffff;
+            --gris-claro: #f8f9fa;
+            --gris-medio: #e9ecef;
+            --gris-oscuro: #495057;
+            --negro: #212529;
         }
 
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-        }
-
-        html {
-            scroll-behavior: smooth;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
 
         body {
-            font-family: 'Montserrat', sans-serif;
-            color: var(--dark);
-            background-color: var(--light);
-            overflow-x: hidden;
+            background-color: var(--gris-claro);
+            color: var(--gris-oscuro);
             line-height: 1.6;
+            overflow-x: hidden;
         }
 
-        h1, h2, h3, h4 {
-            font-family: 'Playfair Display', serif;
-            font-weight: 600;
-            line-height: 1.2;
+        /* Animaciones */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
-        a {
-            text-decoration: none;
-            color: inherit;
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+            100% { transform: translateY(0px); }
         }
 
-        .container {
-            width: 100%;
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 20px;
+        .hidden {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 1s;
+        }
+
+        .show {
+            opacity: 1;
+            transform: translateY(0);
         }
 
         /* Header */
         header {
+            background: linear-gradient(135deg, var(--turquesa-oscuro), var(--turquesa-medio));
+            color: var(--blanco);
+            padding: 1rem 0;
             position: fixed;
-            top: 0;
-            left: 0;
             width: 100%;
+            top: 0;
             z-index: 1000;
-            background-color: rgba(255, 255, 255, 0.95);
             box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-            transition: var(--transition);
         }
 
-        header.scrolled {
-            background-color: rgba(255, 255, 255, 0.98);
-            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.15);
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
         }
 
         .header-container {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 20px 0;
         }
 
         .logo {
-            font-size: 24px;
-            font-weight: 700;
-            color: var(--primary);
             display: flex;
             align-items: center;
+            animation: float 4s ease-in-out infinite;
         }
 
-        .logo i {
+        .logo img {
+            height: 50px;
             margin-right: 10px;
-            color: var(--secondary);
-            transition: var(--transition);
         }
 
-        .logo:hover i {
-            transform: rotate(15deg);
+        .logo h1 {
+            font-size: 1.5rem;
+            font-weight: 700;
         }
 
-        /* Navigation */
+        /* Menú */
         nav ul {
             display: flex;
             list-style: none;
         }
 
         nav ul li {
-            margin-left: 30px;
-            position: relative;
+            margin-left: 2rem;
         }
 
         nav ul li a {
+            color: var(--blanco);
+            text-decoration: none;
             font-weight: 500;
-            color: var(--dark);
-            transition: var(--transition);
-            padding: 5px 0;
+            transition: color 0.3s;
+            position: relative;
         }
 
         nav ul li a:hover {
-            color: var(--primary);
+            color: var(--turquesa-pastel);
         }
 
         nav ul li a::after {
             content: '';
             position: absolute;
-            bottom: 0;
-            left: 0;
             width: 0;
             height: 2px;
-            background-color: var(--secondary);
-            transition: var(--transition);
+            background: var(--turquesa-pastel);
+            bottom: -5px;
+            left: 0;
+            transition: width 0.3s;
         }
 
         nav ul li a:hover::after {
             width: 100%;
         }
 
-        .mobile-menu-btn {
+        .menu-toggle {
             display: none;
-            background: none;
-            border: none;
-            font-size: 24px;
-            color: var(--primary);
             cursor: pointer;
+            font-size: 1.5rem;
         }
 
         /* Hero Section */
         .hero {
             height: 100vh;
+            background: linear-gradient(rgba(10, 147, 150, 0.7), rgba(72, 202, 228, 0.7)), url('https://images.unsplash.com/photo-1576091160550-2173dba999ef?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80') no-repeat center center/cover;
             display: flex;
             align-items: center;
-            background: linear-gradient(135deg, var(--primary-light) 0%, rgba(255,255,255,1) 100%);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .hero::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            right: -50%;
-            width: 100%;
-            height: 200%;
-            background: radial-gradient(circle, rgba(74,111,165,0.1) 0%, rgba(74,111,165,0) 70%);
-            z-index: 0;
+            text-align: center;
+            color: var(--blanco);
+            padding-top: 80px;
+            animation: fadeIn 1.5s ease-in-out;
         }
 
         .hero-content {
-            position: relative;
-            z-index: 1;
-            max-width: 600px;
-            animation: fadeInUp 1s ease-out;
+            max-width: 800px;
+            margin: 0 auto;
         }
 
-        .hero h1 {
-            font-size: 3.5rem;
-            margin-bottom: 20px;
-            color: var(--primary);
+        .hero h2 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
         }
 
         .hero p {
             font-size: 1.2rem;
-            margin-bottom: 30px;
-            color: var(--gray);
-        }
-
-        .hero-btns {
-            display: flex;
-            gap: 15px;
+            margin-bottom: 2rem;
         }
 
         .btn {
             display: inline-block;
-            padding: 12px 30px;
+            background: var(--blanco);
+            color: var(--turquesa-oscuro);
+            padding: 0.8rem 1.5rem;
+            border: none;
             border-radius: 50px;
-            font-weight: 500;
-            transition: var(--transition);
-            text-align: center;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
         }
 
-        .btn-primary {
-            background-color: var(--primary);
-            color: white;
-        }
-
-        .btn-primary:hover {
-            background-color: var(--primary-dark);
+        .btn:hover {
             transform: translateY(-3px);
-            box-shadow: 0 10px 20px rgba(74, 111, 165, 0.3);
-        }
-
-        .btn-outline {
-            border: 2px solid var(--primary);
-            color: var(--primary);
-        }
-
-        .btn-outline:hover {
-            background-color: var(--primary);
-            color: white;
-            transform: translateY(-3px);
-            box-shadow: 0 10px 20px rgba(74, 111, 165, 0.3);
-        }
-
-        .hero-image {
-            position: absolute;
-            right: 0;
-            bottom: 0;
-            width: 50%;
-            max-width: 700px;
-            z-index: 0;
-            animation: fadeInRight 1s ease-out;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+            background: var(--turquesa-pastel);
         }
 
         /* About Section */
         .section {
-            padding: 100px 0;
-            position: relative;
+            padding: 5rem 0;
         }
 
         .section-title {
             text-align: center;
-            margin-bottom: 60px;
-        }
-
-        .section-title h2 {
-            font-size: 2.5rem;
-            color: var(--primary);
+            margin-bottom: 3rem;
+            color: var(--turquesa-oscuro);
             position: relative;
-            display: inline-block;
         }
 
-        .section-title h2::after {
+        .section-title::after {
             content: '';
             position: absolute;
+            width: 80px;
+            height: 4px;
+            background: var(--turquesa-medio);
             bottom: -10px;
             left: 50%;
             transform: translateX(-50%);
-            width: 80px;
-            height: 3px;
-            background-color: var(--secondary);
+            border-radius: 2px;
         }
 
-        .about-content {
+        /* Psicólogos */
+        .psicologos-container {
             display: flex;
-            align-items: center;
-            gap: 50px;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 2rem;
         }
 
-        .about-image {
-            flex: 1;
-            border-radius: 20px;
+        .psicologo {
+            background: var(--blanco);
+            border-radius: 10px;
             overflow: hidden;
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
-            transform: perspective(1000px) rotateY(-10deg);
-            transition: var(--transition);
-        }
-
-        .about-image:hover {
-            transform: perspective(1000px) rotateY(0deg);
-        }
-
-        .about-image img {
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            transition: transform 0.5s, box-shadow 0.5s;
             width: 100%;
-            height: auto;
-            display: block;
-        }
-
-        .about-text {
-            flex: 1;
-        }
-
-        .about-text h3 {
-            font-size: 2rem;
-            margin-bottom: 20px;
-            color: var(--primary-dark);
-        }
-
-        .about-text p {
-            margin-bottom: 20px;
-            color: var(--gray);
-        }
-
-        .skills {
-            margin-top: 30px;
-        }
-
-        .skill-item {
-            margin-bottom: 20px;
-        }
-
-        .skill-info {
+            max-width: 1000px;
+            margin-bottom: 2rem;
             display: flex;
-            justify-content: space-between;
-            margin-bottom: 5px;
+            transform-style: preserve-3d;
+            transform: perspective(1000px);
         }
 
-        .skill-bar {
-            height: 8px;
-            background-color: #e9ecef;
-            border-radius: 4px;
+        .psicologo:hover {
+            transform: translateY(-10px) rotateX(5deg);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        .psicologo-img {
+            flex: 1;
+            min-height: 400px;
+            background-size: cover;
+            background-position: center;
+            transition: all 0.5s;
+        }
+
+        .psicologo:nth-child(odd) .psicologo-img {
+            order: 1;
+        }
+
+        .psicologo:nth-child(even) .psicologo-img {
+            order: 2;
+        }
+
+        .psicologo-info {
+            flex: 1;
+            padding: 2rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .psicologo-info h3 {
+            font-size: 1.8rem;
+            color: var(--turquesa-oscuro);
+            margin-bottom: 1rem;
+        }
+
+        .psicologo-info h4 {
+            font-size: 1.2rem;
+            color: var(--turquesa-medio);
+            margin-bottom: 1rem;
+            font-weight: 500;
+        }
+
+        .psicologo-info ul {
+            margin: 1rem 0 2rem;
+            padding-left: 1.5rem;
+        }
+
+        .psicologo-info ul li {
+            margin-bottom: 0.5rem;
+        }
+
+        .btn-contactar {
+            align-self: flex-start;
+            background: var(--turquesa-medio);
+            color: var(--blanco);
+        }
+
+        .btn-contactar:hover {
+            background: var(--turquesa-oscuro);
+        }
+
+        /* Contacto */
+        .contacto {
+            background: linear-gradient(135deg, var(--turquesa-pastel), var(--blanco));
+            position: relative;
             overflow: hidden;
         }
 
-        .skill-progress {
-            height: 100%;
-            background: linear-gradient(90deg, var(--primary), var(--secondary));
-            border-radius: 4px;
-            transition: width 1.5s ease-out;
-        }
-
-        /* Experience Section */
-        .experience {
-            background-color: var(--primary-light);
-        }
-
-        .timeline {
-            position: relative;
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 40px 0;
-        }
-
-        .timeline::before {
+        .contacto::before {
             content: '';
             position: absolute;
-            top: 0;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 2px;
-            height: 100%;
-            background-color: var(--primary);
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(72, 202, 228, 0.1) 0%, rgba(255, 255, 255, 0) 70%);
+            z-index: 0;
         }
 
-        .timeline-item {
+        .contacto-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 2rem;
             position: relative;
-            margin-bottom: 50px;
-            opacity: 0;
-            transform: translateY(50px);
-            transition: var(--transition);
+            z-index: 1;
         }
 
-        .timeline-item.visible {
-            opacity: 1;
-            transform: translateY(0);
+        .contacto-info {
+            flex: 1;
+            min-width: 300px;
         }
 
-        .timeline-item:nth-child(odd) {
-            padding-right: 50%;
-            text-align: right;
+        .contacto-info h3 {
+            color: var(--turquesa-oscuro);
+            margin-bottom: 1.5rem;
+            font-size: 1.5rem;
         }
 
-        .timeline-item:nth-child(even) {
-            padding-left: 50%;
-            text-align: left;
+        .contacto-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1.5rem;
         }
 
-        .timeline-dot {
-            position: absolute;
-            top: 0;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 20px;
-            height: 20px;
+        .contacto-icon {
+            width: 50px;
+            height: 50px;
+            background: var(--turquesa-medio);
             border-radius: 50%;
-            background-color: var(--secondary);
-            border: 4px solid var(--primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 1rem;
+            color: var(--blanco);
+            font-size: 1.2rem;
         }
 
-        .timeline-content {
-            padding: 20px;
-            background-color: white;
+        .contacto-text h4 {
+            color: var(--turquesa-oscuro);
+            margin-bottom: 0.3rem;
+        }
+
+        .contacto-text p, .contacto-text a {
+            color: var(--gris-oscuro);
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .contacto-text a:hover {
+            color: var(--turquesa-medio);
+        }
+
+        .form-container {
+            flex: 1;
+            min-width: 300px;
+            background: var(--blanco);
+            padding: 2rem;
             border-radius: 10px;
-            box-shadow: 0 5px 25px rgba(0, 0, 0, 0.1);
-        }
-
-        .timeline-date {
-            display: inline-block;
-            padding: 5px 15px;
-            background-color: var(--primary);
-            color: white;
-            border-radius: 20px;
-            font-size: 0.9rem;
-            margin-bottom: 10px;
-        }
-
-        .timeline-title {
-            font-size: 1.3rem;
-            margin-bottom: 10px;
-            color: var(--primary-dark);
-        }
-
-        /* Contact Section */
-        .contact-form {
-            max-width: 600px;
-            margin: 0 auto;
-            background-color: white;
-            padding: 40px;
-            border-radius: 15px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
         }
 
         .form-group {
-            margin-bottom: 25px;
-            position: relative;
+            margin-bottom: 1.5rem;
         }
 
         .form-group label {
             display: block;
-            margin-bottom: 8px;
+            margin-bottom: 0.5rem;
+            color: var(--turquesa-oscuro);
             font-weight: 500;
-            color: var(--dark);
         }
 
         .form-control {
             width: 100%;
-            padding: 12px 15px;
-            border: 1px solid #ddd;
-            border-radius: 8px;
-            font-family: 'Montserrat', sans-serif;
-            transition: var(--transition);
+            padding: 0.8rem;
+            border: 1px solid var(--gris-medio);
+            border-radius: 5px;
+            font-size: 1rem;
+            transition: border 0.3s, box-shadow 0.3s;
         }
 
         .form-control:focus {
-            border-color: var(--primary);
             outline: none;
-            box-shadow: 0 0 0 3px rgba(74, 111, 165, 0.2);
+            border-color: var(--turquesa-medio);
+            box-shadow: 0 0 0 3px rgba(72, 202, 228, 0.2);
         }
 
         textarea.form-control {
@@ -449,501 +403,360 @@
             resize: vertical;
         }
 
-        .submit-btn {
-            background-color: var(--primary);
-            color: white;
+        .btn-enviar {
+            background: var(--turquesa-medio);
+            color: var(--blanco);
             border: none;
+            padding: 0.8rem 1.5rem;
+            border-radius: 50px;
+            font-weight: 600;
             cursor: pointer;
-            font-weight: 500;
-            transition: var(--transition);
+            transition: all 0.3s;
+            width: 100%;
         }
 
-        .submit-btn:hover {
-            background-color: var(--primary-dark);
-            transform: translateY(-3px);
-            box-shadow: 0 10px 20px rgba(74, 111, 165, 0.3);
+        .btn-enviar:hover {
+            background: var(--turquesa-oscuro);
+            transform: translateY(-2px);
         }
 
-        .contact-info {
-            display: flex;
-            justify-content: center;
-            gap: 30px;
-            margin-top: 50px;
-            flex-wrap: wrap;
-        }
-
-        .contact-card {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            padding: 20px;
-            background-color: white;
+        .success-message {
+            display: none;
+            text-align: center;
+            padding: 2rem;
+            background: var(--turquesa-pastel);
             border-radius: 10px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
-            transition: var(--transition);
-            min-width: 250px;
+            color: var(--turquesa-oscuro);
+            animation: fadeIn 1s;
         }
 
-        .contact-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        .success-message i {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            color: var(--turquesa-medio);
         }
 
-        .contact-icon {
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            background-color: var(--primary-light);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: var(--primary);
-            font-size: 20px;
-            transition: var(--transition);
-        }
-
-        .contact-card:hover .contact-icon {
-            background-color: var(--primary);
-            color: white;
-            transform: rotate(15deg);
-        }
-
-        .contact-details h4 {
-            margin-bottom: 5px;
-            color: var(--primary-dark);
-        }
-
-        .contact-details p {
-            color: var(--gray);
-            font-size: 0.9rem;
+        .success-message h3 {
+            margin-bottom: 0.5rem;
         }
 
         /* Footer */
         footer {
-            background-color: var(--dark);
-            color: white;
-            padding: 50px 0 20px;
+            background: var(--turquesa-oscuro);
+            color: var(--blanco);
+            padding: 2rem 0;
+            text-align: center;
         }
 
-        .footer-content {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 40px;
-            flex-wrap: wrap;
-            gap: 30px;
+        footer p {
+            margin-bottom: 0.5rem;
         }
 
-        .footer-col {
-            flex: 1;
-            min-width: 250px;
+        footer a {
+            color: var(--turquesa-pastel);
+            text-decoration: none;
+            transition: color 0.3s;
         }
 
-        .footer-col h3 {
-            font-size: 1.3rem;
-            margin-bottom: 20px;
-            position: relative;
-            display: inline-block;
-        }
-
-        .footer-col h3::after {
-            content: '';
-            position: absolute;
-            bottom: -8px;
-            left: 0;
-            width: 40px;
-            height: 2px;
-            background-color: var(--secondary);
-        }
-
-        .footer-col p {
-            margin-bottom: 15px;
-            color: #adb5bd;
+        footer a:hover {
+            color: var(--blanco);
         }
 
         .social-links {
-            display: flex;
-            gap: 15px;
+            margin: 1.5rem 0;
         }
 
-        .social-link {
+        .social-links a {
+            display: inline-block;
             width: 40px;
             height: 40px;
+            background: rgba(255, 255, 255, 0.1);
             border-radius: 50%;
-            background-color: rgba(255, 255, 255, 0.1);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: var(--transition);
+            margin: 0 0.5rem;
+            color: var(--blanco);
+            line-height: 40px;
+            transition: all 0.3s;
         }
 
-        .social-link:hover {
-            background-color: var(--secondary);
+        .social-links a:hover {
+            background: var(--turquesa-medio);
             transform: translateY(-3px);
         }
 
-        .footer-links li {
-            margin-bottom: 10px;
-            list-style: none;
-        }
-
-        .footer-links a {
-            color: #adb5bd;
-            transition: var(--transition);
-        }
-
-        .footer-links a:hover {
-            color: var(--secondary);
-            padding-left: 5px;
-        }
-
-        .footer-bottom {
-            text-align: center;
-            padding-top: 20px;
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
-            color: #adb5bd;
-            font-size: 0.9rem;
-        }
-
-        .footer-bottom a {
-            color: var(--secondary);
-            transition: var(--transition);
-        }
-
-        .footer-bottom a:hover {
-            color: white;
-        }
-
-        /* Animations */
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        @keyframes fadeInRight {
-            from {
-                opacity: 0;
-                transform: translateX(30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateX(0);
-            }
-        }
-
-        .animate {
-            opacity: 0;
-            transform: translateY(30px);
-            transition: var(--transition);
-        }
-
-        .animate.visible {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        /* Responsive Design */
+        /* Responsive */
         @media (max-width: 992px) {
-            .hero h1 {
-                font-size: 2.8rem;
-            }
-
-            .about-content {
+            .psicologo {
                 flex-direction: column;
             }
 
-            .about-image {
-                margin-bottom: 30px;
-                max-width: 500px;
+            .psicologo-img {
+                min-height: 300px;
+                order: 1 !important;
             }
 
-            .timeline::before {
-                left: 30px;
-            }
-
-            .timeline-item:nth-child(odd),
-            .timeline-item:nth-child(even) {
-                padding-left: 80px;
-                padding-right: 0;
-                text-align: left;
-            }
-
-            .timeline-dot {
-                left: 20px;
+            .psicologo-info {
+                order: 2 !important;
             }
         }
 
         @media (max-width: 768px) {
-            .mobile-menu-btn {
+            .menu-toggle {
                 display: block;
             }
 
             nav {
                 position: fixed;
                 top: 80px;
-                left: 0;
-                width: 100%;
-                background-color: white;
-                box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
-                padding: 20px 0;
-                transform: translateY(-150%);
-                opacity: 0;
-                transition: var(--transition);
+                left: -100%;
+                width: 80%;
+                height: calc(100vh - 80px);
+                background: var(--turquesa-oscuro);
+                transition: left 0.3s;
                 z-index: 999;
             }
 
             nav.active {
-                transform: translateY(0);
-                opacity: 1;
+                left: 0;
             }
 
             nav ul {
                 flex-direction: column;
-                align-items: center;
+                padding: 2rem;
             }
 
             nav ul li {
-                margin: 15px 0;
+                margin: 1rem 0;
             }
 
-            .hero {
-                text-align: center;
-                padding-top: 100px;
-            }
-
-            .hero-content {
-                max-width: 100%;
-            }
-
-            .hero-btns {
-                justify-content: center;
-            }
-
-            .hero-image {
-                position: relative;
-                width: 100%;
-                margin-top: 50px;
-            }
-
-            .section-title h2 {
-                font-size: 2rem;
-            }
-        }
-
-        @media (max-width: 576px) {
-            .hero h1 {
-                font-size: 2.2rem;
+            .hero h2 {
+                font-size: 2.5rem;
             }
 
             .hero p {
                 font-size: 1rem;
             }
+        }
 
-            .btn {
-                padding: 10px 20px;
+        @media (max-width: 576px) {
+            .hero h2 {
+                font-size: 2rem;
             }
 
             .section {
-                padding: 60px 0;
+                padding: 3rem 0;
             }
 
-            .contact-form {
-                padding: 30px 20px;
+            .psicologo-img {
+                min-height: 250px;
             }
+        }
+
+        /* Efectos 3D en scroll */
+        .rotate-3d {
+            transform-style: preserve-3d;
+            transform: perspective(1000px) rotateX(0deg) rotateY(0deg);
+            transition: transform 0.5s ease-out;
+        }
+
+        .scale-3d {
+            transform-style: preserve-3d;
+            transform: perspective(1000px) scale(0.95);
+            transition: transform 0.5s ease-out;
+        }
+
+        .scale-3d.active {
+            transform: perspective(1000px) scale(1);
+        }
+
+        .translate-3d {
+            transform-style: preserve-3d;
+            transform: perspective(1000px) translateZ(0);
+            transition: transform 0.5s ease-out;
+        }
+
+        .translate-3d.active {
+            transform: perspective(1000px) translateZ(20px);
         }
     </style>
 </head>
 <body>
     <!-- Header -->
-    <header id="header">
+    <header>
         <div class="container header-container">
-            <a href="#" class="logo">
-                <i class="fas fa-brain"></i> PsyMind
-            </a>
-            <button class="mobile-menu-btn" id="mobileMenuBtn">
+            <div class="logo">
+                <img src="https://media-qro1-1.cdn.whatsapp.net/v/t61.24694-24/285799103_4630734597027120_8466239445724828648_n.jpg?ccb=11-4&oh=01_Q5Aa1wEFrhPd8fUUsz5dfC9ey702LcQbNjL6ixPZquj-3giYDg&oe=686D3B51&_nc_sid=5e03e0&_nc_cat=101" alt="TwentyFox Logo">
+                <h1>TwentyFox</h1>
+            </div>
+            <div class="menu-toggle">
                 <i class="fas fa-bars"></i>
-            </button>
-            <nav id="nav">
+            </div>
+            <nav>
                 <ul>
-                    <li><a href="#home">Home</a></li>
-                    <li><a href="#about">About Me</a></li>
-                    <li><a href="#experience">Experience</a></li>
-                    <li><a href="#contact">Contacto</a></li>
+                    <li><a href="#inicio">Inicio</a></li>
+                    <li><a href="#acerca">Acerca de Nosotros</a></li>
+                    <li><a href="#contacto">Contacto</a></li>
                 </ul>
             </nav>
         </div>
     </header>
 
     <!-- Hero Section -->
-    <section class="hero" id="home">
-        <div class="container">
-            <div class="hero-content">
-                <h1>Bienestar Mental y Crecimiento Personal</h1>
-                <p>Ayudándote a encontrar equilibrio y claridad en tu vida a través de enfoques terapéuticos personalizados basados en evidencia científica.</p>
-                <div class="hero-btns">
-                    <a href="#contact" class="btn btn-primary">Agendar Cita</a>
-                    <a href="#about" class="btn btn-outline">Conóceme</a>
-                </div>
-            </div>
-            <img src="https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=987&q=80" alt="Psicóloga profesional" class="hero-image">
+    <section id="inicio" class="hero">
+        <div class="hero-content">
+            <h2 class="hidden">Bienvenido a TwentyFox</h2>
+            <p class="hidden">Tu bienestar emocional es nuestra prioridad. Los psicólogos más reconocidos de Puebla.</p>
+            <a href="#contacto" class="btn hidden">Agenda una cita</a>
         </div>
     </section>
 
     <!-- About Section -->
-    <section class="section" id="about">
+    <section id="acerca" class="section">
         <div class="container">
-            <div class="section-title">
-                <h2>About Me</h2>
-            </div>
-            <div class="about-content">
-                <div class="about-image animate">
-                    <img src="https://images.unsplash.com/photo-1559839734-2b71ea197ec2?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2340&q=80" alt="Dra. Laura Méndez">
+            <h2 class="section-title hidden">Nuestro Equipo</h2>
+            <p class="hidden" style="text-align: center; max-width: 800px; margin: 0 auto 3rem;">En TwentyFox contamos con un equipo de psicólogos altamente capacitados y reconocidos como los mejores de Puebla. Cada uno de nuestros especialistas cuenta con certificaciones internacionales y más de 10 años de experiencia ayudando a nuestros pacientes.</p>
+            
+            <div class="psicologos-container">
+                <!-- Psicólogo 1 -->
+                <div class="psicologo rotate-3d hidden">
+                    <div class="psicologo-img" style="background-image: url('https://images.unsplash.com/photo-1559839734-2b71ea197ec2?ixlib=rb-1.2.1&auto=format&fit=crop&w=634&q=80');"></div>
+                    <div class="psicologo-info">
+                        <h3>Dra. Ana Martínez</h3>
+                        <h4>Psicóloga Clínica - Especialista en Terapia Cognitivo-Conductual</h4>
+                        <p>Con más de 15 años de experiencia, la Dra. Martínez se especializa en el tratamiento de trastornos de ansiedad y depresión.</p>
+                        <ul>
+                            <li>PhD en Psicología Clínica - UNAM</li>
+                            <li>Certificación en Terapia Cognitivo-Conductual - Beck Institute</li>
+                            <li>Diplomado en Mindfulness - Universidad de Harvard</li>
+                        </ul>
+                        <a href="#contacto" class="btn btn-contactar" data-psicologo="Dra. Ana Martínez">Contactar</a>
+                    </div>
                 </div>
-                <div class="about-text animate" style="transition-delay: 0.2s;">
-                    <h3>Dra. Laura Méndez</h3>
-                    <p>Psicóloga clínica con más de 10 años de experiencia ayudando a personas a superar desafíos emocionales y desarrollar herramientas para una vida más plena.</p>
-                    <p>Mi enfoque integrativo combina terapia cognitivo-conductual, mindfulness y psicología positiva para ofrecer soluciones personalizadas a cada paciente.</p>
-                    <div class="skills">
-                        <div class="skill-item">
-                            <div class="skill-info">
-                                <span>Terapia Cognitivo-Conductual</span>
-                                <span>95%</span>
-                            </div>
-                            <div class="skill-bar">
-                                <div class="skill-progress" style="width: 95%;"></div>
-                            </div>
-                        </div>
-                        <div class="skill-item">
-                            <div class="skill-info">
-                                <span>Mindfulness</span>
-                                <span>90%</span>
-                            </div>
-                            <div class="skill-bar">
-                                <div class="skill-progress" style="width: 90%;"></div>
-                            </div>
-                        </div>
-                        <div class="skill-item">
-                            <div class="skill-info">
-                                <span>Psicología Positiva</span>
-                                <span>85%</span>
-                            </div>
-                            <div class="skill-bar">
-                                <div class="skill-progress" style="width: 85%;"></div>
-                            </div>
-                        </div>
+                
+                <!-- Psicólogo 2 -->
+                <div class="psicologo rotate-3d hidden">
+                    <div class="psicologo-info">
+                        <h3>Dr. Luis Rodríguez</h3>
+                        <h4>Psicoterapeuta - Especialista en Terapia Familiar</h4>
+                        <p>El Dr. Rodríguez ha ayudado a cientos de familias a superar conflictos y mejorar sus relaciones interpersonales.</p>
+                        <ul>
+                            <li>Maestría en Terapia Familiar - ITESM</li>
+                            <li>Certificación en Terapia Sistémica - Instituto Milton H. Erickson</li>
+                            <li>Especialidad en Mediación de Conflictos - Universidad Iberoamericana</li>
+                        </ul>
+                        <a href="#contacto" class="btn btn-contactar" data-psicologo="Dr. Luis Rodríguez">Contactar</a>
+                    </div>
+                    <div class="psicologo-img" style="background-image: url('https://images.unsplash.com/photo-1594824476967-48c8b964273f?ixlib=rb-1.2.1&auto=format&fit=crop&w=634&q=80');"></div>
+                </div>
+                
+                <!-- Psicólogo 3 -->
+                <div class="psicologo rotate-3d hidden">
+                    <div class="psicologo-img" style="background-image: url('https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?ixlib=rb-1.2.1&auto=format&fit=crop&w=634&q=80');"></div>
+                    <div class="psicologo-info">
+                        <h3>Dra. Sofía García</h3>
+                        <h4>Psicoanalista - Especialista en Trauma y Duelo</h4>
+                        <p>La Dra. García cuenta con una amplia experiencia en el tratamiento de trauma complejo y procesos de duelo.</p>
+                        <ul>
+                            <li>Doctorado en Psicoanálisis - Universidad de Buenos Aires</li>
+                            <li>Certificación en EMDR - EMDR Institute</li>
+                            <li>Diplomado en Tanatología - Universidad de Puebla</li>
+                        </ul>
+                        <a href="#contacto" class="btn btn-contactar" data-psicologo="Dra. Sofía García">Contactar</a>
                     </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Experience Section -->
-    <section class="section experience" id="experience">
+    <!-- Contacto Section -->
+    <section id="contacto" class="section contacto">
         <div class="container">
-            <div class="section-title">
-                <h2>Experience</h2>
-            </div>
-            <div class="timeline">
-                <div class="timeline-item">
-                    <div class="timeline-dot"></div>
-                    <div class="timeline-content">
-                        <div class="timeline-date">2015 - Presente</div>
-                        <h3 class="timeline-title">Psicóloga Clínica</h3>
-                        <p>Consultorio Privado - Especializado en terapia para adultos y adolescentes con trastornos de ansiedad y depresión.</p>
+            <h2 class="section-title hidden">Contacto</h2>
+            
+            <div class="contacto-container">
+                <div class="contacto-info hidden">
+                    <h3>Información de Contacto</h3>
+                    
+                    <div class="contacto-item">
+                        <div class="contacto-icon">
+                            <i class="fas fa-map-marker-alt"></i>
+                        </div>
+                        <div class="contacto-text">
+                            <h4>Dirección</h4>
+                            <p>Av. Juárez 1501, Centro Histórico, Puebla, Pue.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="contacto-item">
+                        <div class="contacto-icon">
+                            <i class="fas fa-phone"></i>
+                        </div>
+                        <div class="contacto-text">
+                            <h4>Teléfono General</h4>
+                            <p><a href="tel:+522222222222">+52 222 222 2222</a></p>
+                        </div>
+                    </div>
+                    
+                    <div class="contacto-item">
+                        <div class="contacto-icon">
+                            <i class="fas fa-envelope"></i>
+                        </div>
+                        <div class="contacto-text">
+                            <h4>Correo Electrónico</h4>
+                            <p><a href="mailto:contacto@twentyfox.com">contacto@twentyfox.com</a></p>
+                        </div>
+                    </div>
+                    
+                    <div class="contacto-item">
+                        <div class="contacto-icon">
+                            <i class="fas fa-clock"></i>
+                        </div>
+                        <div class="contacto-text">
+                            <h4>Horario de Atención</h4>
+                            <p>Lunes a Viernes: 9:00 - 19:00 hrs<br>Sábados: 9:00 - 14:00 hrs</p>
+                        </div>
                     </div>
                 </div>
-                <div class="timeline-item">
-                    <div class="timeline-dot"></div>
-                    <div class="timeline-content">
-                        <div class="timeline-date">2020</div>
-                        <h3 class="timeline-title">Diplomado en Terapia de Tercera Generación</h3>
-                        <p>Universidad Nacional Autónoma de México - Enfoques basados en mindfulness y aceptación.</p>
-                    </div>
-                </div>
-                <div class="timeline-item">
-                    <div class="timeline-dot"></div>
-                    <div class="timeline-content">
-                        <div class="timeline-date">2018</div>
-                        <h3 class="timeline-title">Maestría en Psicología Clínica</h3>
-                        <p>Universidad de Buenos Aires - Especialización en trastornos del estado de ánimo.</p>
-                    </div>
-                </div>
-                <div class="timeline-item">
-                    <div class="timeline-dot"></div>
-                    <div class="timeline-content">
-                        <div class="timeline-date">2013 - 2015</div>
-                        <h3 class="timeline-title">Residencia en Psicología Clínica</h3>
-                        <p>Hospital General de la Ciudad de México - Unidad de Salud Mental.</p>
-                    </div>
-                </div>
-                <div class="timeline-item">
-                    <div class="timeline-dot"></div>
-                    <div class="timeline-content">
-                        <div class="timeline-date">2012</div>
-                        <h3 class="timeline-title">Licenciatura en Psicología</h3>
-                        <p>Universidad Autónoma Metropolitana - Mención honorífica.</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Contact Section -->
-    <section class="section" id="contact">
-        <div class="container">
-            <div class="section-title">
-                <h2>Contacto</h2>
-            </div>
-            <form class="contact-form animate">
-                <div class="form-group">
-                    <label for="name">Nombre</label>
-                    <input type="text" id="name" class="form-control" placeholder="Tu nombre completo" required>
-                </div>
-                <div class="form-group">
-                    <label for="email">Correo Electrónico</label>
-                    <input type="email" id="email" class="form-control" placeholder="tu@email.com" required>
-                </div>
-                <div class="form-group">
-                    <label for="phone">Teléfono (Opcional)</label>
-                    <input type="tel" id="phone" class="form-control" placeholder="+52 55 1234 5678">
-                </div>
-                <div class="form-group">
-                    <label for="message">Mensaje</label>
-                    <textarea id="message" class="form-control" placeholder="Cuéntame cómo puedo ayudarte" required></textarea>
-                </div>
-                <button type="submit" class="btn btn-primary submit-btn">Enviar Mensaje</button>
-            </form>
-            <div class="contact-info">
-                <div class="contact-card animate" style="transition-delay: 0.2s;">
-                    <div class="contact-icon">
-                        <i class="fas fa-map-marker-alt"></i>
-                    </div>
-                    <div class="contact-details">
-                        <h4>Ubicación</h4>
-                        <p>Av. Reforma 123, Col. Juárez, CDMX</p>
-                    </div>
-                </div>
-                <div class="contact-card animate" style="transition-delay: 0.4s;">
-                    <div class="contact-icon">
-                        <i class="fas fa-phone-alt"></i>
-                    </div>
-                    <div class="contact-details">
-                        <h4>Teléfono</h4>
-                        <p>+52 55 1234 5678</p>
-                    </div>
-                </div>
-                <div class="contact-card animate" style="transition-delay: 0.6s;">
-                    <div class="contact-icon">
-                        <i class="fas fa-envelope"></i>
-                    </div>
-                    <div class="contact-details">
-                        <h4>Email</h4>
-                        <p>contacto@psymind.com</p>
+                
+                <div class="form-container translate-3d hidden">
+                    <form id="contactForm" action="https://formspree.io/f/YOUR_FORMSPREE_ID" method="POST">
+                        <div class="form-group">
+                            <label for="nombre">Nombre Completo</label>
+                            <input type="text" id="nombre" name="nombre" class="form-control" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="email">Correo Electrónico</label>
+                            <input type="email" id="email" name="email" class="form-control" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="telefono">Teléfono</label>
+                            <input type="tel" id="telefono" name="telefono" class="form-control" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="psicologo">Deseo hablar con</label>
+                            <select id="psicologo" name="psicologo" class="form-control" required>
+                                <option value="">Seleccione un psicólogo</option>
+                                <option value="Dra. Ana Martínez">Dra. Ana Martínez</option>
+                                <option value="Dr. Luis Rodríguez">Dr. Luis Rodríguez</option>
+                                <option value="Dra. Sofía García">Dra. Sofía García</option>
+                                <option value="No tengo preferencia">No tengo preferencia</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="mensaje">Mensaje</label>
+                            <textarea id="mensaje" name="mensaje" class="form-control" required></textarea>
+                        </div>
+                        
+                        <button type="submit" class="btn-enviar">Enviar Mensaje</button>
+                    </form>
+                    
+                    <div id="successMessage" class="success-message">
+                        <i class="fas fa-check-circle"></i>
+                        <h3>¡Mensaje Enviado!</h3>
+                        <p>Nos pondremos en contacto contigo en breve.</p>
                     </div>
                 </div>
             </div>
@@ -953,130 +766,130 @@
     <!-- Footer -->
     <footer>
         <div class="container">
-            <div class="footer-content">
-                <div class="footer-col">
-                    <h3>PsyMind</h3>
-                    <p>Ofrecemos servicios psicológicos de alta calidad con un enfoque humano y profesional para ayudarte a alcanzar tu bienestar emocional.</p>
-                    <div class="social-links">
-                        <a href="#" class="social-link"><i class="fab fa-facebook-f"></i></a>
-                        <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
-                        <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
-                        <a href="#" class="social-link"><i class="fab fa-linkedin-in"></i></a>
-                    </div>
-                </div>
-                <div class="footer-col">
-                    <h3>Enlaces Rápidos</h3>
-                    <ul class="footer-links">
-                        <li><a href="#home">Home</a></li>
-                        <li><a href="#about">Sobre Mí</a></li>
-                        <li><a href="#experience">Experiencia</a></li>
-                        <li><a href="#contact">Contacto</a></li>
-                        <li><a href="#">Política de Privacidad</a></li>
-                    </ul>
-                </div>
-                <div class="footer-col">
-                    <h3>Horario</h3>
-                    <p>Lunes a Viernes: 9:00 - 18:00</p>
-                    <p>Sábados: 10:00 - 14:00</p>
-                    <p>Domingos: Cerrado</p>
-                    <p>Atendemos citas presenciales y en línea.</p>
-                </div>
+            <div class="social-links">
+                <a href="#"><i class="fab fa-facebook-f"></i></a>
+                <a href="#"><i class="fab fa-twitter"></i></a>
+                <a href="#"><i class="fab fa-instagram"></i></a>
+                <a href="#"><i class="fab fa-linkedin-in"></i></a>
             </div>
-            <div class="footer-bottom">
-                <p>&copy; 2025 <a href="index.html">PsyMind</a>. Todos los derechos reservados. Página desarrollada por <a href="#">Alejandro Téllez</a>.</p>
-            </div>
+            <p>&copy; 2025 <a href="index.html">TwentyFox</a>. Todos los derechos reservados. Página desarrollada por <a href="#">Alejandro Téllez</a>.</p>
         </div>
     </footer>
 
     <script>
-        // Mobile Menu Toggle
-        const mobileMenuBtn = document.getElementById('mobileMenuBtn');
-        const nav = document.getElementById('nav');
-
-        mobileMenuBtn.addEventListener('click', () => {
+        // Menu Toggle
+        const menuToggle = document.querySelector('.menu-toggle');
+        const nav = document.querySelector('nav');
+        
+        menuToggle.addEventListener('click', () => {
             nav.classList.toggle('active');
-            mobileMenuBtn.innerHTML = nav.classList.contains('active') 
-                ? '<i class="fas fa-times"></i>' 
-                : '<i class="fas fa-bars"></i>';
         });
-
-        // Close mobile menu when clicking on a link
-        document.querySelectorAll('nav ul li a').forEach(link => {
-            link.addEventListener('click', () => {
-                nav.classList.remove('active');
-                mobileMenuBtn.innerHTML = '<i class="fas fa-bars"></i>';
+        
+        // Smooth Scrolling
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                if (nav.classList.contains('active')) {
+                    nav.classList.remove('active');
+                }
+                
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
             });
         });
-
-        // Header scroll effect
-        const header = document.getElementById('header');
-        window.addEventListener('scroll', () => {
-            if (window.scrollY > 100) {
-                header.classList.add('scrolled');
-            } else {
-                header.classList.remove('scrolled');
-            }
-        });
-
-        // Scroll animation
-        const animateElements = document.querySelectorAll('.animate, .timeline-item');
         
+        // Scroll Animations
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
-                    entry.target.classList.add('visible');
-                    if (entry.target.classList.contains('timeline-item')) {
-                        entry.target.style.transitionDelay = `${entry.target.dataset.index * 0.1}s`;
+                    entry.target.classList.add('show');
+                    
+                    if (entry.target.classList.contains('rotate-3d')) {
+                        entry.target.classList.add('active');
+                    }
+                    
+                    if (entry.target.classList.contains('scale-3d')) {
+                        entry.target.classList.add('active');
+                    }
+                    
+                    if (entry.target.classList.contains('translate-3d')) {
+                        entry.target.classList.add('active');
                     }
                 }
             });
         }, {
             threshold: 0.1
         });
-
-        animateElements.forEach((el, index) => {
-            if (el.classList.contains('timeline-item')) {
-                el.dataset.index = index;
-            }
-            observer.observe(el);
-        });
-
-        // Smooth scrolling for anchor links
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function(e) {
-                e.preventDefault();
-                const targetId = this.getAttribute('href');
-                const targetElement = document.querySelector(targetId);
-                
-                if (targetElement) {
-                    window.scrollTo({
-                        top: targetElement.offsetTop - 80,
-                        behavior: 'smooth'
-                    });
-                }
-            });
-        });
-
-        // Animate skill bars when they come into view
-        const skillBars = document.querySelectorAll('.skill-progress');
         
-        const skillObserver = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    const width = entry.target.style.width;
-                    entry.target.style.width = '0';
-                    setTimeout(() => {
-                        entry.target.style.width = width;
-                    }, 100);
-                    skillObserver.unobserve(entry.target);
-                }
+        const hiddenElements = document.querySelectorAll('.hidden');
+        hiddenElements.forEach(el => observer.observe(el));
+        
+        // Form Handling
+        const contactForm = document.getElementById('contactForm');
+        const successMessage = document.getElementById('successMessage');
+        const btnContactar = document.querySelectorAll('.btn-contactar');
+        
+        btnContactar.forEach(btn => {
+            btn.addEventListener('click', () => {
+                const psicologo = btn.getAttribute('data-psicologo');
+                document.getElementById('psicologo').value = psicologo;
             });
-        }, {
-            threshold: 0.5
         });
-
-        skillBars.forEach(bar => {
-            skillObserver.observe(bar);
+        
+        contactForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const formData = new FormData(this);
+            
+            fetch(this.action, {
+                method: 'POST',
+                body: formData,
+                headers: {
+                    'Accept': 'application/json'
+                }
+            })
+            .then(response => {
+                if (response.ok) {
+                    contactForm.style.display = 'none';
+                    successMessage.style.display = 'block';
+                    contactForm.reset();
+                    
+                    setTimeout(() => {
+                        contactForm.style.display = 'block';
+                        successMessage.style.display = 'none';
+                    }, 3000);
+                } else {
+                    throw new Error('Network response was not ok');
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('Hubo un error al enviar el mensaje. Por favor intente nuevamente.');
+            });
+        });
+        
+        // Parallax Effect
+        window.addEventListener('scroll', () => {
+            const scrollPosition = window.scrollY;
+            const hero = document.querySelector('.hero');
+            
+            if (hero) {
+                hero.style.backgroundPositionY = scrollPosition * 0.5 + 'px';
+            }
+            
+            // 3D rotation based on scroll
+            const rotateElements = document.querySelectorAll('.rotate-3d');
+            rotateElements.forEach(el => {
+                const rect = el.getBoundingClientRect();
+                const centerY = rect.top + rect.height / 2;
+                const viewportCenter = window.innerHeight / 2;
+                const distanceFromCenter = centerY - viewportCenter;
+                const rotation = distanceFromCenter / 20;
+                
+                el.style.transform = `perspective(1000px) rotateX(${rotation}deg)`;
+            });
         });
     </script>
 </body>
