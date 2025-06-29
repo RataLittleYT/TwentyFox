@@ -1438,20 +1438,33 @@
         });
 
         // Enviar formulario
-        orderForm.addEventListener('submit', function(e) {
-            e.preventDefault();
-            
-            // Simular envío del formulario (en producción usaría Formspree)
-            setTimeout(() => {
-                // Ocultar formulario y mostrar mensaje de éxito
-                orderForm.style.display = 'none';
-                successMessage.style.display = 'block';
-                paymentBtn.style.display = 'block';
-                
-                // Configurar botón de pago (en producción sería el link real de Stripe)
-                paymentBtn.href = `https://buy.stripe.com/test_${document.getElementById('product-id').value}`;
-            }, 1500);
-        });
+orderForm.addEventListener('submit', function(e) {
+    e.preventDefault();
+    
+    // Obtener el ID del producto
+    const productId = document.getElementById('product-id').value;
+    
+    // Buscar el producto en el array para obtener su link de Stripe
+    const product = products.find(p => p.id === productId);
+    
+    // Simular envío del formulario (en producción usaría Formspree)
+    setTimeout(() => {
+        // Ocultar formulario y mostrar mensaje de éxito
+        orderForm.style.display = 'none';
+        successMessage.style.display = 'block';
+        
+        // Configurar botón de pago con el link real del producto
+        if (product && product.stripeLink && product.stripeLink !== "https://twentyfox.lat/shop.html") {
+            paymentBtn.style.display = 'block';
+            paymentBtn.href = product.stripeLink;
+        } else {
+            // Si no hay link válido, mostrar mensaje alternativo
+            document.querySelector('.success-message p').textContent = 
+                'Tu pedido ha sido procesado correctamente. Nos pondremos en contacto contigo para completar el pago.';
+            paymentBtn.style.display = 'none';
+        }
+    }, 1500);
+});
 
         // Menú móvil
         mobileMenuBtn.addEventListener('click', function() {
