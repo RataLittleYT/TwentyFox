@@ -3,270 +3,253 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Clínica Integral Serenidad | Psicología, Estomatología y Derecho</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <title>INTEGRA - Clínica de Salud Mental</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
     <header class="header">
         <div class="container">
-            <a href="#" class="logo">
-                <img src="https://via.placeholder.com/150x50?text=Serenidad" alt="Clínica Serenidad">
-            </a>
-            
-            <button class="menu-toggle" aria-label="Abrir menú">
-                <span class="hamburger"></span>
+            <a href="index.html" class="logo">#INTEGRA</a>
+            <button class="menu-toggle" id="menu-toggle">
+                <span class="line"></span>
+                <span class="line middle"></span>
+                <span class="line"></span>
             </button>
-            
-            <nav class="nav">
-                <ul class="nav-list">
-                    <li><a href="#inicio" class="nav-link active">Inicio</a></li>
-                    <li><a href="#acerca" class="nav-link">Acerca</a></li>
-                    <li><a href="#servicios" class="nav-link">Servicios</a></li>
-                    <li><a href="#contacto" class="nav-link">Contacto</a></li>
+            <nav class="nav" id="nav">
+                <ul>
+                    <li><a href="#inicio">Inicio</a></li>
+                    <li><a href="#mision">Misión</a></li>
+                    <li><a href="#servicios">Servicios</a></li>
+                    <li><a href="#talleres">Talleres</a></li>
+                    <li><a href="#contacto">Contacto</a></li>
                 </ul>
             </nav>
         </div>
     </header>
 
-    <main>
-        <section id="inicio" class="hero">
+    <section class="hero" id="inicio">
+        <div class="hero-overlay"></div>
+        <div class="container">
             <div class="hero-content">
-                <h1 class="hero-title animate-on-scroll">Bienestar Integral para tu Vida</h1>
-                <p class="hero-subtitle animate-on-scroll">Psicología, Estomatología y Asesoría Legal en un solo lugar</p>
-                <a href="#contacto" class="btn btn-primary animate-on-scroll">Agenda una cita</a>
+                <h1>6 años al servicio de tu salud</h1>
+                <p class="verse">"Yo voy a cicatrizar su llaga y la voy a sanar, los sanaré y los descubriré textos de paz y seguridad."<br><span>Jeremías 33:6</span></p>
+                <a href="#contacto" class="btn">Contáctanos</a>
             </div>
-            <div class="hero-image animate-on-scroll">
-                <img src="https://via.placeholder.com/600x400/00CED1/FFFFFF?text=Clínica+Serenidad" alt="Clínica Serenidad">
-            </div>
-        </section>
+        </div>
+    </section>
 
-        <section id="acerca" class="about">
-            <div class="container">
-                <div class="section-header">
-                    <h2 class="section-title animate-on-scroll">Acerca de Nosotros</h2>
-                    <div class="section-divider animate-on-scroll"></div>
-                    <p class="section-description animate-on-scroll">Conoce más sobre nuestra misión y valores</p>
+    <section class="about-section" id="mision">
+        <div class="container">
+            <div class="section-header">
+                <h2>Nuestra Filosofía</h2>
+                <p>Promoviendo el bienestar integral</p>
+            </div>
+            <div class="cards-container">
+                <div class="card">
+                    <div class="card-icon">
+                        <i class="fas fa-bullseye"></i>
+                    </div>
+                    <h3>Misión</h3>
+                    <p>Promover el bienestar integral de nuestros pacientes mediante herramientas innovadoras para resolver conflictos psicológicos, emocionales y mentales.</p>
                 </div>
-                
-                <div class="about-content">
-                    <div class="about-image animate-on-scroll">
-                        <img src="https://via.placeholder.com/500x350/20B2AA/FFFFFF?text=Equipo+Profesional" alt="Equipo profesional">
+                <div class="card">
+                    <div class="card-icon">
+                        <i class="fas fa-heart"></i>
                     </div>
-                    <div class="about-text animate-on-scroll">
-                        <h3>Nuestra Historia</h3>
-                        <p>Fundada en 2010, Clínica Integral Serenidad nació con el propósito de ofrecer un enfoque holístico para el bienestar de nuestros pacientes. Combinamos experiencia médica, psicológica y legal para brindar soluciones integrales.</p>
-                        
-                        <h3>Nuestra Misión</h3>
-                        <p>Proporcionar atención de calidad en un ambiente tranquilo y profesional, donde cada paciente recibe el cuidado personalizado que merece.</p>
-                        
-                        <h3>Nuestros Valores</h3>
-                        <ul>
-                            <li><i class="fas fa-check-circle"></i> Ética profesional</li>
-                            <li><i class="fas fa-check-circle"></i> Confidencialidad</li>
-                            <li><i class="fas fa-check-circle"></i> Empatía</li>
-                            <li><i class="fas fa-check-circle"></i> Excelencia</li>
-                        </ul>
+                    <h3>Valores</h3>
+                    <p>Ética, empatía, solidaridad, respeto y disciplina.</p>
+                </div>
+                <div class="card">
+                    <div class="card-icon">
+                        <i class="fas fa-eye"></i>
                     </div>
+                    <h3>Visión</h3>
+                    <p>Acompañarte en tu proceso de resiliencia para alcanzar un bienestar integral.</p>
                 </div>
             </div>
-        </section>
+        </div>
+    </section>
 
-        <section id="servicios" class="services">
-            <div class="container">
-                <div class="section-header">
-                    <h2 class="section-title animate-on-scroll">Nuestros Servicios</h2>
-                    <div class="section-divider animate-on-scroll"></div>
-                    <p class="section-description animate-on-scroll">Áreas especializadas de atención</p>
+    <section class="services-section" id="servicios">
+        <div class="container">
+            <div class="section-header">
+                <h2>Nuestros Servicios</h2>
+                <p>Enfocados en tu bienestar integral</p>
+            </div>
+            <div class="services-container">
+                <div class="service-tabs">
+                    <button class="tab-btn active" data-tab="salud-mental">Salud Mental</button>
+                    <button class="tab-btn" data-tab="estomatologia">Estomatología</button>
+                    <button class="tab-btn" data-tab="juridico">Jurídico</button>
+                    <button class="tab-btn" data-tab="hospitalarios">Servicios Hospitalarios</button>
                 </div>
-                
-                <div class="services-grid">
-                    <div class="service-card animate-on-scroll">
-                        <div class="service-icon">
-                            <i class="fas fa-brain"></i>
+                <div class="service-content">
+                    <div class="tab-pane active" id="salud-mental">
+                        <div class="service-details">
+                            <div class="service-icon">
+                                <i class="fas fa-brain"></i>
+                            </div>
+                            <div class="service-text">
+                                <h3>Salud Mental</h3>
+                                <ul>
+                                    <li>Terapias infantil, individual, de pareja y familiar</li>
+                                    <li>Diagnósticos y pruebas psicométricas</li>
+                                    <li>Control de adicciones</li>
+                                    <li>Terapia cognitivo-conductual</li>
+                                    <li>Manejo de estrés y ansiedad</li>
+                                </ul>
+                            </div>
                         </div>
-                        <h3>Psicología</h3>
-                        <p>Atención psicológica para adultos, adolescentes y niños. Terapia individual, de pareja y familiar.</p>
-                        <ul>
-                            <li>Ansiedad y estrés</li>
-                            <li>Depresión</li>
-                            <li>Orientación vocacional</li>
-                            <li>Terapia cognitivo-conductual</li>
-                        </ul>
                     </div>
-                    
-                    <div class="service-card animate-on-scroll">
-                        <div class="service-icon">
-                            <i class="fas fa-tooth"></i>
+                    <div class="tab-pane" id="estomatologia">
+                        <div class="service-details">
+                            <div class="service-icon">
+                                <i class="fas fa-tooth"></i>
+                            </div>
+                            <div class="service-text">
+                                <h3>Estomatología</h3>
+                                <ul>
+                                    <li>Tratamientos dentales completos</li>
+                                    <li>Ortodoncia</li>
+                                    <li>Cirugías bucales</li>
+                                    <li>Blanqueamiento dental</li>
+                                    <li>Prótesis dentales</li>
+                                </ul>
+                            </div>
                         </div>
-                        <h3>Estomatología</h3>
-                        <p>Cuidado integral de tu salud bucodental con tecnología de vanguardia y técnicas mínimamente invasivas.</p>
-                        <ul>
-                            <li>Odontología general</li>
-                            <li>Ortodoncia</li>
-                            <li>Implantes dentales</li>
-                            <li>Blanqueamiento</li>
-                        </ul>
                     </div>
-                    
-                    <div class="service-card animate-on-scroll">
-                        <div class="service-icon">
-                            <i class="fas fa-balance-scale"></i>
+                    <div class="tab-pane" id="juridico">
+                        <div class="service-details">
+                            <div class="service-icon">
+                                <i class="fas fa-gavel"></i>
+                            </div>
+                            <div class="service-text">
+                                <h3>Jurídico</h3>
+                                <ul>
+                                    <li>Divorcios</li>
+                                    <li>Custodias</li>
+                                    <li>Pensiones alimenticias</li>
+                                    <li>Corrección de actas</li>
+                                    <li>Asesoría legal familiar</li>
+                                </ul>
+                            </div>
                         </div>
-                        <h3>Asesoría Legal</h3>
-                        <p>Asesoramiento jurídico especializado en diversas áreas del derecho para proteger tus intereses.</p>
-                        <ul>
-                            <li>Derecho familiar</li>
-                            <li>Derecho laboral</li>
-                            <li>Derecho civil</li>
-                            <li>Derecho mercantil</li>
-                        </ul>
+                    </div>
+                    <div class="tab-pane" id="hospitalarios">
+                        <div class="service-details">
+                            <div class="service-icon">
+                                <i class="fas fa-hospital"></i>
+                            </div>
+                            <div class="service-text">
+                                <h3>Servicios Hospitalarios</h3>
+                                <ul>
+                                    <li>Terapia de lenguaje</li>
+                                    <li>Diagnóstico de TDAH</li>
+                                    <li>Escuela para padres</li>
+                                    <li>Manejo de conducta</li>
+                                    <li>Evaluaciones neuropsicológicas</li>
+                                </ul>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
-        </section>
+        </div>
+    </section>
 
-        <section id="contacto" class="contact">
-            <div class="container">
-                <div class="section-header">
-                    <h2 class="section-title animate-on-scroll">Contáctanos</h2>
-                    <div class="section-divider animate-on-scroll"></div>
-                    <p class="section-description animate-on-scroll">Estamos aquí para ayudarte</p>
+    <section class="workshop-section" id="talleres">
+        <div class="container">
+            <div class="section-header">
+                <h2>Taller de Inclusión Gerontológica</h2>
+                <p>Actividades diseñadas para adultos mayores</p>
+            </div>
+            <div class="workshop-content">
+                <div class="workshop-image">
+                    <img src="https://images.unsplash.com/photo-1537365587684-f490102e1225?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" alt="Adultos mayores participando en actividades">
                 </div>
-                
-                <div class="contact-content">
-                    <div class="contact-info animate-on-scroll">
-                        <div class="info-item">
-                            <div class="info-icon">
-                                <i class="fas fa-map-marker-alt"></i>
-                            </div>
-                            <div class="info-text">
-                                <h4>Dirección</h4>
-                                <p>Av. Bienestar 123, Col. Armonía<br>Ciudad Serenidad, CP 45678</p>
-                            </div>
-                        </div>
-                        
-                        <div class="info-item" id="contact-phone">
-                            <div class="info-icon">
-                                <i class="fas fa-phone-alt"></i>
-                            </div>
-                            <div class="info-text">
-                                <h4>Teléfono</h4>
-                                <p class="phone-number">55 1234 5678 (Psicología)</p>
-                            </div>
-                        </div>
-                        
-                        <div class="info-item" id="contact-email">
-                            <div class="info-icon">
-                                <i class="fas fa-envelope"></i>
-                            </div>
-                            <div class="info-text">
-                                <h4>Email</h4>
-                                <p class="email-address">psicologia@clinicaserenidad.com</p>
-                            </div>
-                        </div>
-                        
-                        <div class="contact-buttons">
-                            <button class="btn-service btn-psico active">Psicología</button>
-                            <button class="btn-service btn-estoma">Estomatología</button>
-                            <button class="btn-service btn-derecho">Derecho</button>
-                        </div>
-                    </div>
-                    
-                    <div class="contact-form animate-on-scroll">
-                        <form id="contactForm" action="https://formspree.io/f/YOUR_FORMSPREE_ID" method="POST">
-                            <div class="form-group">
-                                <input type="text" name="name" id="name" required>
-                                <label for="name">Nombre completo</label>
-                                <span class="focus-border"></span>
-                            </div>
-                            
-                            <div class="form-group">
-                                <input type="email" name="email" id="email" required>
-                                <label for="email">Correo electrónico</label>
-                                <span class="focus-border"></span>
-                            </div>
-                            
-                            <div class="form-group">
-                                <input type="tel" name="phone" id="phone" required>
-                                <label for="phone">Teléfono</label>
-                                <span class="focus-border"></span>
-                            </div>
-                            
-                            <div class="form-group">
-                                <select name="service" id="service" required>
-                                    <option value="" disabled selected>Selecciona un servicio</option>
-                                    <option value="psicologia">Psicología</option>
-                                    <option value="estomatologia">Estomatología</option>
-                                    <option value="derecho">Asesoría Legal</option>
-                                    <option value="otro">Otro</option>
-                                </select>
-                                <span class="focus-border"></span>
-                            </div>
-                            
-                            <div class="form-group">
-                                <textarea name="message" id="message" rows="4" required></textarea>
-                                <label for="message">Mensaje</label>
-                                <span class="focus-border"></span>
-                            </div>
-                            
-                            <button type="submit" class="btn btn-primary">
-                                <span class="btn-text">Enviar mensaje</span>
-                                <span class="btn-icon"><i class="fas fa-paper-plane"></i></span>
-                            </button>
-                        </form>
-                        
-                        <div id="formSuccess" class="form-success">
-                            <i class="fas fa-check-circle success-icon"></i>
-                            <h3>¡Mensaje enviado!</h3>
-                            <p>Nos pondremos en contacto contigo pronto.</p>
-                        </div>
-                    </div>
+                <div class="workshop-details">
+                    <h3>Actividades vespertinas</h3>
+                    <p>Jueves a sábado de 4:00 pm a 7:00 pm</p>
+                    <ul>
+                        <li><i class="fas fa-hands-helping"></i> Manualidades y terapia ocupacional</li>
+                        <li><i class="fas fa-spa"></i> Yoga y ejercicios de relajación</li>
+                        <li><i class="fas fa-heartbeat"></i> Revisiones médicas mensuales</li>
+                        <li><i class="fas fa-users"></i> Grupos de apoyo y convivencia</li>
+                    </ul>
+                    <p class="price">Costo: $2,000/mes</p>
+                    <a href="#contacto" class="btn">Inscríbete ahora</a>
                 </div>
             </div>
-        </section>
-    </main>
+        </div>
+    </section>
+
+    <section class="contact-section" id="contacto">
+        <div class="container">
+            <div class="section-header">
+                <h2>Contacto</h2>
+                <p>Estamos aquí para ayudarte</p>
+            </div>
+            <div class="contact-container">
+                <div class="contact-info">
+                    <h3>Información de contacto</h3>
+                    <div class="info-item">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <p>Calle 7 Sur #1503, Col. Álvaro Obregón, Atlixco, Puebla</p>
+                    </div>
+                    <div class="info-item">
+                        <i class="fas fa-phone-alt"></i>
+                        <p>244-6-88-8159</p>
+                    </div>
+                    <div class="info-item">
+                        <i class="fas fa-globe"></i>
+                        <p><a href="https://twentyfox.lat/psico0.html">twentyfox.lat/psico0.html</a></p>
+                    </div>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-whatsapp"></i></a>
+                    </div>
+                </div>
+                <div class="contact-form">
+                    <form action="https://formspree.io/f/YOUR_FORM_ID" method="POST">
+                        <div class="form-group">
+                            <input type="text" name="name" placeholder="Nombre completo" required>
+                        </div>
+                        <div class="form-group">
+                            <input type="email" name="email" placeholder="Correo electrónico" required>
+                        </div>
+                        <div class="form-group">
+                            <input type="tel" name="phone" placeholder="Teléfono">
+                        </div>
+                        <div class="form-group">
+                            <select name="service" required>
+                                <option value="" disabled selected>Selecciona un servicio</option>
+                                <option value="salud-mental">Salud Mental</option>
+                                <option value="estomatologia">Estomatología</option>
+                                <option value="juridico">Servicios Jurídicos</option>
+                                <option value="taller">Taller Gerontológico</option>
+                                <option value="hospitalario">Servicios Hospitalarios</option>
+                                <option value="otro">Otro</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <textarea name="message" placeholder="Mensaje" required></textarea>
+                        </div>
+                        <button type="submit" class="btn">Enviar mensaje</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
 
     <footer class="footer">
         <div class="container">
-            <div class="footer-content">
-                <div class="footer-logo">
-                    <img src="https://via.placeholder.com/150x50?text=Serenidad" alt="Clínica Serenidad">
-                    <p>Bienestar integral para tu vida.</p>
-                </div>
-                
-                <div class="footer-links">
-                    <h4>Enlaces rápidos</h4>
-                    <ul>
-                        <li><a href="#inicio">Inicio</a></li>
-                        <li><a href="#acerca">Acerca</a></li>
-                        <li><a href="#servicios">Servicios</a></li>
-                        <li><a href="#contacto">Contacto</a></li>
-                    </ul>
-                </div>
-                
-                <div class="footer-contact">
-                    <h4>Contacto</h4>
-                    <p><i class="fas fa-map-marker-alt"></i> Av. Bienestar 123, Ciudad Serenidad</p>
-                    <p><i class="fas fa-phone-alt"></i> 55 1234 5678</p>
-                    <p><i class="fas fa-envelope"></i> info@clinicaserenidad.com</p>
-                </div>
-                
-                <div class="footer-social">
-                    <h4>Síguenos</h4>
-                    <div class="social-icons">
-                        <a href="#"><i class="fab fa-facebook-f"></i></a>
-                        <a href="#"><i class="fab fa-instagram"></i></a>
-                        <a href="#"><i class="fab fa-twitter"></i></a>
-                        <a href="#"><i class="fab fa-linkedin-in"></i></a>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="footer-bottom">
-                <p>&copy; 2025 <a href="index.html">Clínica Serenidad</a>. Todos los derechos reservados. Página desarrollada por <a href="#">Alejandro Téllez</a>.</p>
-            </div>
+            <p>&copy; 2025 <a href="index.html">TwentyFox</a>. Todos los derechos reservados. Página desarrollada por <a href="#">Alejandro Téllez</a>.</p>
+            <a href="#inicio" class="back-to-top"><i class="fas fa-arrow-up"></i></a>
         </div>
     </footer>
 
