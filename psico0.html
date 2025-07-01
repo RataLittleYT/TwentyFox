@@ -3,894 +3,273 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TwentyFox - Clínica Psicológica</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <style>
-        :root {
-            --turquesa-oscuro: #0a9396;
-            --turquesa-medio: #48cae4;
-            --turquesa-claro: #90e0ef;
-            --turquesa-pastel: #caf0f8;
-            --blanco: #ffffff;
-            --gris-claro: #f8f9fa;
-            --gris-medio: #e9ecef;
-            --gris-oscuro: #495057;
-            --negro: #212529;
-        }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
-
-        body {
-            background-color: var(--gris-claro);
-            color: var(--gris-oscuro);
-            line-height: 1.6;
-            overflow-x: hidden;
-        }
-
-        /* Animaciones */
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        @keyframes float {
-            0% { transform: translateY(0px); }
-            50% { transform: translateY(-10px); }
-            100% { transform: translateY(0px); }
-        }
-
-        .hidden {
-            opacity: 0;
-            transform: translateY(20px);
-            transition: all 1s;
-        }
-
-        .show {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        /* Header */
-        header {
-            background: linear-gradient(135deg, var(--turquesa-oscuro), var(--turquesa-medio));
-            color: var(--blanco);
-            padding: 1rem 0;
-            position: fixed;
-            width: 100%;
-            top: 0;
-            z-index: 1000;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-        }
-
-        .container {
-            width: 90%;
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-
-        .header-container {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .logo {
-            display: flex;
-            align-items: center;
-            animation: float 4s ease-in-out infinite;
-        }
-
-        .logo img {
-            height: 50px;
-            margin-right: 10px;
-        }
-
-        .logo h1 {
-            font-size: 1.5rem;
-            font-weight: 700;
-        }
-
-        /* Menú */
-        nav ul {
-            display: flex;
-            list-style: none;
-        }
-
-        nav ul li {
-            margin-left: 2rem;
-        }
-
-        nav ul li a {
-            color: var(--blanco);
-            text-decoration: none;
-            font-weight: 500;
-            transition: color 0.3s;
-            position: relative;
-        }
-
-        nav ul li a:hover {
-            color: var(--turquesa-pastel);
-        }
-
-        nav ul li a::after {
-            content: '';
-            position: absolute;
-            width: 0;
-            height: 2px;
-            background: var(--turquesa-pastel);
-            bottom: -5px;
-            left: 0;
-            transition: width 0.3s;
-        }
-
-        nav ul li a:hover::after {
-            width: 100%;
-        }
-
-        .menu-toggle {
-            display: none;
-            cursor: pointer;
-            font-size: 1.5rem;
-        }
-
-        /* Hero Section */
-        .hero {
-            height: 100vh;
-            background: linear-gradient(rgba(10, 147, 150, 0.7), rgba(72, 202, 228, 0.7)), url('https://images.unsplash.com/photo-1576091160550-2173dba999ef?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80') no-repeat center center/cover;
-            display: flex;
-            align-items: center;
-            text-align: center;
-            color: var(--blanco);
-            padding-top: 80px;
-            animation: fadeIn 1.5s ease-in-out;
-        }
-
-        .hero-content {
-            max-width: 800px;
-            margin: 0 auto;
-        }
-
-        .hero h2 {
-            font-size: 3rem;
-            margin-bottom: 1rem;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
-        }
-
-        .hero p {
-            font-size: 1.2rem;
-            margin-bottom: 2rem;
-        }
-
-        .btn {
-            display: inline-block;
-            background: var(--blanco);
-            color: var(--turquesa-oscuro);
-            padding: 0.8rem 1.5rem;
-            border: none;
-            border-radius: 50px;
-            font-weight: 600;
-            text-decoration: none;
-            transition: all 0.3s;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-        }
-
-        .btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
-            background: var(--turquesa-pastel);
-        }
-
-        /* About Section */
-        .section {
-            padding: 5rem 0;
-        }
-
-        .section-title {
-            text-align: center;
-            margin-bottom: 3rem;
-            color: var(--turquesa-oscuro);
-            position: relative;
-        }
-
-        .section-title::after {
-            content: '';
-            position: absolute;
-            width: 80px;
-            height: 4px;
-            background: var(--turquesa-medio);
-            bottom: -10px;
-            left: 50%;
-            transform: translateX(-50%);
-            border-radius: 2px;
-        }
-
-        /* Psicólogos */
-        .psicologos-container {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            gap: 2rem;
-        }
-
-        .psicologo {
-            background: var(--blanco);
-            border-radius: 10px;
-            overflow: hidden;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-            transition: transform 0.5s, box-shadow 0.5s;
-            width: 100%;
-            max-width: 1000px;
-            margin-bottom: 2rem;
-            display: flex;
-            transform-style: preserve-3d;
-            transform: perspective(1000px);
-        }
-
-        .psicologo:hover {
-            transform: translateY(-10px) rotateX(5deg);
-            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
-        }
-
-        .psicologo-img {
-            flex: 1;
-            min-height: 400px;
-            background-size: cover;
-            background-position: center;
-            transition: all 0.5s;
-        }
-
-        .psicologo:nth-child(odd) .psicologo-img {
-            order: 1;
-        }
-
-        .psicologo:nth-child(even) .psicologo-img {
-            order: 2;
-        }
-
-        .psicologo-info {
-            flex: 1;
-            padding: 2rem;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-        }
-
-        .psicologo-info h3 {
-            font-size: 1.8rem;
-            color: var(--turquesa-oscuro);
-            margin-bottom: 1rem;
-        }
-
-        .psicologo-info h4 {
-            font-size: 1.2rem;
-            color: var(--turquesa-medio);
-            margin-bottom: 1rem;
-            font-weight: 500;
-        }
-
-        .psicologo-info ul {
-            margin: 1rem 0 2rem;
-            padding-left: 1.5rem;
-        }
-
-        .psicologo-info ul li {
-            margin-bottom: 0.5rem;
-        }
-
-        .btn-contactar {
-            align-self: flex-start;
-            background: var(--turquesa-medio);
-            color: var(--blanco);
-        }
-
-        .btn-contactar:hover {
-            background: var(--turquesa-oscuro);
-        }
-
-        /* Contacto */
-        .contacto {
-            background: linear-gradient(135deg, var(--turquesa-pastel), var(--blanco));
-            position: relative;
-            overflow: hidden;
-        }
-
-        .contacto::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: radial-gradient(circle, rgba(72, 202, 228, 0.1) 0%, rgba(255, 255, 255, 0) 70%);
-            z-index: 0;
-        }
-
-        .contacto-container {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 2rem;
-            position: relative;
-            z-index: 1;
-        }
-
-        .contacto-info {
-            flex: 1;
-            min-width: 300px;
-        }
-
-        .contacto-info h3 {
-            color: var(--turquesa-oscuro);
-            margin-bottom: 1.5rem;
-            font-size: 1.5rem;
-        }
-
-        .contacto-item {
-            display: flex;
-            align-items: center;
-            margin-bottom: 1.5rem;
-        }
-
-        .contacto-icon {
-            width: 50px;
-            height: 50px;
-            background: var(--turquesa-medio);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-right: 1rem;
-            color: var(--blanco);
-            font-size: 1.2rem;
-        }
-
-        .contacto-text h4 {
-            color: var(--turquesa-oscuro);
-            margin-bottom: 0.3rem;
-        }
-
-        .contacto-text p, .contacto-text a {
-            color: var(--gris-oscuro);
-            text-decoration: none;
-            transition: color 0.3s;
-        }
-
-        .contacto-text a:hover {
-            color: var(--turquesa-medio);
-        }
-
-        .form-container {
-            flex: 1;
-            min-width: 300px;
-            background: var(--blanco);
-            padding: 2rem;
-            border-radius: 10px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-        }
-
-        .form-group {
-            margin-bottom: 1.5rem;
-        }
-
-        .form-group label {
-            display: block;
-            margin-bottom: 0.5rem;
-            color: var(--turquesa-oscuro);
-            font-weight: 500;
-        }
-
-        .form-control {
-            width: 100%;
-            padding: 0.8rem;
-            border: 1px solid var(--gris-medio);
-            border-radius: 5px;
-            font-size: 1rem;
-            transition: border 0.3s, box-shadow 0.3s;
-        }
-
-        .form-control:focus {
-            outline: none;
-            border-color: var(--turquesa-medio);
-            box-shadow: 0 0 0 3px rgba(72, 202, 228, 0.2);
-        }
-
-        textarea.form-control {
-            min-height: 150px;
-            resize: vertical;
-        }
-
-        .btn-enviar {
-            background: var(--turquesa-medio);
-            color: var(--blanco);
-            border: none;
-            padding: 0.8rem 1.5rem;
-            border-radius: 50px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s;
-            width: 100%;
-        }
-
-        .btn-enviar:hover {
-            background: var(--turquesa-oscuro);
-            transform: translateY(-2px);
-        }
-
-        .success-message {
-            display: none;
-            text-align: center;
-            padding: 2rem;
-            background: var(--turquesa-pastel);
-            border-radius: 10px;
-            color: var(--turquesa-oscuro);
-            animation: fadeIn 1s;
-        }
-
-        .success-message i {
-            font-size: 3rem;
-            margin-bottom: 1rem;
-            color: var(--turquesa-medio);
-        }
-
-        .success-message h3 {
-            margin-bottom: 0.5rem;
-        }
-
-        /* Footer */
-        footer {
-            background: var(--turquesa-oscuro);
-            color: var(--blanco);
-            padding: 2rem 0;
-            text-align: center;
-        }
-
-        footer p {
-            margin-bottom: 0.5rem;
-        }
-
-        footer a {
-            color: var(--turquesa-pastel);
-            text-decoration: none;
-            transition: color 0.3s;
-        }
-
-        footer a:hover {
-            color: var(--blanco);
-        }
-
-        .social-links {
-            margin: 1.5rem 0;
-        }
-
-        .social-links a {
-            display: inline-block;
-            width: 40px;
-            height: 40px;
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 50%;
-            margin: 0 0.5rem;
-            color: var(--blanco);
-            line-height: 40px;
-            transition: all 0.3s;
-        }
-
-        .social-links a:hover {
-            background: var(--turquesa-medio);
-            transform: translateY(-3px);
-        }
-
-        /* Responsive */
-        @media (max-width: 992px) {
-            .psicologo {
-                flex-direction: column;
-            }
-
-            .psicologo-img {
-                min-height: 300px;
-                order: 1 !important;
-            }
-
-            .psicologo-info {
-                order: 2 !important;
-            }
-        }
-
-        @media (max-width: 768px) {
-            .menu-toggle {
-                display: block;
-            }
-
-            nav {
-                position: fixed;
-                top: 80px;
-                left: -100%;
-                width: 80%;
-                height: calc(100vh - 80px);
-                background: var(--turquesa-oscuro);
-                transition: left 0.3s;
-                z-index: 999;
-            }
-
-            nav.active {
-                left: 0;
-            }
-
-            nav ul {
-                flex-direction: column;
-                padding: 2rem;
-            }
-
-            nav ul li {
-                margin: 1rem 0;
-            }
-
-            .hero h2 {
-                font-size: 2.5rem;
-            }
-
-            .hero p {
-                font-size: 1rem;
-            }
-        }
-
-        @media (max-width: 576px) {
-            .hero h2 {
-                font-size: 2rem;
-            }
-
-            .section {
-                padding: 3rem 0;
-            }
-
-            .psicologo-img {
-                min-height: 250px;
-            }
-        }
-
-        /* Efectos 3D en scroll */
-        .rotate-3d {
-            transform-style: preserve-3d;
-            transform: perspective(1000px) rotateX(0deg) rotateY(0deg);
-            transition: transform 0.5s ease-out;
-        }
-
-        .scale-3d {
-            transform-style: preserve-3d;
-            transform: perspective(1000px) scale(0.95);
-            transition: transform 0.5s ease-out;
-        }
-
-        .scale-3d.active {
-            transform: perspective(1000px) scale(1);
-        }
-
-        .translate-3d {
-            transform-style: preserve-3d;
-            transform: perspective(1000px) translateZ(0);
-            transition: transform 0.5s ease-out;
-        }
-
-        .translate-3d.active {
-            transform: perspective(1000px) translateZ(20px);
-        }
-    </style>
+    <title>Clínica Integral Serenidad | Psicología, Estomatología y Derecho</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
-    <!-- Header -->
-    <header>
-        <div class="container header-container">
-            <div class="logo">
-                <img src="https://media-qro1-1.cdn.whatsapp.net/v/t61.24694-24/285799103_4630734597027120_8466239445724828648_n.jpg?ccb=11-4&oh=01_Q5Aa1wEFrhPd8fUUsz5dfC9ey702LcQbNjL6ixPZquj-3giYDg&oe=686D3B51&_nc_sid=5e03e0&_nc_cat=101" alt="TwentyFox Logo">
-                <h1>TwentyFox</h1>
-            </div>
-            <div class="menu-toggle">
-                <i class="fas fa-bars"></i>
-            </div>
-            <nav>
-                <ul>
-                    <li><a href="#inicio">Inicio</a></li>
-                    <li><a href="#acerca">Acerca de Nosotros</a></li>
-                    <li><a href="#contacto">Contacto</a></li>
+    <header class="header">
+        <div class="container">
+            <a href="#" class="logo">
+                <img src="https://via.placeholder.com/150x50?text=Serenidad" alt="Clínica Serenidad">
+            </a>
+            
+            <button class="menu-toggle" aria-label="Abrir menú">
+                <span class="hamburger"></span>
+            </button>
+            
+            <nav class="nav">
+                <ul class="nav-list">
+                    <li><a href="#inicio" class="nav-link active">Inicio</a></li>
+                    <li><a href="#acerca" class="nav-link">Acerca</a></li>
+                    <li><a href="#servicios" class="nav-link">Servicios</a></li>
+                    <li><a href="#contacto" class="nav-link">Contacto</a></li>
                 </ul>
             </nav>
         </div>
     </header>
 
-    <!-- Hero Section -->
-    <section id="inicio" class="hero">
-        <div class="hero-content">
-            <h2 class="hidden">Bienvenido a TwentyFox</h2>
-            <p class="hidden">Tu bienestar emocional es nuestra prioridad. Los psicólogos más reconocidos de Puebla.</p>
-            <a href="#contacto" class="btn hidden">Agenda una cita</a>
-        </div>
-    </section>
+    <main>
+        <section id="inicio" class="hero">
+            <div class="hero-content">
+                <h1 class="hero-title animate-on-scroll">Bienestar Integral para tu Vida</h1>
+                <p class="hero-subtitle animate-on-scroll">Psicología, Estomatología y Asesoría Legal en un solo lugar</p>
+                <a href="#contacto" class="btn btn-primary animate-on-scroll">Agenda una cita</a>
+            </div>
+            <div class="hero-image animate-on-scroll">
+                <img src="https://via.placeholder.com/600x400/00CED1/FFFFFF?text=Clínica+Serenidad" alt="Clínica Serenidad">
+            </div>
+        </section>
 
-    <!-- About Section -->
-    <section id="acerca" class="section">
+        <section id="acerca" class="about">
+            <div class="container">
+                <div class="section-header">
+                    <h2 class="section-title animate-on-scroll">Acerca de Nosotros</h2>
+                    <div class="section-divider animate-on-scroll"></div>
+                    <p class="section-description animate-on-scroll">Conoce más sobre nuestra misión y valores</p>
+                </div>
+                
+                <div class="about-content">
+                    <div class="about-image animate-on-scroll">
+                        <img src="https://via.placeholder.com/500x350/20B2AA/FFFFFF?text=Equipo+Profesional" alt="Equipo profesional">
+                    </div>
+                    <div class="about-text animate-on-scroll">
+                        <h3>Nuestra Historia</h3>
+                        <p>Fundada en 2010, Clínica Integral Serenidad nació con el propósito de ofrecer un enfoque holístico para el bienestar de nuestros pacientes. Combinamos experiencia médica, psicológica y legal para brindar soluciones integrales.</p>
+                        
+                        <h3>Nuestra Misión</h3>
+                        <p>Proporcionar atención de calidad en un ambiente tranquilo y profesional, donde cada paciente recibe el cuidado personalizado que merece.</p>
+                        
+                        <h3>Nuestros Valores</h3>
+                        <ul>
+                            <li><i class="fas fa-check-circle"></i> Ética profesional</li>
+                            <li><i class="fas fa-check-circle"></i> Confidencialidad</li>
+                            <li><i class="fas fa-check-circle"></i> Empatía</li>
+                            <li><i class="fas fa-check-circle"></i> Excelencia</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="servicios" class="services">
+            <div class="container">
+                <div class="section-header">
+                    <h2 class="section-title animate-on-scroll">Nuestros Servicios</h2>
+                    <div class="section-divider animate-on-scroll"></div>
+                    <p class="section-description animate-on-scroll">Áreas especializadas de atención</p>
+                </div>
+                
+                <div class="services-grid">
+                    <div class="service-card animate-on-scroll">
+                        <div class="service-icon">
+                            <i class="fas fa-brain"></i>
+                        </div>
+                        <h3>Psicología</h3>
+                        <p>Atención psicológica para adultos, adolescentes y niños. Terapia individual, de pareja y familiar.</p>
+                        <ul>
+                            <li>Ansiedad y estrés</li>
+                            <li>Depresión</li>
+                            <li>Orientación vocacional</li>
+                            <li>Terapia cognitivo-conductual</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="service-card animate-on-scroll">
+                        <div class="service-icon">
+                            <i class="fas fa-tooth"></i>
+                        </div>
+                        <h3>Estomatología</h3>
+                        <p>Cuidado integral de tu salud bucodental con tecnología de vanguardia y técnicas mínimamente invasivas.</p>
+                        <ul>
+                            <li>Odontología general</li>
+                            <li>Ortodoncia</li>
+                            <li>Implantes dentales</li>
+                            <li>Blanqueamiento</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="service-card animate-on-scroll">
+                        <div class="service-icon">
+                            <i class="fas fa-balance-scale"></i>
+                        </div>
+                        <h3>Asesoría Legal</h3>
+                        <p>Asesoramiento jurídico especializado en diversas áreas del derecho para proteger tus intereses.</p>
+                        <ul>
+                            <li>Derecho familiar</li>
+                            <li>Derecho laboral</li>
+                            <li>Derecho civil</li>
+                            <li>Derecho mercantil</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="contacto" class="contact">
+            <div class="container">
+                <div class="section-header">
+                    <h2 class="section-title animate-on-scroll">Contáctanos</h2>
+                    <div class="section-divider animate-on-scroll"></div>
+                    <p class="section-description animate-on-scroll">Estamos aquí para ayudarte</p>
+                </div>
+                
+                <div class="contact-content">
+                    <div class="contact-info animate-on-scroll">
+                        <div class="info-item">
+                            <div class="info-icon">
+                                <i class="fas fa-map-marker-alt"></i>
+                            </div>
+                            <div class="info-text">
+                                <h4>Dirección</h4>
+                                <p>Av. Bienestar 123, Col. Armonía<br>Ciudad Serenidad, CP 45678</p>
+                            </div>
+                        </div>
+                        
+                        <div class="info-item" id="contact-phone">
+                            <div class="info-icon">
+                                <i class="fas fa-phone-alt"></i>
+                            </div>
+                            <div class="info-text">
+                                <h4>Teléfono</h4>
+                                <p class="phone-number">55 1234 5678 (Psicología)</p>
+                            </div>
+                        </div>
+                        
+                        <div class="info-item" id="contact-email">
+                            <div class="info-icon">
+                                <i class="fas fa-envelope"></i>
+                            </div>
+                            <div class="info-text">
+                                <h4>Email</h4>
+                                <p class="email-address">psicologia@clinicaserenidad.com</p>
+                            </div>
+                        </div>
+                        
+                        <div class="contact-buttons">
+                            <button class="btn-service btn-psico active">Psicología</button>
+                            <button class="btn-service btn-estoma">Estomatología</button>
+                            <button class="btn-service btn-derecho">Derecho</button>
+                        </div>
+                    </div>
+                    
+                    <div class="contact-form animate-on-scroll">
+                        <form id="contactForm" action="https://formspree.io/f/YOUR_FORMSPREE_ID" method="POST">
+                            <div class="form-group">
+                                <input type="text" name="name" id="name" required>
+                                <label for="name">Nombre completo</label>
+                                <span class="focus-border"></span>
+                            </div>
+                            
+                            <div class="form-group">
+                                <input type="email" name="email" id="email" required>
+                                <label for="email">Correo electrónico</label>
+                                <span class="focus-border"></span>
+                            </div>
+                            
+                            <div class="form-group">
+                                <input type="tel" name="phone" id="phone" required>
+                                <label for="phone">Teléfono</label>
+                                <span class="focus-border"></span>
+                            </div>
+                            
+                            <div class="form-group">
+                                <select name="service" id="service" required>
+                                    <option value="" disabled selected>Selecciona un servicio</option>
+                                    <option value="psicologia">Psicología</option>
+                                    <option value="estomatologia">Estomatología</option>
+                                    <option value="derecho">Asesoría Legal</option>
+                                    <option value="otro">Otro</option>
+                                </select>
+                                <span class="focus-border"></span>
+                            </div>
+                            
+                            <div class="form-group">
+                                <textarea name="message" id="message" rows="4" required></textarea>
+                                <label for="message">Mensaje</label>
+                                <span class="focus-border"></span>
+                            </div>
+                            
+                            <button type="submit" class="btn btn-primary">
+                                <span class="btn-text">Enviar mensaje</span>
+                                <span class="btn-icon"><i class="fas fa-paper-plane"></i></span>
+                            </button>
+                        </form>
+                        
+                        <div id="formSuccess" class="form-success">
+                            <i class="fas fa-check-circle success-icon"></i>
+                            <h3>¡Mensaje enviado!</h3>
+                            <p>Nos pondremos en contacto contigo pronto.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
         <div class="container">
-            <h2 class="section-title hidden">Nuestro Equipo</h2>
-            <p class="hidden" style="text-align: center; max-width: 800px; margin: 0 auto 3rem;">En TwentyFox contamos con un equipo de psicólogos altamente capacitados y reconocidos como los mejores de Puebla. Cada uno de nuestros especialistas cuenta con certificaciones internacionales y más de 10 años de experiencia ayudando a nuestros pacientes.</p>
+            <div class="footer-content">
+                <div class="footer-logo">
+                    <img src="https://via.placeholder.com/150x50?text=Serenidad" alt="Clínica Serenidad">
+                    <p>Bienestar integral para tu vida.</p>
+                </div>
+                
+                <div class="footer-links">
+                    <h4>Enlaces rápidos</h4>
+                    <ul>
+                        <li><a href="#inicio">Inicio</a></li>
+                        <li><a href="#acerca">Acerca</a></li>
+                        <li><a href="#servicios">Servicios</a></li>
+                        <li><a href="#contacto">Contacto</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-contact">
+                    <h4>Contacto</h4>
+                    <p><i class="fas fa-map-marker-alt"></i> Av. Bienestar 123, Ciudad Serenidad</p>
+                    <p><i class="fas fa-phone-alt"></i> 55 1234 5678</p>
+                    <p><i class="fas fa-envelope"></i> info@clinicaserenidad.com</p>
+                </div>
+                
+                <div class="footer-social">
+                    <h4>Síguenos</h4>
+                    <div class="social-icons">
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                    </div>
+                </div>
+            </div>
             
-            <div class="psicologos-container">
-                <!-- Psicólogo 1 -->
-                <div class="psicologo rotate-3d hidden">
-                    <div class="psicologo-img" style="background-image: url('https://images.unsplash.com/photo-1559839734-2b71ea197ec2?ixlib=rb-1.2.1&auto=format&fit=crop&w=634&q=80');"></div>
-                    <div class="psicologo-info">
-                        <h3>Dra. Ana Martínez</h3>
-                        <h4>Psicóloga Clínica - Especialista en Terapia Cognitivo-Conductual</h4>
-                        <p>Con más de 15 años de experiencia, la Dra. Martínez se especializa en el tratamiento de trastornos de ansiedad y depresión.</p>
-                        <ul>
-                            <li>PhD en Psicología Clínica - UNAM</li>
-                            <li>Certificación en Terapia Cognitivo-Conductual - Beck Institute</li>
-                            <li>Diplomado en Mindfulness - Universidad de Harvard</li>
-                        </ul>
-                        <a href="#contacto" class="btn btn-contactar" data-psicologo="Dra. Ana Martínez">Contactar</a>
-                    </div>
-                </div>
-                
-                <!-- Psicólogo 2 -->
-                <div class="psicologo rotate-3d hidden">
-                    <div class="psicologo-info">
-                        <h3>Dr. Luis Rodríguez</h3>
-                        <h4>Psicoterapeuta - Especialista en Terapia Familiar</h4>
-                        <p>El Dr. Rodríguez ha ayudado a cientos de familias a superar conflictos y mejorar sus relaciones interpersonales.</p>
-                        <ul>
-                            <li>Maestría en Terapia Familiar - ITESM</li>
-                            <li>Certificación en Terapia Sistémica - Instituto Milton H. Erickson</li>
-                            <li>Especialidad en Mediación de Conflictos - Universidad Iberoamericana</li>
-                        </ul>
-                        <a href="#contacto" class="btn btn-contactar" data-psicologo="Dr. Luis Rodríguez">Contactar</a>
-                    </div>
-                    <div class="psicologo-img" style="background-image: url('https://images.unsplash.com/photo-1594824476967-48c8b964273f?ixlib=rb-1.2.1&auto=format&fit=crop&w=634&q=80');"></div>
-                </div>
-                
-                <!-- Psicólogo 3 -->
-                <div class="psicologo rotate-3d hidden">
-                    <div class="psicologo-img" style="background-image: url('https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?ixlib=rb-1.2.1&auto=format&fit=crop&w=634&q=80');"></div>
-                    <div class="psicologo-info">
-                        <h3>Dra. Sofía García</h3>
-                        <h4>Psicoanalista - Especialista en Trauma y Duelo</h4>
-                        <p>La Dra. García cuenta con una amplia experiencia en el tratamiento de trauma complejo y procesos de duelo.</p>
-                        <ul>
-                            <li>Doctorado en Psicoanálisis - Universidad de Buenos Aires</li>
-                            <li>Certificación en EMDR - EMDR Institute</li>
-                            <li>Diplomado en Tanatología - Universidad de Puebla</li>
-                        </ul>
-                        <a href="#contacto" class="btn btn-contactar" data-psicologo="Dra. Sofía García">Contactar</a>
-                    </div>
-                </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 <a href="index.html">Clínica Serenidad</a>. Todos los derechos reservados. Página desarrollada por <a href="#">Alejandro Téllez</a>.</p>
             </div>
-        </div>
-    </section>
-
-    <!-- Contacto Section -->
-    <section id="contacto" class="section contacto">
-        <div class="container">
-            <h2 class="section-title hidden">Contacto</h2>
-            
-            <div class="contacto-container">
-                <div class="contacto-info hidden">
-                    <h3>Información de Contacto</h3>
-                    
-                    <div class="contacto-item">
-                        <div class="contacto-icon">
-                            <i class="fas fa-map-marker-alt"></i>
-                        </div>
-                        <div class="contacto-text">
-                            <h4>Dirección</h4>
-                            <p>Av. Juárez 1501, Centro Histórico, Puebla, Pue.</p>
-                        </div>
-                    </div>
-                    
-                    <div class="contacto-item">
-                        <div class="contacto-icon">
-                            <i class="fas fa-phone"></i>
-                        </div>
-                        <div class="contacto-text">
-                            <h4>Teléfono General</h4>
-                            <p><a href="tel:+522222222222">+52 222 222 2222</a></p>
-                        </div>
-                    </div>
-                    
-                    <div class="contacto-item">
-                        <div class="contacto-icon">
-                            <i class="fas fa-envelope"></i>
-                        </div>
-                        <div class="contacto-text">
-                            <h4>Correo Electrónico</h4>
-                            <p><a href="mailto:contacto@twentyfox.com">contacto@twentyfox.com</a></p>
-                        </div>
-                    </div>
-                    
-                    <div class="contacto-item">
-                        <div class="contacto-icon">
-                            <i class="fas fa-clock"></i>
-                        </div>
-                        <div class="contacto-text">
-                            <h4>Horario de Atención</h4>
-                            <p>Lunes a Viernes: 9:00 - 19:00 hrs<br>Sábados: 9:00 - 14:00 hrs</p>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="form-container translate-3d hidden">
-                    <form id="contactForm" action="https://formspree.io/f/YOUR_FORMSPREE_ID" method="POST">
-                        <div class="form-group">
-                            <label for="nombre">Nombre Completo</label>
-                            <input type="text" id="nombre" name="nombre" class="form-control" required>
-                        </div>
-                        
-                        <div class="form-group">
-                            <label for="email">Correo Electrónico</label>
-                            <input type="email" id="email" name="email" class="form-control" required>
-                        </div>
-                        
-                        <div class="form-group">
-                            <label for="telefono">Teléfono</label>
-                            <input type="tel" id="telefono" name="telefono" class="form-control" required>
-                        </div>
-                        
-                        <div class="form-group">
-                            <label for="psicologo">Deseo hablar con</label>
-                            <select id="psicologo" name="psicologo" class="form-control" required>
-                                <option value="">Seleccione un psicólogo</option>
-                                <option value="Dra. Ana Martínez">Dra. Ana Martínez</option>
-                                <option value="Dr. Luis Rodríguez">Dr. Luis Rodríguez</option>
-                                <option value="Dra. Sofía García">Dra. Sofía García</option>
-                                <option value="No tengo preferencia">No tengo preferencia</option>
-                            </select>
-                        </div>
-                        
-                        <div class="form-group">
-                            <label for="mensaje">Mensaje</label>
-                            <textarea id="mensaje" name="mensaje" class="form-control" required></textarea>
-                        </div>
-                        
-                        <button type="submit" class="btn-enviar">Enviar Mensaje</button>
-                    </form>
-                    
-                    <div id="successMessage" class="success-message">
-                        <i class="fas fa-check-circle"></i>
-                        <h3>¡Mensaje Enviado!</h3>
-                        <p>Nos pondremos en contacto contigo en breve.</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Footer -->
-    <footer>
-        <div class="container">
-            <div class="social-links">
-                <a href="#"><i class="fab fa-facebook-f"></i></a>
-                <a href="#"><i class="fab fa-twitter"></i></a>
-                <a href="#"><i class="fab fa-instagram"></i></a>
-                <a href="#"><i class="fab fa-linkedin-in"></i></a>
-            </div>
-            <p>&copy; 2025 <a href="index.html">TwentyFox</a>. Todos los derechos reservados. Página desarrollada por <a href="#">Alejandro Téllez</a>.</p>
         </div>
     </footer>
 
-    <script>
-        // Menu Toggle
-        const menuToggle = document.querySelector('.menu-toggle');
-        const nav = document.querySelector('nav');
-        
-        menuToggle.addEventListener('click', () => {
-            nav.classList.toggle('active');
-        });
-        
-        // Smooth Scrolling
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function(e) {
-                e.preventDefault();
-                
-                if (nav.classList.contains('active')) {
-                    nav.classList.remove('active');
-                }
-                
-                document.querySelector(this.getAttribute('href')).scrollIntoView({
-                    behavior: 'smooth'
-                });
-            });
-        });
-        
-        // Scroll Animations
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('show');
-                    
-                    if (entry.target.classList.contains('rotate-3d')) {
-                        entry.target.classList.add('active');
-                    }
-                    
-                    if (entry.target.classList.contains('scale-3d')) {
-                        entry.target.classList.add('active');
-                    }
-                    
-                    if (entry.target.classList.contains('translate-3d')) {
-                        entry.target.classList.add('active');
-                    }
-                }
-            });
-        }, {
-            threshold: 0.1
-        });
-        
-        const hiddenElements = document.querySelectorAll('.hidden');
-        hiddenElements.forEach(el => observer.observe(el));
-        
-        // Form Handling
-        const contactForm = document.getElementById('contactForm');
-        const successMessage = document.getElementById('successMessage');
-        const btnContactar = document.querySelectorAll('.btn-contactar');
-        
-        btnContactar.forEach(btn => {
-            btn.addEventListener('click', () => {
-                const psicologo = btn.getAttribute('data-psicologo');
-                document.getElementById('psicologo').value = psicologo;
-            });
-        });
-        
-        contactForm.addEventListener('submit', function(e) {
-            e.preventDefault();
-            
-            const formData = new FormData(this);
-            
-            fetch(this.action, {
-                method: 'POST',
-                body: formData,
-                headers: {
-                    'Accept': 'application/json'
-                }
-            })
-            .then(response => {
-                if (response.ok) {
-                    contactForm.style.display = 'none';
-                    successMessage.style.display = 'block';
-                    contactForm.reset();
-                    
-                    setTimeout(() => {
-                        contactForm.style.display = 'block';
-                        successMessage.style.display = 'none';
-                    }, 3000);
-                } else {
-                    throw new Error('Network response was not ok');
-                }
-            })
-            .catch(error => {
-                console.error('Error:', error);
-                alert('Hubo un error al enviar el mensaje. Por favor intente nuevamente.');
-            });
-        });
-        
-        // Parallax Effect
-        window.addEventListener('scroll', () => {
-            const scrollPosition = window.scrollY;
-            const hero = document.querySelector('.hero');
-            
-            if (hero) {
-                hero.style.backgroundPositionY = scrollPosition * 0.5 + 'px';
-            }
-            
-            // 3D rotation based on scroll
-            const rotateElements = document.querySelectorAll('.rotate-3d');
-            rotateElements.forEach(el => {
-                const rect = el.getBoundingClientRect();
-                const centerY = rect.top + rect.height / 2;
-                const viewportCenter = window.innerHeight / 2;
-                const distanceFromCenter = centerY - viewportCenter;
-                const rotation = distanceFromCenter / 20;
-                
-                el.style.transform = `perspective(1000px) rotateX(${rotation}deg)`;
-            });
-        });
-    </script>
+    <script src="js/script.js"></script>
 </body>
 </html>
