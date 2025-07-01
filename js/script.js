@@ -95,16 +95,46 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
     
-    // Form submission
-    const contactForm = document.querySelector('.contact-form form');
+    // Form submission with FormSubmit.co
+    const contactForm = document.getElementById('contactForm');
     if (contactForm) {
         contactForm.addEventListener('submit', function(e) {
             e.preventDefault();
             
-            // Here you would typically send the form data to a server
-            // For demonstration, we'll just show an alert
-            alert('Gracias por tu mensaje. Nos pondremos en contacto contigo pronto.');
-            this.reset();
+            // Mostrar estado de envío
+            const submitBtn = this.querySelector('button[type="submit"]');
+            const originalText = submitBtn.textContent;
+            submitBtn.textContent = 'Enviando...';
+            submitBtn.disabled = true;
+            
+            // Configuración adicional para FormSubmit
+            const formData = new FormData(this);
+            
+            // Envío con Fetch API
+            fetch(this.action, {
+                method: 'POST',
+                body: formData,
+                headers: {
+                    'Accept': 'application/json'
+                }
+            })
+            .then(response => {
+                if (response.ok) {
+                    // Mostrar mensaje de éxito
+                    alert('¡Gracias por tu mensaje! Nos pondremos en contacto contigo pronto.');
+                    this.reset();
+                } else {
+                    throw new Error('Error en el envío');
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('Hubo un problema al enviar el formulario. Por favor, inténtalo de nuevo más tarde.');
+            })
+            .finally(() => {
+                submitBtn.textContent = originalText;
+                submitBtn.disabled = false;
+            });
         });
     }
 });
