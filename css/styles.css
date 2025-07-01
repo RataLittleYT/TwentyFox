@@ -731,3 +731,24 @@ a {
         font-size: 1.8rem;
     }
 }
+
+.service-subsection {
+    margin-bottom: 20px;
+    padding-left: 15px;
+    border-left: 3px solid var(--light-turquoise);
+}
+
+.service-subsection h4 {
+    color: var(--dark-turquoise);
+    margin-bottom: 10px;
+    font-size: 1.2rem;
+}
+
+.service-subsection ul {
+    list-style-position: inside;
+    margin-left: 10px;
+}
+
+.service-subsection li {
+    margin-bottom: 5px;
+}
