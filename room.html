@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TwentyFox Meet test6</title>
+    <title>TwentyFox Meet test7</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script src="https://webrtc.github.io/adapter/adapter-latest.js"></script>
     <script src="https://unpkg.com/peerjs@1.4.7/dist/peerjs.min.js"></script>
@@ -664,8 +664,10 @@
                 iceServers: [
                 { 
                     urls: [
-                    'stun:stun.l.google.com:19302',
-                    'stun:global.stun.twilio.com:3478'
+        'stun:stun.l.google.com:19302',
+        'stun:global.stun.twilio.com:3478',
+        'turn:global.turn.twilio.com:3478?transport=udp',
+        'turn:global.turn.twilio.com:3478?transport=tcp'
                     ] 
                 },
                 {
@@ -1237,6 +1239,38 @@
 
         // Initialize the app when DOM is loaded
         document.addEventListener('DOMContentLoaded', init);
+        function setupCallHandlers() {
+  // Manejar conexiones de datos entrantes (chat)
+  peer.on('connection', (conn) => {
+    console.log('Conexión de datos entrante de:', conn.peer);
+    
+    conn.on('data', (data) => {
+      if (data.type === 'getParticipants') {
+        conn.send({
+          type: 'participantsList',
+          participants: Object.keys(peers).concat(peer.id)
+        });
+      }
+      handleIncomingData(conn.peer, data);
+    });
+  });
+  
+  // Manejar llamadas de video entrantes
+  peer.on('call', (call) => {
+    console.log('Llamada entrante de:', call.peer);
+    call.answer(currentUser.stream);
+    
+    call.on('stream', (remoteStream) => {
+      addParticipant(call.peer, remoteStream);
+    });
+    
+    call.on('close', () => {
+      removeParticipant(call.peer);
+    });
+    
+    peers[call.peer] = call;
+  });
+}
     </script>
 </body>
 </html>
