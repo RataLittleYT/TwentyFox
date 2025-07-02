@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TwentyFox Meet test8</title>
+    <title>TwentyFox Meet test 10</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script src="https://webrtc.github.io/adapter/adapter-latest.js"></script>
     <script src="https://unpkg.com/peerjs@1.4.7/dist/peerjs.min.js"></script>
@@ -655,31 +655,26 @@
         let dataConnections = {};
         let chatMessagesList = [];
         let participants = [];
-
-        const peerConfig = {
-            host: '0.peerjs.com',
-            secure: true,
-            port: 443,
-            path: '/',
-            config: {
-                iceServers: [
-                { 
-                    urls: [
-        'stun:stun.l.google.com:19302',
-        'stun:global.stun.twilio.com:3478',
-        'turn:global.turn.twilio.com:3478?transport=udp',
-        'turn:global.turn.twilio.com:3478?transport=tcp'
-                    ] 
-                },
-                {
-                    urls: 'turn:numb.viagenie.ca',
-                    credential: 'muazkh',
-                    username: 'webrtc@live.com'
-                }
-                ]
+const peerConfig = {
+    host: '0.peerjs.com',
+    secure: true,
+    port: 443,
+    path: '/',
+    config: {
+        iceServers: [
+            {
+                urls: 'stun:stun.l.google.com:19302'
             },
-            debug: 3 // Habilita logs detallados
-        };
+            {
+                urls: 'turn:numb.viagenie.ca',
+                username: 'webrtc@live.com',
+                credential: 'muazkh'
+            }
+        ]
+    },
+    debug: 3 // Habilita logs detallados
+};
+
 
         // Initialize the app
         function init() {
