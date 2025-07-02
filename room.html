@@ -660,7 +660,13 @@
             host: '0.peerjs.com',
             secure: true,
             port: 443,
-            path: '/'
+            path: '/',
+            config: {
+                iceServers: [
+                { urls: 'stun:stun.l.google.com:19302' },
+                { urls: 'stun:global.stun.twilio.com:3478?transport=udp' }
+                ]
+            }
         };
 
         // Initialize the app
@@ -739,43 +745,31 @@
             joinMeeting();
         }
 
-        // Initialize PeerJS connection
-        function initializePeerConnection() {
-            return new Promise((resolve, reject) => {
-                currentUser.id = 'user-' + Math.random().toString(36).substr(2, 9);
-                peer = new Peer(currentUser.id, peerConfig);
-                
-                peer.on('open', (id) => {
-                    console.log('PeerJS connected with ID:', id);
-                    
-                    // Join the room
-                    const conn = peer.connect('room-' + roomId);
-                    
-                    conn.on('open', () => {
-                        console.log('Connected to room:', roomId);
-                        conn.send({
-                            type: 'join',
-                            userId: currentUser.id,
-                            userName: currentUser.name
-                        });
-                        
-                        // Set up call handlers
-                        setupCallHandlers();
-                        resolve();
-                    });
-                    
-                    conn.on('error', (err) => {
-                        console.error('Room connection error:', err);
-                        reject(err);
-                    });
-                });
-                
-                peer.on('error', (err) => {
-                    console.error('PeerJS error:', err);
-                    reject(err);
-                });
-            });
-        }
+        // Modifica tu función initializePeerConnection así:
+async function initializePeerConnection() {
+  return new Promise((resolve, reject) => {
+    currentUser.id = 'user-' + Math.random().toString(36).substr(2, 9);
+    peer = new Peer(currentUser.id, peerConfig);
+    
+    peer.on('open', (id) => {
+      console.log('Conexión PeerJS establecida con ID:', id);
+      resolve();
+    });
+    
+    peer.on('error', (err) => {
+      console.error('Error de PeerJS:', err);
+      
+      // Intenta reconectar con servidor alternativo
+      if(err.type === 'server-error') {
+        console.log('Probando servidor alternativo...');
+        peerConfig.host = 'peerjs-server-production.up.railway.app';
+        peer = new Peer(currentUser.id, peerConfig);
+      } else {
+        reject(err);
+      }
+    });
+  });
+}
 
         // Set up call handlers
         function setupCallHandlers() {
