@@ -1,0 +1,1148 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cómo Olvidar a Mi Ex - Guía de Superación</title>
+    <link rel="icon" href="https://pngimg.com/d/heart_PNG51168.png" type="image/x-icon">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        :root {
+            --primary: #ff6b8b;
+            --secondary: #ffb8c6;
+            --light: #fff5f7;
+            --dark: #3a3a3a;
+            --accent: #8bd8ff;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: var(--light);
+            color: var(--dark);
+            line-height: 1.6;
+            overflow-x: hidden;
+            scroll-behavior: smooth;
+            -webkit-user-select: none; 
+            -moz-user-select: none;   
+            -ms-user-select: none;    
+            user-select: none;  
+        }
+        
+        /* Header Styles */
+        header {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 1rem 0;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+        
+        header.scrolled {
+            padding: 0.5rem 0;
+            background: rgba(255, 107, 139, 0.95);
+        }
+        
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            font-size: 1.5rem;
+            font-weight: 700;
+            text-decoration: none;
+            color: white;
+        }
+        
+        .logo i {
+            margin-right: 10px;
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.2); }
+            100% { transform: scale(1); }
+        }
+        
+        /* Navigation */
+        nav ul {
+            display: flex;
+            list-style: none;
+        }
+        
+        nav ul li {
+            margin-left: 2rem;
+        }
+        
+        nav ul li a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+        
+        nav ul li a:after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            background: white;
+            bottom: -5px;
+            left: 0;
+            transition: width 0.3s ease;
+        }
+        
+        nav ul li a:hover:after {
+            width: 100%;
+        }
+        
+        .menu-toggle {
+            display: none;
+            cursor: pointer;
+            font-size: 1.5rem;
+        }
+        
+        /* Hero Section */
+        .hero {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            background: linear-gradient(rgba(255, 255, 255, 0.8), rgba(255, 255, 255, 0.8)), 
+                        url('https://images.unsplash.com/photo-1516589178581-6cd7833ae3b2?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');
+            background-size: cover;
+            background-position: center;
+            padding: 0 2rem;
+            margin-top: 60px;
+        }
+        
+        .hero-content {
+            max-width: 800px;
+            animation: fadeInUp 1s ease;
+        }
+        
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .hero h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            color: var(--primary);
+        }
+        
+        .hero p {
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+            color: var(--dark);
+        }
+        
+        .btn {
+            display: inline-block;
+            background: var(--primary);
+            color: white;
+            padding: 0.8rem 1.5rem;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(255, 107, 139, 0.4);
+        }
+        
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(255, 107, 139, 0.6);
+        }
+        
+        /* Daily Quote */
+        .daily-quote {
+            background: white;
+            padding: 4rem 2rem;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .quote-container {
+            max-width: 800px;
+            margin: 0 auto;
+            position: relative;
+        }
+        
+        .quote-icon {
+            font-size: 3rem;
+            color: var(--secondary);
+            margin-bottom: 1rem;
+            opacity: 0.3;
+        }
+        
+        .quote-text {
+            font-size: 1.5rem;
+            font-weight: 300;
+            font-style: italic;
+            margin-bottom: 1.5rem;
+            color: var(--dark);
+            line-height: 1.8;
+        }
+        
+        .quote-author {
+            font-weight: 600;
+            color: var(--primary);
+        }
+        
+        .floating-hearts {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            pointer-events: none;
+        }
+        
+        .heart {
+            position: absolute;
+            opacity: 0;
+            color: var(--secondary);
+            animation: float 6s ease-in infinite;
+        }
+        
+        @keyframes float {
+            0% {
+                transform: translateY(0) rotate(0deg);
+                opacity: 0;
+            }
+            10% {
+                opacity: 0.5;
+            }
+            100% {
+                transform: translateY(-300px) rotate(360deg);
+                opacity: 0;
+            }
+        }
+        
+        /* Main Content */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 4rem 2rem;
+        }
+        
+        section {
+            margin-bottom: 4rem;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.6s ease;
+        }
+        
+        section.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        h2 {
+            font-size: 2.5rem;
+            margin-bottom: 2rem;
+            color: var(--primary);
+            position: relative;
+            display: inline-block;
+        }
+        
+        h2:after {
+            content: '';
+            position: absolute;
+            width: 50%;
+            height: 4px;
+            background: var(--secondary);
+            bottom: -10px;
+            left: 0;
+            border-radius: 2px;
+        }
+        
+        h3 {
+            font-size: 1.8rem;
+            margin: 2rem 0 1rem;
+            color: var(--primary);
+        }
+        
+        p {
+            margin-bottom: 1rem;
+        }
+        
+        .tip-card {
+            background: white;
+            border-radius: 10px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s ease;
+        }
+        
+        .tip-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        }
+        
+        .tip-card i {
+            font-size: 2rem;
+            color: var(--primary);
+            margin-bottom: 1rem;
+            display: inline-block;
+        }
+        
+        /* Game Section */
+        .game-container {
+            background: white;
+            border-radius: 10px;
+            padding: 2rem;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            text-align: center;
+        }
+        
+        .memory-game {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+            margin: 2rem auto;
+            max-width: 500px;
+        }
+        
+        .memory-card {
+            height: 100px;
+            background: var(--secondary);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            color: white;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            transform-style: preserve-3d;
+            position: relative;
+        }
+        
+        .memory-card.flipped {
+            background: white;
+            color: var(--primary);
+            transform: rotateY(180deg);
+        }
+        
+        .memory-card.matched {
+            background: var(--accent);
+            cursor: default;
+        }
+        
+        /* Progress Tracker */
+        .progress-container {
+            background: white;
+            border-radius: 10px;
+            padding: 2rem;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        }
+        
+        .progress-bar {
+            height: 20px;
+            background: #f0f0f0;
+            border-radius: 10px;
+            margin: 1rem 0 2rem;
+            overflow: hidden;
+        }
+        
+        .progress {
+            height: 100%;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            width: 0;
+            transition: width 1s ease;
+            border-radius: 10px;
+        }
+        
+        .progress-text {
+            text-align: center;
+            font-weight: 600;
+            color: var(--primary);
+        }
+        
+        .milestone {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1rem;
+            padding: 1rem;
+            background: #f9f9f9;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+        
+        .milestone:hover {
+            background: #f0f0f0;
+        }
+        
+        .milestone i {
+            font-size: 1.5rem;
+            color: var(--primary);
+            margin-right: 1rem;
+        }
+        
+        .milestone.completed i {
+            color: #4caf50;
+        }
+        
+        /* Footer */
+        footer {
+            background: var(--dark);
+            color: white;
+            padding: 4rem 2rem 2rem;
+            text-align: center;
+        }
+        
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            text-align: left;
+        }
+        
+        .footer-column h3 {
+            color: white;
+            margin-bottom: 1.5rem;
+            font-size: 1.5rem;
+        }
+        
+        .footer-column ul {
+            list-style: none;
+        }
+        
+        .footer-column ul li {
+            margin-bottom: 0.8rem;
+        }
+        
+        .footer-column ul li a {
+            color: #ccc;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+        
+        .footer-column ul li a:hover {
+            color: white;
+            padding-left: 5px;
+        }
+        
+        .social-links {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+        
+        .social-links a {
+            color: white;
+            background: rgba(255, 255, 255, 0.1);
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+        
+        .social-links a:hover {
+            background: var(--primary);
+            transform: translateY(-3px);
+        }
+        
+        .copyright {
+            margin-top: 3rem;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            font-size: 0.9rem;
+            color: #aaa;
+        }
+        
+        .copyright a {
+            color: var(--primary);
+            text-decoration: none;
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .header-container {
+                padding: 0 1rem;
+            }
+            
+            .menu-toggle {
+                display: block;
+            }
+            
+            nav {
+                position: fixed;
+                top: 70px;
+                left: -100%;
+                width: 80%;
+                height: calc(100vh - 70px);
+                background: var(--primary);
+                transition: all 0.3s ease;
+                padding: 2rem;
+            }
+            
+            nav.active {
+                left: 0;
+            }
+            
+            nav ul {
+                flex-direction: column;
+            }
+            
+            nav ul li {
+                margin: 1rem 0;
+            }
+            
+            .hero h1 {
+                font-size: 2.2rem;
+            }
+            
+            .hero p {
+                font-size: 1rem;
+            }
+            
+            .memory-game {
+                grid-template-columns: repeat(3, 1fr);
+            }
+            
+            .quote-text {
+                font-size: 1.2rem;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .memory-game {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .hero h1 {
+                font-size: 1.8rem;
+            }
+        }
+
+        .memory-card {
+    height: 100px;
+    background: var(--secondary);
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+    transform-style: preserve-3d;
+    perspective: 1000px;
+}
+
+.memory-card .front,
+.memory-card .back {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    backface-visibility: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 8px;
+    padding: 1rem;
+    text-align: center;
+}
+
+.memory-card .front {
+    background: var(--secondary);
+    color: white;
+    font-size: 2rem;
+}
+
+.memory-card .back {
+    background: white;
+    color: var(--primary);
+    transform: rotateY(180deg);
+    font-weight: 600;
+}
+
+.memory-card.flipped {
+    transform: rotateY(180deg);
+}
+
+.memory-card.matched {
+    background: var(--accent);
+    cursor: default;
+}
+
+.memory-card.matched .back {
+    background: var(--accent);
+}
+    </style>
+</head>
+<body>
+    <header id="header">
+        <div class="header-container">
+            <a href="#" class="logo"><i class="fas fa-heart"></i> LoveRecovery</a>
+            <div class="menu-toggle" id="menuToggle">
+                <i class="fas fa-bars"></i>
+            </div>
+            <nav id="nav">
+                <ul>
+                    <li><a href="#tips">Consejos</a></li>
+                    <li><a href="#game">Juego</a></li>
+                    <li><a href="#progress">Progreso</a></li>
+                    <li><a href="#resources">Recursos</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+    
+    <section class="hero">
+        <div class="hero-content">
+            <h1>Cómo Olvidar a Mi Ex</h1>
+            <p>Una guía llena de amor propio, paciencia y pequeños pasos para sanar tu corazón.</p>
+            <a href="#tips" class="btn">Comienza tu viaje</a>
+        </div>
+    </section>
+    
+    <section class="daily-quote">
+        <div class="floating-hearts" id="floatingHearts"></div>
+        <div class="quote-container">
+            <div class="quote-icon">
+                <i class="fas fa-quote-left"></i>
+            </div>
+            <p class="quote-text" id="dailyQuote">"El amor propio es el primer paso para sanar cualquier herida."</p>
+            <p class="quote-author" id="quoteAuthor">- LoveRecovery Team</p>
+        </div>
+    </section>
+    
+    <div class="container">
+        <section id="tips">
+            <h2>Consejos para Sanar</h2>
+            <p>Cada corazón roto es único, pero estos consejos pueden ayudarte en tu proceso de sanación.</p>
+            
+            <div class="tip-card">
+                <i class="fas fa-calendar-day"></i>
+                <h3>Día 1-7: Permítete sentir</h3>
+                <p>No reprimas tus emociones. Llora si necesitas llorar, escribe lo que sientes, habla con alguien de confianza. Está bien no estar bien.</p>
+                <p><strong>Actividad:</strong> Escribe una carta con todo lo que quisieras decirle (no hace falta que la envíes).</p>
+            </div>
+            
+            <div class="tip-card">
+                <i class="fas fa-user-friends"></i>
+                <h3>Reconecta con tu círculo</h3>
+                <p>Las rupturas pueden aislarnos. Programa salidas con amigos, únete a un grupo nuevo, o simplemente pasa tiempo con familia.</p>
+                <p><strong>Idea:</strong> Organiza una noche de películas con amigos donde cada uno lleve su comida favorita.</p>
+            </div>
+            
+            <div class="tip-card">
+                <i class="fas fa-heartbeat"></i>
+                <h3>Redescubre quién eres</h3>
+                <p>Las relaciones a veces nos hacen olvidar nuestras individualidades. Retoma viejos hobbies o prueba algo nuevo que siempre quisiste.</p>
+                <p><strong>Reto:</strong> Haz una lista de 5 cosas que te definan fuera de cualquier relación.</p>
+            </div>
+            
+            <div class="tip-card">
+                <i class="fas fa-brain"></i>
+                <h3>Reestructura tus pensamientos</h3>
+                <p>Cuando vengan recuerdos felices, recuerda también por qué terminó. No idealices el pasado ni demonices a tu ex.</p>
+                <p><strong>Ejercicio:</strong> Haz dos columnas: "Cosas buenas que aprendí" y "Razones por las que no funcionó".</p>
+            </div>
+            
+            <div class="tip-card">
+                <i class="fas fa-seedling"></i>
+                <h3>Cultiva tu crecimiento</h3>
+                <p>Usa este tiempo para enfocarte en tus metas personales, salud física y mental. El mejor "desquite" es una versión más feliz de ti.</p>
+                <p><strong>Sugerencia:</strong> Empieza un pequeño proyecto que te entusiasme, aunque sea aprender a cocinar un nuevo platillo.</p>
+            </div>
+        </section>
+        
+        <section id="game">
+            <h2>Juego: Memoria de Autoamor</h2>
+            <p>Encuentra las parejas de afirmaciones positivas para entrenar tu mente en el amor propio.</p>
+            
+            <div class="game-container">
+                <div class="memory-game" id="memoryGame">
+                    <!-- Las cartas se generarán con JavaScript -->
+                </div>
+                <button id="resetGame" class="btn">Reiniciar Juego</button>
+            </div>
+        </section>
+        
+        <section id="progress">
+            <h2>Tu Progreso de Sanación</h2>
+            <p>La sanación no es lineal, pero cada paso cuenta. Celebra tus pequeños logros.</p>
+            
+            <div class="progress-container">
+                <div class="progress-bar">
+                    <div class="progress" id="healingProgress"></div>
+                </div>
+                <p class="progress-text" id="progressText">0% completado</p>
+                
+                <h3>Hitos de Sanación</h3>
+                
+                <div class="milestone" id="milestone1">
+                    <i class="fas fa-check-circle"></i>
+                    <div>
+                        <h4>Primera semana sin contacto</h4>
+                        <p>Has resistido la tentación de contactar a tu ex.</p>
+                    </div>
+                </div>
+                
+                <div class="milestone" id="milestone2">
+                    <i class="far fa-check-circle"></i>
+                    <div>
+                        <h4>Día sin llorar</h4>
+                        <p>Pasaste un día completo sin derramar lágrimas por la ruptura.</p>
+                    </div>
+                </div>
+                
+                <div class="milestone" id="milestone3">
+                    <i class="far fa-check-circle"></i>
+                    <div>
+                        <h4>Nueva actividad</h4>
+                        <p>Probaste algo nuevo que te hizo sentir bien contigo mismo.</p>
+                    </div>
+                </div>
+                
+                <div class="milestone" id="milestone4">
+                    <i class="far fa-check-circle"></i>
+                    <div>
+                        <h4>Pensamiento neutral</h4>
+                        <p>Pudiste pensar en tu ex sin dolor intenso, solo como un recuerdo.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <section id="resources">
+            <h2>Recursos Adicionales</h2>
+            <p>Herramientas que pueden apoyarte en este proceso.</p>
+            
+            <div class="tip-card">
+                <i class="fas fa-book"></i>
+                <h3>Libros recomendados</h3>
+                <ul>
+                    <li>"Cómo Superar un Desamor" - Walter Riso</li>
+                    <li>"El Fin del Amor" - Tamara Tenenbaum</li>
+                    <li>"Boulevard" - Flor M Salvador</li>
+                    <li>"Quiérete Mucho" - Marcos Méndez</li>
+                </ul>
+            </div>
+            <div class="tip-card">
+
+
+                
+            <div class="tip-card">
+    <i class="fas fa-headphones"></i>
+    <h3>Playlist de Sanación</h3>
+    <p>La música cura el alma - estas canciones acompañarán cada etapa emocional:</p>
+    <ul>
+        <li><i class="fas fa-sad-tear"></i> "Triste" - Ed Maverick (para validar tu dolor)</li>
+        <li><i class="fas fa-fire"></i> "Safaera" - Bad Bunny (para sacar toda la rabia bailando)</li>
+        <li><i class="fas fa-heart"></i> "El Poeta" - Humbe (cuando necesites consuelo poético)</li>
+        <li><i class="fas fa-mountain"></i> "Mon Amour" - Aitana & Zzoilo (para días de nostalgia controlada)</li>
+        <li><i class="fas fa-star"></i> "Neverita" - Bad Bunny (para recordar tu valor)</li>
+        <li><i class="fas fa-wind"></i> "Antes de ti" - Mon Laferte (escape emocional)</li>
+        <li><i class="fas fa-feather-alt"></i> "Lo que construimos" - Natalia Lafourcade (cuando aceptas que pasó)</li>
+        <li><i class="fas fa-sun"></i> "Amorfoda" - Bad Bunny (himno de independencia)</li>
+    </ul>
+    <p class="spotify-link">
+        <a href="https://open.spotify.com/playlist/2PGWq6iWVuQak3qZWEDmyK?si=909f57d527984727" target="_blank" class="streaming-link">
+            <i class="fab fa-spotify"></i> Escúchala en Spotify
+        </a>
+    </p>
+</div>
+</div>
+            
+            <div class="tip-card">
+                <i class="fas fa-hands-helping"></i>
+                <h3>Apoyo profesional</h3>
+                <p>Si sientes que el dolor es abrumador o no mejora con el tiempo, considera buscar ayuda profesional. No estás solo/a.</p>
+                <p>Líneas de ayuda de parte de LoveRecovery Team:</p><a href="https://twentyfox.lat/psico0.html"><font color="#ff6b8b">Integra - Clinica Psicologica</font></a>
+            </div>
+        </section>
+    </div>
+    
+    <footer>
+        <div class="footer-content">
+            <div class="footer-column">
+                <h3>Sobre Nosotros</h3>
+                <p>LoveRecovery es un espacio creado con mucho amor para ayudarte a sanar después de una ruptura. Creemos en el poder del amor propio y la paciencia.</p>
+                <div class="social-links">
+                </div>
+            </div>
+            
+            <div class="footer-column">
+                <h3>Enlaces Rápidos</h3>
+                <ul>
+                    <li><a href="#tips">Consejos de Sanación</a></li>
+                    <li><a href="#game">Juego de Memoria</a></li>
+                    <li><a href="#progress">Seguimiento de Progreso</a></li>
+                    <li><a href="#resources">Recursos Adicionales</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-column">
+                <h3>Contacto</h3>
+                <ul>
+                    <li><i class="fas fa-envelope"></i> integra.servicios05@gmail.com</li>
+                    <li><i class="fas fa-phone"></i> 244-6-88-8159</li>
+                    <li><i class="fas fa-map-marker-alt"></i> Atlixco, Puebla</li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="copyright">
+            <p>&copy; 2025 Copyright <a href="https://twentyfox.lat">TwentyFox</a> | Página desarrollada por <a href="https://twentyfox.lat/ale.html">Alejandro Tellez</a></p>
+        </div>
+    </footer>
+    
+    <script>
+        // Menú móvil
+        const menuToggle = document.getElementById('menuToggle');
+        const nav = document.getElementById('nav');
+        
+        menuToggle.addEventListener('click', () => {
+            nav.classList.toggle('active');
+        });
+        
+        // Header scroll effect
+        const header = document.getElementById('header');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 50) {
+                header.classList.add('scrolled');
+            } else {
+                header.classList.remove('scrolled');
+            }
+        });
+        
+        // Animación de secciones al hacer scroll
+        const sections = document.querySelectorAll('section');
+        
+        const checkVisibility = () => {
+            sections.forEach(section => {
+                const sectionTop = section.getBoundingClientRect().top;
+                const windowHeight = window.innerHeight;
+                
+                if (sectionTop < windowHeight - 100) {
+                    section.classList.add('visible');
+                }
+            });
+        };
+        
+        window.addEventListener('scroll', checkVisibility);
+        window.addEventListener('load', checkVisibility);
+        
+        const quotes = [
+    {
+        text: "Hoy no tienes que ser fuerte todo el tiempo. Permitirse sentir es también una forma de valentía.",
+        author: "LoveRecovery Team"
+    },
+    {
+        text: "El amor que mereces no duele, no confundas el cariño con el apego.",
+        author: "Anónimo"
+    },
+    {
+        text: "Borrar fotos no es olvidar, es hacer espacio para nuevos recuerdos.",
+        author: "LoveRecovery Team"
+    },
+    {
+        text: "Tu corazón no está roto, está en reconstrucción. Y los proyectos de renovación siempre toman tiempo.",
+        author: "Anónimo"
+    },
+    {
+        text: "Si extrañas a alguien que no te extraña, en realidad extrañas a quien creías que era.",
+        author: "LoveRecovery Team"
+    },
+    {
+        text: "No estás perdiendo a alguien que no te quería bien, ellos están perdiendo a alguien que amaba con todo.",
+        author: "Anónimo"
+    },
+    {
+        text: "Hoy puede doler, mañana dolerá menos. La tristeza es temporal como las olas del mar.",
+        author: "LoveRecovery Team"
+    },
+    {
+        text: "Bloquear no es inmaduro, es poner límites cuando alguien cruzó todos los tuyos.",
+        author: "Anónimo"
+    },
+    {
+        text: "Si volver duele más que olvidar, ¿realmente vale la pena regresar?",
+        author: "LoveRecovery Team"
+    },
+    {
+        text: "No eres tonto por haber amado, eres humano. Ellos son tontos por no haber valorado ese amor.",
+        author: "Anónimo"
+    },
+    {
+        text: "Sanar no es lineal: hoy lloras, mañana sales, pasado bailas. Todos los días cuentan.",
+        author: "LoveRecovery Team"
+    },
+    {
+        text: "Si te dejaron por otra persona, en realidad te liberaron para alguien mejor: tú mismo.",
+        author: "Anónimo"
+    },
+    {
+        text: "El 'contacto cero' no es venganza, es el regalo de paz que te debes.",
+        author: "LoveRecovery Team"
+    },
+    {
+        text: "Cuando extrañes sus mensajes, recuerda el silencio que te dejó cuando más lo necesitabas.",
+        author: "Anónimo"
+    },
+    {
+        text: "No vuelvas donde fuiste opción cuando mereces ser prioridad desde el primer día.",
+        author: "LoveRecovery Team"
+    },
+    {
+        text: "Si te preguntas '¿me extraña?', mejor pregúntate '¿yo me extraño a mí mismo en esa relación?'",
+        author: "Anónimo"
+    },
+    {
+        text: "Borrar chats no es perder pruebas, es ganar espacio en tu mente para cosas nuevas.",
+        author: "LoveRecovery Team"
+    },
+    {
+        text: "El amor no se suplica, se construye entre dos. Si solo tú ponías esfuerzo, era un monólogo.",
+        author: "Anónimo"
+    },
+    {
+        text: "Si volvieras a leer esos viejos mensajes con los ojos de hoy, verías señales que antes ignoraste.",
+        author: "LoveRecovery Team"
+    },
+    {
+        text: "No estás solx, estás en compañía de alguien increíble: tu futuro yo agradecido por esta pausa.",
+        author: "Anónimo"
+    },
+    {
+        text: "Desinstalar apps no es dramático, es evitar la tentación de revisar perfiles que ya no te incluyen.",
+        author: "LoveRecovery Team"
+    },
+    {
+        text: "Si te dejaron en visto el corazón, no insistas. Nadie merece mendigar atención.",
+        author: "Anónimo"
+    },
+    {
+        text: "Hazle caso a tu playlist triste hoy, pero recuerda apagarla mañana para dejar entrar nueva música.",
+        author: "LoveRecovery Team"
+    },
+    {
+        text: "Las relaciones no fracasan, simplemente revelan quiénes no estaban hechos para quedarse.",
+        author: "Anónimo"
+    },
+    {
+        text: "Si lloras al recordar sonrisas pasadas, seca esas lágrimas. Pronto sonreirás por nuevos motivos.",
+        author: "LoveRecovery Team"
+    },
+    {
+        text: "No bloquees tus emociones, pero sí bloquea a quien te hizo creer que merecías menos de lo que das.",
+        author: "Anónimo"
+    },
+    {
+        text: "Si te preguntas '¿qué hice mal?', la respuesta es: confiar en alguien que no supo valorarte.",
+        author: "LoveRecovery Team"
+    },
+    {
+        text: "Los 'por qué' duelen hoy, pero mañana serán lecciones que te salvarán de repetir patrones.",
+        author: "Anónimo"
+    },
+    {
+        text: "Si te dejaron de seguir en redes, considéralo un favor: ahora tu feed será solo de personas que sí eligen estar.",
+        author: "LoveRecovery Team"
+    },
+    {
+        text: "Cuando sientas debilidad por volver, recuerda la fuerza que necesitas para sanar de cero otra vez.",
+        author: "Anónimo"
+    }
+];
+        const dailyQuote = document.getElementById('dailyQuote');
+        const quoteAuthor = document.getElementById('quoteAuthor');
+        
+        // Obtener día actual para seleccionar frase
+        const today = new Date().getDay();
+        const selectedQuote = quotes[today % quotes.length];
+        
+        dailyQuote.textContent = `"${selectedQuote.text}"`;
+        quoteAuthor.textContent = `- ${selectedQuote.author}`;
+        
+        // Corazones flotantes
+        const floatingHearts = document.getElementById('floatingHearts');
+        const heartIcons = ['❤️', '🧡', '💛', '💚', '💙', '💜', '🤎', '🖤', '🤍'];
+        
+        function createHearts() {
+            for (let i = 0; i < 15; i++) {
+                const heart = document.createElement('div');
+                heart.classList.add('heart');
+                heart.textContent = heartIcons[Math.floor(Math.random() * heartIcons.length)];
+                heart.style.left = `${Math.random() * 100}%`;
+                heart.style.top = `${Math.random() * 100 + 100}%`;
+                heart.style.fontSize = `${Math.random() * 20 + 10}px`;
+                heart.style.animationDuration = `${Math.random() * 5 + 5}s`;
+                heart.style.animationDelay = `${Math.random() * 5}s`;
+                floatingHearts.appendChild(heart);
+            }
+        }
+        
+        createHearts();
+        // Juego de memoria
+const memoryGame = document.getElementById('memoryGame');
+const resetGameBtn = document.getElementById('resetGame');
+
+const affirmations = [
+    "Soy suficiente",
+    "Merezco amor",
+    "Estoy en proceso",
+    "Me acepto",
+    "Me respeto",
+    "Me valoro",
+    "Creceré de esto",
+    "Soy resiliente"
+];
+
+let cards = [];
+let flippedCards = [];
+let matchedPairs = 0;
+
+function createCards() {
+    // Duplicar las afirmaciones para hacer parejas
+    const cardContents = [...affirmations, ...affirmations];
+    
+    // Barajar las cartas
+    cardContents.sort(() => Math.random() - 0.5);
+    
+    // Crear las cartas en el DOM
+    memoryGame.innerHTML = '';
+    cards = [];
+    
+    cardContents.forEach((content, index) => {
+        const card = document.createElement('div');
+        card.classList.add('memory-card');
+        card.dataset.index = index;
+        card.dataset.content = content;
+        
+        // Crear elementos front y back para la carta
+        const front = document.createElement('div');
+        front.classList.add('front');
+        front.innerHTML = '<i class="fas fa-heart"></i>'; // Icono corazón
+        
+        const back = document.createElement('div');
+        back.classList.add('back');
+        back.textContent = content;
+        
+        card.appendChild(front);
+        card.appendChild(back);
+        
+        card.addEventListener('click', flipCard);
+        memoryGame.appendChild(card);
+        cards.push(card);
+    });
+}
+
+function flipCard() {
+    // No hacer nada si la carta ya está volteada o emparejada
+    if (flippedCards.length >= 2 || this.classList.contains('flipped') || this.classList.contains('matched')) {
+        return;
+    }
+    
+    // Aplicar clase flipped para activar la animación
+    this.classList.add('flipped');
+    flippedCards.push(this);
+    
+    // Verificar si hay un par
+    if (flippedCards.length === 2) {
+        checkForMatch();
+    }
+}
+
+function checkForMatch() {
+    const [card1, card2] = flippedCards;
+    
+    // Esperar a que termine la animación de volteo
+    setTimeout(() => {
+        if (card1.querySelector('.back').textContent === card2.querySelector('.back').textContent) {
+            // Es un par
+            card1.classList.add('matched');
+            card2.classList.add('matched');
+            matchedPairs++;
+            
+            // Verificar si el juego terminó
+            if (matchedPairs === affirmations.length) {
+                setTimeout(() => {
+                    alert('¡Felicidades! Has emparejado todas las afirmaciones de amor propio.');
+                }, 500);
+            }
+            
+            flippedCards = [];
+        } else {
+            // No es un par, voltear de nuevo
+            setTimeout(() => {
+                card1.classList.remove('flipped');
+                card2.classList.remove('flipped');
+                flippedCards = [];
+            }, 1000);
+        }
+    }, 500); // Tiempo para que complete la animación de giro
+}
+
+resetGameBtn.addEventListener('click', () => {
+    matchedPairs = 0;
+    flippedCards = [];
+    createCards();
+});
+
+// Inicializar el juego
+createCards();
+        let progress = 0;
+        let completedMilestones = 0;
+        
+        milestones.forEach((milestone, index) => {
+            milestone.addEventListener('click', () => {
+                if (!milestone.classList.contains('completed')) {
+                    milestone.classList.add('completed');
+                    milestone.querySelector('i').className = 'fas fa-check-circle';
+                    completedMilestones++;
+                    
+                    // Actualizar progreso
+                    progress = (completedMilestones / milestones.length) * 100;
+                    healingProgress.style.width = `${progress}%`;
+                    progressText.textContent = `${Math.round(progress)}% completado`;
+                    
+                    // Pequeña animación
+                    healingProgress.style.transition = 'width 0.5s ease';
+                }
+            });
+        });
+        
+        // Simular que el primer hito ya está completado
+        setTimeout(() => {
+            milestones[0].click();
+        }, 1000);
+    </script>
+</body>
+</html>
