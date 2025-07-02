@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TwentyFox Meets</title>
+    <title>TwentyFox Meet test5</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script src="https://unpkg.com/peerjs@1.4.7/dist/peerjs.min.js"></script>
     <style>
@@ -655,22 +655,15 @@
         let participants = [];
 
         const peerConfig = {
-        host: 'peerjs-production-8a87.up.railway.app',
-        secure: true,
-        port: 443,
-        path: '/',
-        config: {
-            iceServers: [
-            { urls: 'stun:stun.l.google.com:19302' },
-            { urls: 'stun:stun1.l.google.com:19302' },
-            { urls: 'stun:stun2.l.google.com:19302' },
-      
-            {
-                urls: 'turn:numb.viagenie.ca',
-                credential: 'muazkh',
-                username: 'webrtc@live.com'
-            }
-            ]
+            host: '0.peerjs.com', // Servidor público oficial
+            secure: true,
+            port: 443,
+            path: '/',
+            config: {
+                iceServers: [
+                { urls: 'stun:stun.l.google.com:19302' },
+                { urls: 'stun:stun1.l.google.com:19302' }
+                ]
             }
         };
 
@@ -752,19 +745,20 @@
 
         async function initializePeerConnection() {
         return new Promise((resolve, reject) => {
-            currentUser.id = `user-${Math.random().toString(36).substr(2, 9)}`;
+            currentUser.id = `user-${Math.random().toString(36).substr(2, 9)}-${Date.now()}`;
             peer = new Peer(currentUser.id, peerConfig);
 
             peer.on('open', () => {
-            console.log('Conexión establecida correctamente');
+            console.log('Conexión establecida con ID:', peer.id);
+            setupCallHandlers(); // ¡Asegúrate de llamar esta función!
             resolve();
             });
 
             peer.on('error', (err) => {
             console.error('Error PeerJS:', err);
-            if(err.type === 'peer-unavailable') {
-                currentUser.id = `user-${Math.random().toString(36).substr(2, 9)}`;
-                peer = new Peer(currentUser.id, peerConfig);
+            if(err.type === 'network') {
+                showNotification('Problema de conexión. Reintentando...');
+                setTimeout(() => initializePeerConnection().then(resolve).catch(reject), 2000);
             } else {
                 reject(err);
             }
