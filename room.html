@@ -3,8 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TwentyFox Meet test5</title>
+    <title>TwentyFox Meet test6</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://webrtc.github.io/adapter/adapter-latest.js"></script>
     <script src="https://unpkg.com/peerjs@1.4.7/dist/peerjs.min.js"></script>
     <style>
         :root {
@@ -655,16 +656,26 @@
         let participants = [];
 
         const peerConfig = {
-            host: '0.peerjs.com', // Servidor público oficial
+            host: '0.peerjs.com',
             secure: true,
             port: 443,
             path: '/',
             config: {
                 iceServers: [
-                { urls: 'stun:stun.l.google.com:19302' },
-                { urls: 'stun:stun1.l.google.com:19302' }
+                { 
+                    urls: [
+                    'stun:stun.l.google.com:19302',
+                    'stun:global.stun.twilio.com:3478'
+                    ] 
+                },
+                {
+                    urls: 'turn:numb.viagenie.ca',
+                    credential: 'muazkh',
+                    username: 'webrtc@live.com'
+                }
                 ]
-            }
+            },
+            debug: 3 // Habilita logs detallados
         };
 
         // Initialize the app
@@ -744,26 +755,54 @@
         }
 
         async function initializePeerConnection() {
+    const isOperaGX = navigator.userAgent.includes('Opera GX');
+    
+    // Configuración específica para Opera GX
+    if (isOperaGX) {
+        peerConfig.config = {
+            iceTransportPolicy: 'relay',
+            iceServers: [
+                {
+                    urls: 'turn:numb.viagenie.ca',
+                    credential: 'muazkh',
+                    username: 'webrtc@live.com'
+                }
+            ]
+        };
+        showNotification("Modo compatible para Opera GX activado", "warning");
+    }
+
         return new Promise((resolve, reject) => {
-            currentUser.id = `user-${Math.random().toString(36).substr(2, 9)}-${Date.now()}`;
-            peer = new Peer(currentUser.id, peerConfig);
+                currentUser.id = `user-${Math.random().toString(36).substr(2, 9)}-${Date.now()}`;
+                peer = new Peer(currentUser.id, peerConfig);
 
-            peer.on('open', () => {
-            console.log('Conexión establecida con ID:', peer.id);
-            setupCallHandlers(); // ¡Asegúrate de llamar esta función!
-            resolve();
-            });
+                // Timeout para conexión
+                const connectionTimeout = setTimeout(() => {
+                    reject(new Error('Tiempo de conexión excedido'));
+                    peer.destroy();
+                }, 15000); // 15 segundos
 
-            peer.on('error', (err) => {
-            console.error('Error PeerJS:', err);
-            if(err.type === 'network') {
-                showNotification('Problema de conexión. Reintentando...');
-                setTimeout(() => initializePeerConnection().then(resolve).catch(reject), 2000);
-            } else {
-                reject(err);
-            }
+                peer.on('open', (id) => {
+                    clearTimeout(connectionTimeout);
+                    console.log('Conexión PeerJS establecida con ID:', id);
+                    setupCallHandlers();
+                    resolve();
+                });
+
+                peer.on('error', (err) => {
+                    clearTimeout(connectionTimeout);
+                    console.error('Error PeerJS:', err);
+            
+                    if (['network', 'socket-error', 'server-error'].includes(err.type)) {
+                        showNotification(`Reconectando (${err.type})...`, 'warning');
+                        setTimeout(() => {
+                            initializePeerConnection().then(resolve).catch(reject);
+                        }, isOperaGX ? 3000 : 2000); // Mayor tiempo para Opera GX
+                    } else {
+                        reject(err);
+                    }
+                });
             });
-        });
         }
 
         // Set up call handlers
