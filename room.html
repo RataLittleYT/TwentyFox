@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TwentyFox Meet</title>
+    <title>TwentyFox Meets</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script src="https://unpkg.com/peerjs@1.4.7/dist/peerjs.min.js"></script>
     <style>
@@ -654,18 +654,23 @@
         let chatMessagesList = [];
         let participants = [];
 
-        // PeerJS configuration
-        let peer = null;
         const peerConfig = {
-            host: '0.peerjs.com',
-            secure: true,
-            port: 443,
-            path: '/',
-            config: {
-                iceServers: [
-                { urls: 'stun:stun.l.google.com:19302' },
-                { urls: 'stun:global.stun.twilio.com:3478?transport=udp' }
-                ]
+        host: 'peerjs-production-8a87.up.railway.app',
+        secure: true,
+        port: 443,
+        path: '/',
+        config: {
+            iceServers: [
+            { urls: 'stun:stun.l.google.com:19302' },
+            { urls: 'stun:stun1.l.google.com:19302' },
+            { urls: 'stun:stun2.l.google.com:19302' },
+      
+            {
+                urls: 'turn:numb.viagenie.ca',
+                credential: 'muazkh',
+                username: 'webrtc@live.com'
+            }
+            ]
             }
         };
 
@@ -745,31 +750,27 @@
             joinMeeting();
         }
 
-        // Modifica tu función initializePeerConnection así:
-async function initializePeerConnection() {
-  return new Promise((resolve, reject) => {
-    currentUser.id = 'user-' + Math.random().toString(36).substr(2, 9);
-    peer = new Peer(currentUser.id, peerConfig);
-    
-    peer.on('open', (id) => {
-      console.log('Conexión PeerJS establecida con ID:', id);
-      resolve();
-    });
-    
-    peer.on('error', (err) => {
-      console.error('Error de PeerJS:', err);
-      
-      // Intenta reconectar con servidor alternativo
-      if(err.type === 'server-error') {
-        console.log('Probando servidor alternativo...');
-        peerConfig.host = 'peerjs-server-production.up.railway.app';
-        peer = new Peer(currentUser.id, peerConfig);
-      } else {
-        reject(err);
-      }
-    });
-  });
-}
+        async function initializePeerConnection() {
+        return new Promise((resolve, reject) => {
+            currentUser.id = `user-${Math.random().toString(36).substr(2, 9)}`;
+            peer = new Peer(currentUser.id, peerConfig);
+
+            peer.on('open', () => {
+            console.log('Conexión establecida correctamente');
+            resolve();
+            });
+
+            peer.on('error', (err) => {
+            console.error('Error PeerJS:', err);
+            if(err.type === 'peer-unavailable') {
+                currentUser.id = `user-${Math.random().toString(36).substr(2, 9)}`;
+                peer = new Peer(currentUser.id, peerConfig);
+            } else {
+                reject(err);
+            }
+            });
+        });
+        }
 
         // Set up call handlers
         function setupCallHandlers() {
