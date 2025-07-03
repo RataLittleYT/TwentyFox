@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TwentyFox Meet test 10</title>
+    <title>TwentyFox Meet test 11</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script src="https://webrtc.github.io/adapter/adapter-latest.js"></script>
     <script src="https://unpkg.com/peerjs@1.4.7/dist/peerjs.min.js"></script>
@@ -402,6 +402,24 @@
         .chat-input button:hover {
             background-color: var(--primary);
         }
+        .call-peer-container {
+    display: flex;
+    gap: 5px;
+    align-items: center;
+}
+
+#peerIdInput {
+    padding: 5px 10px;
+    border-radius: 15px;
+    border: none;
+    background-color: rgba(255, 255, 255, 0.1);
+    color: white;
+    width: 120px;
+}
+
+#peerIdInput::placeholder {
+    color: rgba(255, 255, 255, 0.6);
+}
 
         /* Responsive */
         @media (max-width: 768px) {
@@ -537,20 +555,18 @@
 
     <!-- Main App -->
     <div class="app-container" id="appContainer">
-        <div class="header">
-            <div class="header-left">
-                <div class="header-logo">TwentyFox</div>
-                <div class="room-id" id="roomIdDisplay">
-                    <i class="fas fa-link"></i>
-                    <span id="roomIdText"></span>
-                </div>
-            </div>
-            <div class="header-right">
-                <div class="participant-count" id="participantCount">
-                    <i class="fas fa-users"></i>
-                    <span>1</span>
-                </div>
-            </div>
+        <div class="header-right">
+    <div class="participant-count" id="participantCount">
+        <i class="fas fa-users"></i>
+        <span>1</span>
+    </div>
+    <div class="call-peer-container">
+        <input type="text" id="peerIdInput" placeholder="ID del peer">
+        <button class="control-btn" id="callPeerBtn" title="Llamar a peer">
+            <i class="fas fa-phone"></i>
+        </button>
+    </div>
+</div>
         </div>
 
         <div class="main-content">
@@ -699,6 +715,13 @@ const peerConfig = {
             });
             
             sendMessageBtn.addEventListener('click', sendMessage);
+            document.getElementById('callPeerBtn').addEventListener('click', () => {
+    const peerId = document.getElementById('peerIdInput').value.trim();
+    if (peerId) {
+        callParticipant(peerId);
+        setupDataConnection(peerId);
+    }
+});
         }
 
         // Join meeting with room ID
@@ -770,9 +793,10 @@ const peerConfig = {
         showNotification("Modo compatible para Opera GX activado", "warning");
     }
 
-        return new Promise((resolve, reject) => {
-                currentUser.id = `user-${Math.random().toString(36).substr(2, 9)}-${Date.now()}`;
-                peer = new Peer(currentUser.id, peerConfig);
+        
+    return new Promise((resolve, reject) => {
+        currentUser.id = `user-${Math.random().toString(36).substr(2, 9)}-${Date.now()}`;
+        peer = new Peer(currentUser.id, peerConfig);
 
                 // Timeout para conexión
                 const connectionTimeout = setTimeout(() => {
@@ -838,37 +862,21 @@ const peerConfig = {
 
         // Start local video/audio stream
         async function startLocalStream() {
-            try {
-                currentUser.stream = await navigator.mediaDevices.getUserMedia({
-                    video: true,
-                    audio: true
-                });
-                
-                localVideo.srcObject = currentUser.stream;
-                
-                // Call existing participants
-                const conn = peer.connect('room-' + roomId);
-                
-                conn.on('open', () => {
-                    conn.send({
-                        type: 'getParticipants'
-                    });
-                });
-                
-                conn.on('data', (data) => {
-                    if (data.type === 'participantsList') {
-                        data.participants.forEach(participantId => {
-                            if (participantId !== currentUser.id && !peers[participantId]) {
-                                callParticipant(participantId);
-                                setupDataConnection(participantId);
-                            }
-                        });
-                    }
-                });
-            } catch (error) {
-                console.error('Error accessing media devices:', error);
-                throw error;
-            }
+        try {
+            currentUser.stream = await navigator.mediaDevices.getUserMedia({
+                video: true,
+                audio: true
+            });
+        
+            localVideo.srcObject = currentUser.stream;
+        
+            // Mostrar el ID del usuario actual para que otros puedan conectarse
+            showNotification(`Tu ID: ${currentUser.id} - Compártelo para que otros se conecten`);
+        
+        } catch (error) {
+            console.error('Error accessing media devices:', error);
+            throw error;
+        }
         }
 
         // Call a participant
