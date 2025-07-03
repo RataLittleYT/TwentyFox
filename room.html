@@ -1,10 +1,9 @@
-
 <!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TwentyFox Meet test 11</title>
+    <title>TwentyFox Meet Test 11</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script src="https://webrtc.github.io/adapter/adapter-latest.js"></script>
     <script src="https://unpkg.com/peerjs@1.4.7/dist/peerjs.min.js"></script>
@@ -186,6 +185,7 @@
         .header-right {
             display: flex;
             gap: 10px;
+            align-items: center;
         }
 
         .main-content {
@@ -402,24 +402,25 @@
         .chat-input button:hover {
             background-color: var(--primary);
         }
+
         .call-peer-container {
-    display: flex;
-    gap: 5px;
-    align-items: center;
-}
+            display: flex;
+            gap: 5px;
+            align-items: center;
+        }
 
-#peerIdInput {
-    padding: 5px 10px;
-    border-radius: 15px;
-    border: none;
-    background-color: rgba(255, 255, 255, 0.1);
-    color: white;
-    width: 120px;
-}
+        #peerIdInput {
+            padding: 5px 10px;
+            border-radius: 15px;
+            border: none;
+            background-color: rgba(255, 255, 255, 0.1);
+            color: white;
+            width: 120px;
+        }
 
-#peerIdInput::placeholder {
-    color: rgba(255, 255, 255, 0.6);
-}
+        #peerIdInput::placeholder {
+            color: rgba(255, 255, 255, 0.6);
+        }
 
         /* Responsive */
         @media (max-width: 768px) {
@@ -555,18 +556,26 @@
 
     <!-- Main App -->
     <div class="app-container" id="appContainer">
-        <div class="header-right">
-    <div class="participant-count" id="participantCount">
-        <i class="fas fa-users"></i>
-        <span>1</span>
-    </div>
-    <div class="call-peer-container">
-        <input type="text" id="peerIdInput" placeholder="ID del peer">
-        <button class="control-btn" id="callPeerBtn" title="Llamar a peer">
-            <i class="fas fa-phone"></i>
-        </button>
-    </div>
-</div>
+        <div class="header">
+            <div class="header-left">
+                <div class="header-logo">TwentyFox</div>
+                <div class="room-id" id="roomIdDisplay">
+                    <i class="fas fa-link"></i>
+                    <span id="roomIdText"></span>
+                </div>
+            </div>
+            <div class="header-right">
+                <div class="participant-count" id="participantCount">
+                    <i class="fas fa-users"></i>
+                    <span>1</span>
+                </div>
+                <div class="call-peer-container">
+                    <input type="text" id="peerIdInput" placeholder="ID del peer">
+                    <button class="control-btn" id="callPeerBtn" title="Llamar a peer">
+                        <i class="fas fa-phone"></i>
+                    </button>
+                </div>
+            </div>
         </div>
 
         <div class="main-content">
@@ -655,6 +664,8 @@
         const notificationText = document.getElementById('notificationText');
         const loadingScreen = document.getElementById('loadingScreen');
         const loadingText = document.getElementById('loadingText');
+        const peerIdInput = document.getElementById('peerIdInput');
+        const callPeerBtn = document.getElementById('callPeerBtn');
 
         // App State
         let currentUser = {
@@ -667,30 +678,29 @@
         };
 
         let roomId = '';
+        let peer = null;
         let peers = {};
         let dataConnections = {};
         let chatMessagesList = [];
         let participants = [];
-const peerConfig = {
-    host: '0.peerjs.com',
-    secure: true,
-    port: 443,
-    path: '/',
-    config: {
-        iceServers: [
-            {
-                urls: 'stun:stun.l.google.com:19302'
-            },
-            {
-                urls: 'turn:numb.viagenie.ca',
-                username: 'webrtc@live.com',
-                credential: 'muazkh'
-            }
-        ]
-    },
-    debug: 3 // Habilita logs detallados
-};
 
+        const peerConfig = {
+            host: '0.peerjs.com',
+            secure: true,
+            port: 443,
+            path: '/',
+            config: {
+                iceServers: [
+                    { urls: 'stun:stun.l.google.com:19302' },
+                    { 
+                        urls: 'turn:numb.viagenie.ca',
+                        username: 'webrtc@live.com',
+                        credential: 'muazkh'
+                    }
+                ]
+            },
+            debug: 3
+        };
 
         // Initialize the app
         function init() {
@@ -715,13 +725,13 @@ const peerConfig = {
             });
             
             sendMessageBtn.addEventListener('click', sendMessage);
-            document.getElementById('callPeerBtn').addEventListener('click', () => {
-    const peerId = document.getElementById('peerIdInput').value.trim();
-    if (peerId) {
-        callParticipant(peerId);
-        setupDataConnection(peerId);
-    }
-});
+            
+            callPeerBtn.addEventListener('click', () => {
+                const peerId = peerIdInput.value.trim();
+                if (peerId) {
+                    callParticipant(peerId);
+                }
+            });
         }
 
         // Join meeting with room ID
@@ -735,7 +745,7 @@ const peerConfig = {
             }
             
             currentUser.name = username;
-            localUserName.textContent = username;
+            if (localUserName) localUserName.textContent = username;
             
             if (roomIdValue) {
                 roomId = roomIdValue;
@@ -751,10 +761,10 @@ const peerConfig = {
                 
                 welcomeScreen.style.display = 'none';
                 appContainer.style.display = 'flex';
-                roomIdText.textContent = roomId;
+                if (roomIdText) roomIdText.textContent = roomId;
                 
                 hideLoading();
-                showNotification(`Bienvenido a la reunión ${roomId}`);
+                showNotification(`Tu ID: ${currentUser.id} - Compártelo para que otros se conecten`);
             } catch (error) {
                 console.error('Error joining meeting:', error);
                 hideLoading();
@@ -776,33 +786,31 @@ const peerConfig = {
         }
 
         async function initializePeerConnection() {
-    const isOperaGX = navigator.userAgent.includes('Opera GX');
-    
-    // Configuración específica para Opera GX
-    if (isOperaGX) {
-        peerConfig.config = {
-            iceTransportPolicy: 'relay',
-            iceServers: [
-                {
-                    urls: 'turn:numb.viagenie.ca',
-                    credential: 'muazkh',
-                    username: 'webrtc@live.com'
-                }
-            ]
-        };
-        showNotification("Modo compatible para Opera GX activado", "warning");
-    }
+            const isOperaGX = navigator.userAgent.includes('Opera GX');
+            
+            // Configuración específica para Opera GX
+            if (isOperaGX) {
+                peerConfig.config = {
+                    iceTransportPolicy: 'relay',
+                    iceServers: [
+                        {
+                            urls: 'turn:numb.viagenie.ca',
+                            credential: 'muazkh',
+                            username: 'webrtc@live.com'
+                        }
+                    ]
+                };
+                showNotification("Modo compatible para Opera GX activado", "warning");
+            }
 
-        
-    return new Promise((resolve, reject) => {
-        currentUser.id = `user-${Math.random().toString(36).substr(2, 9)}-${Date.now()}`;
-        peer = new Peer(currentUser.id, peerConfig);
+            return new Promise((resolve, reject) => {
+                currentUser.id = `user-${Math.random().toString(36).substr(2, 9)}-${Date.now()}`;
+                peer = new Peer(currentUser.id, peerConfig);
 
-                // Timeout para conexión
                 const connectionTimeout = setTimeout(() => {
                     reject(new Error('Tiempo de conexión excedido'));
-                    peer.destroy();
-                }, 15000); // 15 segundos
+                    if (peer) peer.destroy();
+                }, 15000);
 
                 peer.on('open', (id) => {
                     clearTimeout(connectionTimeout);
@@ -814,12 +822,12 @@ const peerConfig = {
                 peer.on('error', (err) => {
                     clearTimeout(connectionTimeout);
                     console.error('Error PeerJS:', err);
-            
+                    
                     if (['network', 'socket-error', 'server-error'].includes(err.type)) {
                         showNotification(`Reconectando (${err.type})...`, 'warning');
                         setTimeout(() => {
                             initializePeerConnection().then(resolve).catch(reject);
-                        }, isOperaGX ? 3000 : 2000); // Mayor tiempo para Opera GX
+                        }, isOperaGX ? 3000 : 2000);
                     } else {
                         reject(err);
                     }
@@ -837,10 +845,7 @@ const peerConfig = {
                     handleIncomingData(conn.peer, data);
                 });
                 
-                conn.on('close', () => {
-                    console.log('Data connection closed:', conn.peer);
-                    removeParticipant(conn.peer);
-                });
+                dataConnections[conn.peer] = conn;
             });
             
             // Handle incoming calls
@@ -851,44 +856,53 @@ const peerConfig = {
                 
                 call.on('stream', (remoteStream) => {
                     addParticipant(call.peer, remoteStream);
+                    setupDataConnection(call.peer);
                 });
                 
                 call.on('close', () => {
-                    console.log('Call ended with:', call.peer);
                     removeParticipant(call.peer);
                 });
+                
+                peers[call.peer] = call;
             });
         }
 
         // Start local video/audio stream
         async function startLocalStream() {
-        try {
-            currentUser.stream = await navigator.mediaDevices.getUserMedia({
-                video: true,
-                audio: true
-            });
-        
-            localVideo.srcObject = currentUser.stream;
-        
-            // Mostrar el ID del usuario actual para que otros puedan conectarse
-            showNotification(`Tu ID: ${currentUser.id} - Compártelo para que otros se conecten`);
-        
-        } catch (error) {
-            console.error('Error accessing media devices:', error);
-            throw error;
-        }
+            try {
+                currentUser.stream = await navigator.mediaDevices.getUserMedia({
+                    video: true,
+                    audio: true
+                });
+                
+                localVideo.srcObject = currentUser.stream;
+            } catch (error) {
+                console.error('Error accessing media devices:', error);
+                throw error;
+            }
         }
 
         // Call a participant
         function callParticipant(participantId) {
+            if (peers[participantId]) {
+                showNotification('Ya estás conectado con este usuario');
+                return;
+            }
+            
             const call = peer.call(participantId, currentUser.stream);
             
             call.on('stream', (remoteStream) => {
                 addParticipant(participantId, remoteStream);
+                setupDataConnection(participantId);
             });
             
             call.on('close', () => {
                 removeParticipant(participantId);
+            });
+            
+            call.on('error', (err) => {
+                console.error('Call error:', err);
+                showNotification('Error al conectar con el peer', 'error');
             });
             
             peers[participantId] = call;
@@ -911,6 +925,20 @@ const peerConfig = {
                     userId: currentUser.id,
                     userName: currentUser.name
                 });
+                
+                // Update participant count
+                updateParticipantCount();
+            });
+            
+            conn.on('close', () => {
+                if (dataConnections[participantId]) {
+                    delete dataConnections[participantId];
+                }
+                updateParticipantCount();
+            });
+            
+            conn.on('error', (err) => {
+                console.error('Connection error:', err);
             });
             
             dataConnections[participantId] = conn;
@@ -924,6 +952,9 @@ const peerConfig = {
                     break;
                 case 'userInfo':
                     updateParticipantInfo(senderId, data.userName);
+                    break;
+                case 'userMuted':
+                    updateParticipantMuteStatus(senderId, data.isMuted);
                     break;
             }
         }
@@ -1007,10 +1038,29 @@ const peerConfig = {
             }
         }
 
+        // Update participant mute status
+        function updateParticipantMuteStatus(participantId, isMuted) {
+            const participantElement = document.getElementById(`participant-${participantId}`);
+            if (participantElement) {
+                const micIcon = participantElement.querySelector('.fa-microphone');
+                if (micIcon) {
+                    micIcon.classList.toggle('participant-muted', isMuted);
+                }
+            }
+            
+            // Update in participants list
+            const participant = participants.find(p => p.id === participantId);
+            if (participant) {
+                participant.isMuted = isMuted;
+            }
+        }
+
         // Update participant count display
         function updateParticipantCount() {
             const count = Object.keys(peers).length + 1; // +1 for local user
-            participantCount.querySelector('span').textContent = count;
+            if (participantCount) {
+                participantCount.querySelector('span').textContent = count;
+            }
         }
 
         // Toggle mute
@@ -1051,8 +1101,10 @@ const peerConfig = {
                     '<i class="fas fa-video-slash"></i>' : 
                     '<i class="fas fa-video"></i>';
                 
-                localVideoContainer.style.borderColor = currentUser.isVideoOff ? 
-                    'transparent' : 'var(--accent)';
+                if (localVideoContainer) {
+                    localVideoContainer.style.borderColor = currentUser.isVideoOff ? 
+                        'transparent' : 'var(--accent)';
+                }
             }
         }
 
@@ -1077,7 +1129,9 @@ const peerConfig = {
                         const sender = call.peerConnection.getSenders().find(s => 
                             s.track.kind === 'video'
                         );
-                        sender.replaceTrack(videoTrack);
+                        if (sender) {
+                            sender.replaceTrack(videoTrack);
+                        }
                     });
                     
                     currentUser.isSharingScreen = true;
@@ -1104,7 +1158,9 @@ const peerConfig = {
                         const sender = call.peerConnection.getSenders().find(s => 
                             s.track.kind === 'video'
                         );
-                        sender.replaceTrack(cameraTrack);
+                        if (sender) {
+                            sender.replaceTrack(cameraTrack);
+                        }
                     });
                     
                     currentUser.isSharingScreen = false;
@@ -1135,8 +1191,8 @@ const peerConfig = {
             }
             
             // Reset UI
-            participantsGrid.innerHTML = '';
-            chatMessages.innerHTML = '';
+            if (participantsGrid) participantsGrid.innerHTML = '';
+            if (chatMessages) chatMessages.innerHTML = '';
             
             // Show welcome screen
             appContainer.style.display = 'none';
@@ -1167,12 +1223,16 @@ const peerConfig = {
             
             // Send to all connected peers
             Object.values(dataConnections).forEach(conn => {
-                conn.send({
-                    type: 'chatMessage',
-                    userName: currentUser.name,
-                    message: message,
-                    timestamp: timestamp
-                });
+                try {
+                    conn.send({
+                        type: 'chatMessage',
+                        userName: currentUser.name,
+                        message: message,
+                        timestamp: timestamp
+                    });
+                } catch (err) {
+                    console.error('Error sending message:', err);
+                }
             });
             
             // Clear input
@@ -1181,6 +1241,8 @@ const peerConfig = {
 
         // Add chat message to UI
         function addChatMessage(userName, message, isSent, timestamp) {
+            if (!chatMessages) return;
+            
             const messageElement = document.createElement('div');
             messageElement.className = `message ${isSent ? 'sent' : 'received'}`;
             
@@ -1221,6 +1283,8 @@ const peerConfig = {
 
         // Show notification
         function showNotification(message, type = 'info') {
+            if (!notification || !notificationText) return;
+            
             notificationText.textContent = message;
             notification.className = `notification ${type === 'error' ? 'error' : ''}`;
             notification.classList.add('show');
@@ -1232,49 +1296,21 @@ const peerConfig = {
 
         // Show loading screen
         function showLoading(message) {
+            if (!loadingScreen || !loadingText) return;
+            
             loadingText.textContent = message;
             loadingScreen.style.display = 'flex';
         }
 
         // Hide loading screen
         function hideLoading() {
+            if (!loadingScreen) return;
+            
             loadingScreen.style.display = 'none';
         }
 
         // Initialize the app when DOM is loaded
         document.addEventListener('DOMContentLoaded', init);
-        function setupCallHandlers() {
-  // Manejar conexiones de datos entrantes (chat)
-  peer.on('connection', (conn) => {
-    console.log('Conexión de datos entrante de:', conn.peer);
-    
-    conn.on('data', (data) => {
-      if (data.type === 'getParticipants') {
-        conn.send({
-          type: 'participantsList',
-          participants: Object.keys(peers).concat(peer.id)
-        });
-      }
-      handleIncomingData(conn.peer, data);
-    });
-  });
-  
-  // Manejar llamadas de video entrantes
-  peer.on('call', (call) => {
-    console.log('Llamada entrante de:', call.peer);
-    call.answer(currentUser.stream);
-    
-    call.on('stream', (remoteStream) => {
-      addParticipant(call.peer, remoteStream);
-    });
-    
-    call.on('close', () => {
-      removeParticipant(call.peer);
-    });
-    
-    peers[call.peer] = call;
-  });
-}
     </script>
 </body>
 </html>
