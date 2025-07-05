@@ -1,0 +1,814 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FloresPlantilla</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --rosa-claro: #ffd6e0;
+            --rosa-medio: #ffb3c6;
+            --rosa-oscuro: #ff8fab;
+            --rosa-profundo: #fb6f92;
+            --crema: #fff4f6;
+            --texto-oscuro: #4a4a4a;
+            --texto-claro: #ffffff;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Arial', sans-serif;
+            transition: all 0.3s ease;
+        }
+
+        body {
+            background-color: var(--crema);
+            color: var(--texto-oscuro);
+            overflow-x: hidden;
+        }
+
+        /* Header */
+        header {
+            background: linear-gradient(135deg, var(--rosa-claro), var(--rosa-medio));
+            padding: 1rem 2rem;
+            box-shadow: 0 4px 20px rgba(251, 111, 146, 0.1);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            backdrop-filter: blur(10px);
+        }
+
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--texto-claro);
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+            animation: float 3s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-5px); }
+        }
+
+        /* Menú */
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 1.5rem;
+        }
+
+        nav ul li {
+            position: relative;
+        }
+
+        nav ul li a {
+            color: var(--texto-claro);
+            text-decoration: none;
+            font-weight: 500;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: all 0.3s ease;
+        }
+
+        nav ul li a:hover {
+            background-color: var(--rosa-profundo);
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(251, 111, 146, 0.3);
+        }
+
+        nav ul li a i {
+            font-size: 1.1rem;
+        }
+
+        /* Menú móvil */
+        .menu-toggle {
+            display: none;
+            cursor: pointer;
+            font-size: 1.5rem;
+            color: var(--texto-claro);
+        }
+
+        /* Hero Section */
+        .hero {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            background: linear-gradient(rgba(255, 214, 224, 0.7), rgba(255, 179, 198, 0.7)), url('https://images.unsplash.com/photo-1526397751294-331021109fbd?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1974&q=80') no-repeat center center/cover;
+            padding: 0 2rem;
+            margin-top: 70px;
+        }
+
+        .hero-content h1 {
+            font-size: 3.5rem;
+            color: var(--rosa-profundo);
+            margin-bottom: 1rem;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+            animation: fadeIn 1.5s ease;
+        }
+
+        .hero-content p {
+            font-size: 1.2rem;
+            color: var(--texto-oscuro);
+            max-width: 700px;
+            margin: 0 auto 2rem;
+            animation: fadeIn 2s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .btn {
+            display: inline-block;
+            background-color: var(--rosa-profundo);
+            color: var(--texto-claro);
+            padding: 0.8rem 2rem;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: 600;
+            box-shadow: 0 4px 15px rgba(251, 111, 146, 0.4);
+            transition: all 0.3s ease;
+            animation: pulse 2s infinite;
+        }
+
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(251, 111, 146, 0.6);
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
+        /* Secciones */
+        section {
+            padding: 5rem 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            color: var(--rosa-profundo);
+            margin-bottom: 3rem;
+            position: relative;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 4px;
+            background-color: var(--rosa-medio);
+            border-radius: 2px;
+        }
+
+        /* Acerca de */
+        .about-content {
+            display: flex;
+            align-items: center;
+            gap: 3rem;
+        }
+
+        .about-text {
+            flex: 1;
+        }
+
+        .about-image {
+            flex: 1;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(251, 111, 146, 0.2);
+            animation: float 4s ease-in-out infinite;
+        }
+
+        .about-image img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        /* Catálogo */
+        .catalog {
+            background-color: var(--rosa-claro);
+            border-radius: 20px;
+            padding: 2rem;
+        }
+
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+
+        .product-card {
+            background-color: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s ease;
+        }
+
+        .product-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(251, 111, 146, 0.2);
+        }
+
+        .product-image {
+            height: 200px;
+            overflow: hidden;
+        }
+
+        .product-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        .product-card:hover .product-image img {
+            transform: scale(1.1);
+        }
+
+        .product-info {
+            padding: 1.5rem;
+        }
+
+        .product-title {
+            font-size: 1.2rem;
+            color: var(--rosa-profundo);
+            margin-bottom: 0.5rem;
+        }
+
+        .product-price {
+            font-weight: 700;
+            color: var(--texto-oscuro);
+        }
+
+        /* Promociones */
+        .promos-container {
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+        }
+
+        .promo-card {
+            background: linear-gradient(135deg, var(--rosa-claro), white);
+            border-radius: 15px;
+            padding: 2rem;
+            display: flex;
+            align-items: center;
+            gap: 2rem;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s ease;
+        }
+
+        .promo-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(251, 111, 146, 0.2);
+        }
+
+        .promo-icon {
+            font-size: 3rem;
+            color: var(--rosa-profundo);
+            flex-shrink: 0;
+        }
+
+        .promo-content h3 {
+            color: var(--rosa-profundo);
+            margin-bottom: 0.5rem;
+        }
+
+        /* Contacto */
+        .contact-section {
+            background-color: var(--rosa-claro);
+            border-radius: 20px;
+            padding: 3rem;
+        }
+
+        .contact-container {
+            display: flex;
+            gap: 3rem;
+        }
+
+        .contact-info {
+            flex: 1;
+        }
+
+        .contact-form {
+            flex: 1;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+
+        .social-link {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            background-color: var(--rosa-profundo);
+            color: white;
+            border-radius: 50%;
+            font-size: 1.2rem;
+            transition: all 0.3s ease;
+        }
+
+        .social-link:hover {
+            transform: translateY(-3px) rotate(10deg);
+            background-color: var(--rosa-oscuro);
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: var(--rosa-profundo);
+        }
+
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 0.8rem;
+            border: 2px solid var(--rosa-medio);
+            border-radius: 10px;
+            background-color: white;
+        }
+
+        .form-group textarea {
+            min-height: 120px;
+        }
+
+        /* Footer */
+        footer {
+            background: linear-gradient(135deg, var(--rosa-claro), var(--rosa-medio));
+            color: var(--texto-claro);
+            text-align: center;
+            padding: 2rem;
+            margin-top: 3rem;
+        }
+
+        footer p {
+            margin-bottom: 0.5rem;
+        }
+
+        footer a {
+            color: var(--texto-claro);
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        footer a:hover {
+            text-decoration: underline;
+        }
+
+        /* Animaciones adicionales */
+        @keyframes slideInLeft {
+            from { transform: translateX(-50px); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+
+        @keyframes slideInRight {
+            from { transform: translateX(50px); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+
+        .animate-left {
+            animation: slideInLeft 1s ease;
+        }
+
+        .animate-right {
+            animation: slideInRight 1s ease;
+        }
+
+        .animate-delay-1 {
+            animation-delay: 0.3s;
+        }
+
+        .animate-delay-2 {
+            animation-delay: 0.6s;
+        }
+
+        /* Responsive */
+        @media (max-width: 992px) {
+            .about-content {
+                flex-direction: column;
+            }
+
+            .contact-container {
+                flex-direction: column;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .menu-toggle {
+                display: block;
+            }
+
+            nav {
+                position: fixed;
+                top: 70px;
+                left: -100%;
+                width: 80%;
+                height: calc(100vh - 70px);
+                background-color: var(--rosa-medio);
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                transition: all 0.5s ease;
+                z-index: 999;
+            }
+
+            nav.active {
+                left: 0;
+            }
+
+            nav ul {
+                flex-direction: column;
+                align-items: center;
+                gap: 2rem;
+            }
+
+            .hero-content h1 {
+                font-size: 2.5rem;
+            }
+
+            .section-title {
+                font-size: 2rem;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .hero-content h1 {
+                font-size: 2rem;
+            }
+
+            .hero-content p {
+                font-size: 1rem;
+            }
+
+            .btn {
+                padding: 0.6rem 1.5rem;
+            }
+
+            section {
+                padding: 3rem 1rem;
+            }
+
+            .contact-section {
+                padding: 2rem 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-container">
+            <div class="logo">FloresPlantilla</div>
+            <div class="menu-toggle">
+                <i class="fas fa-bars"></i>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="#inicio"><i class="fas fa-home"></i> Inicio</a></li>
+                    <li><a href="#acerca"><i class="fas fa-info-circle"></i> Acerca</a></li>
+                    <li><a href="#catalogo"><i class="fas fa-store"></i> Catálogo</a></li>
+                    <li><a href="#promos"><i class="fas fa-tag"></i> Promos</a></li>
+                    <li><a href="#contacto"><i class="fas fa-envelope"></i> Contacto</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <section id="inicio" class="hero">
+        <div class="hero-content">
+            <h1>Flores que inspiran momentos</h1>
+            <p>Descubre nuestra colección de flores exquisitas y lleva a casa la belleza de la naturaleza en cada detalle.</p>
+            <a href="#catalogo" class="btn">Explorar Catálogo</a>
+        </div>
+    </section>
+
+    <section id="acerca" class="about-section">
+        <h2 class="section-title animate-left">Acerca de Nosotros</h2>
+        <div class="about-content">
+            <div class="about-text animate-left">
+                <p>En FloresPlantilla, creemos que cada flor cuenta una historia. Nuestro equipo de expertos floristas trabaja con pasión para crear arreglos únicos que capturen emociones y celebren momentos especiales.</p>
+                <p>Desde 2025, hemos estado comprometidos con la calidad, la frescura y el diseño innovador, llevando alegría a través de nuestras creaciones florales.</p>
+                <p>Nuestra misión es simple: hacer del mundo un lugar más hermoso, una flor a la vez.</p>
+            </div>
+            <div class="about-image animate-right">
+                <img src="https://images.unsplash.com/photo-1563170351-be82bc888aa4?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1976&q=80" alt="Floristería">
+            </div>
+        </div>
+    </section>
+
+    <section id="catalogo" class="catalog-section">
+        <h2 class="section-title animate-left">Nuestro Catálogo</h2>
+        <div class="catalog">
+            <div class="products-grid">
+                <!-- Producto 1 -->
+                <div class="product-card animate-left">
+                    <div class="product-image">
+                        <img src="https://images.unsplash.com/photo-1526397751294-331021109fbd?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1974&q=80" alt="Ramo de rosas">
+                    </div>
+                    <div class="product-info">
+                        <h3 class="product-title">Ramo Clásico</h3>
+                        <p class="product-price">$45.00</p>
+                    </div>
+                </div>
+
+                <!-- Producto 2 -->
+                <div class="product-card animate-left animate-delay-1">
+                    <div class="product-image">
+                        <img src="https://images.unsplash.com/photo-1530103862676-de8c9debad1d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80" alt="Tulipanes">
+                    </div>
+                    <div class="product-info">
+                        <h3 class="product-title">Tulipanes Frescos</h3>
+                        <p class="product-price">$38.00</p>
+                    </div>
+                </div>
+
+                <!-- Producto 3 -->
+                <div class="product-card animate-left animate-delay-2">
+                    <div class="product-image">
+                        <img src="https://images.unsplash.com/photo-1490750967868-88aa4486c946?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80" alt="Girasoles">
+                    </div>
+                    <div class="product-info">
+                        <h3 class="product-title">Girasoles Brillantes</h3>
+                        <p class="product-price">$42.00</p>
+                    </div>
+                </div>
+
+                <!-- Producto 4 -->
+                <div class="product-card animate-right">
+                    <div class="product-image">
+                        <img src="https://images.unsplash.com/photo-1455659817273-f96807779a8a?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80" alt="Orquídeas">
+                    </div>
+                    <div class="product-info">
+                        <h3 class="product-title">Orquídeas Elegantes</h3>
+                        <p class="product-price">$55.00</p>
+                    </div>
+                </div>
+
+                <!-- Producto 5 -->
+                <div class="product-card animate-right animate-delay-1">
+                    <div class="product-image">
+                        <img src="https://images.unsplash.com/photo-1466692476868-aef1dfb1e735?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80" alt="Lirios">
+                    </div>
+                    <div class="product-info">
+                        <h3 class="product-title">Lirios Blancos</h3>
+                        <p class="product-price">$48.00</p>
+                    </div>
+                </div>
+
+                <!-- Producto 6 -->
+                <div class="product-card animate-right animate-delay-2">
+                    <div class="product-image">
+                        <img src="https://images.unsplash.com/photo-1527061011665-3652c757a4d4?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2086&q=80" alt="Peonías">
+                    </div>
+                    <div class="product-info">
+                        <h3 class="product-title">Peonías Rosadas</h3>
+                        <p class="product-price">$52.00</p>
+                    </div>
+                </div>
+
+                <!-- Producto 7 -->
+                <div class="product-card animate-left">
+                    <div class="product-image">
+                        <img src="https://images.unsplash.com/photo-1490750967868-88aa4486c946?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80" alt="Margaritas">
+                    </div>
+                    <div class="product-info">
+                        <h3 class="product-title">Margaritas Frescas</h3>
+                        <p class="product-price">$35.00</p>
+                    </div>
+                </div>
+
+                <!-- Producto 8 -->
+                <div class="product-card animate-left animate-delay-1">
+                    <div class="product-image">
+                        <img src="https://images.unsplash.com/photo-1563170351-be82bc888aa4?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1976&q=80" alt="Hortensias">
+                    </div>
+                    <div class="product-info">
+                        <h3 class="product-title">Hortensias Azules</h3>
+                        <p class="product-price">$58.00</p>
+                    </div>
+                </div>
+
+                <!-- Producto 9 -->
+                <div class="product-card animate-left animate-delay-2">
+                    <div class="product-image">
+                        <img src="https://images.unsplash.com/photo-1519681393784-d120267933ba?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80" alt="Lavanda">
+                    </div>
+                    <div class="product-info">
+                        <h3 class="product-title">Ramo de Lavanda</h3>
+                        <p class="product-price">$40.00</p>
+                    </div>
+                </div>
+
+                <!-- Producto 10 -->
+                <div class="product-card animate-right">
+                    <div class="product-image">
+                        <img src="https://images.unsplash.com/photo-1526397751294-331021109fbd?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1974&q=80" alt="Crisantemos">
+                    </div>
+                    <div class="product-info">
+                        <h3 class="product-title">Crisantemos Coloridos</h3>
+                        <p class="product-price">$45.00</p>
+                    </div>
+                </div>
+
+                <!-- Producto 11 -->
+                <div class="product-card animate-right animate-delay-1">
+                    <div class="product-image">
+                        <img src="https://images.unsplash.com/photo-1530103862676-de8c9debad1d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80" alt="Rosas Rojas">
+                    </div>
+                    <div class="product-info">
+                        <h3 class="product-title">Rosas Rojas Clásicas</h3>
+                        <p class="product-price">$60.00</p>
+                    </div>
+                </div>
+
+                <!-- Producto 12 -->
+                <div class="product-card animate-right animate-delay-2">
+                    <div class="product-image">
+                        <img src="https://images.unsplash.com/photo-1455659817273-f96807779a8a?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80" alt="Arreglo Mixto">
+                    </div>
+                    <div class="product-info">
+                        <h3 class="product-title">Arreglo Mixto Premium</h3>
+                        <p class="product-price">$75.00</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="promos" class="promos-section">
+        <h2 class="section-title animate-left">Nuestras Promociones</h2>
+        <div class="promos-container">
+            <div class="promo-card animate-left">
+                <div class="promo-icon">
+                    <i class="fas fa-percentage"></i>
+                </div>
+                <div class="promo-content">
+                    <h3>Descuento de Temporada</h3>
+                    <p>Obtén un 20% de descuento en todos nuestros arreglos florales de primavera. Válido hasta el 30 de junio.</p>
+                </div>
+            </div>
+
+            <div class="promo-card animate-right">
+                <div class="promo-icon">
+                    <i class="fas fa-gift"></i>
+                </div>
+                <div class="promo-content">
+                    <h3>Compra 2, lleva 1 gratis</h3>
+                    <p>En la compra de dos ramos de rosas, lleva un tercero completamente gratis. Perfecto para regalar.</p>
+                </div>
+            </div>
+
+            <div class="promo-card animate-left">
+                <div class="promo-icon">
+                    <i class="fas fa-truck"></i>
+                </div>
+                <div class="promo-content">
+                    <h3>Envío Gratis</h3>
+                    <p>En compras superiores a $100, tu envío es completamente gratis dentro de la ciudad.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="contacto" class="contact-section">
+        <h2 class="section-title animate-left">Contáctanos</h2>
+        <div class="contact-container">
+            <div class="contact-info animate-left">
+                <h3>Estamos aquí para ayudarte</h3>
+                <p>¿Tienes preguntas sobre nuestros productos o servicios? No dudes en contactarnos.</p>
+                
+                <div class="social-links">
+                    <a href="#" class="social-link"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
+                    <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
+                    <a href="#" class="social-link"><i class="fab fa-whatsapp"></i></a>
+                </div>
+            </div>
+
+            <div class="contact-form animate-right">
+                <form>
+                    <div class="form-group">
+                        <label for="name">Nombre</label>
+                        <input type="text" id="name" placeholder="Tu nombre">
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Correo Electrónico</label>
+                        <input type="email" id="email" placeholder="tu@email.com">
+                    </div>
+                    <div class="form-group">
+                        <label for="message">Mensaje</label>
+                        <textarea id="message" placeholder="Tu mensaje..."></textarea>
+                    </div>
+                    <button type="submit" class="btn">Enviar Mensaje</button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <p>&copy; 2025 <a href="index.html">TwentyFox</a>. Todos los derechos reservados. Página desarrollada por <a href="#">Alejandro Téllez</a>.</p>
+    </footer>
+
+    <script>
+        // Menú móvil
+        const menuToggle = document.querySelector('.menu-toggle');
+        const nav = document.querySelector('nav');
+
+        menuToggle.addEventListener('click', () => {
+            nav.classList.toggle('active');
+            menuToggle.innerHTML = nav.classList.contains('active') ? 
+                '<i class="fas fa-times"></i>' : '<i class="fas fa-bars"></i>';
+        });
+
+        // Cerrar menú al hacer clic en un enlace
+        const navLinks = document.querySelectorAll('nav ul li a');
+        navLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                if (window.innerWidth <= 768) {
+                    nav.classList.remove('active');
+                    menuToggle.innerHTML = '<i class="fas fa-bars"></i>';
+                }
+            });
+        });
+
+        // Scroll suave
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                const targetId = this.getAttribute('href');
+                const targetElement = document.querySelector(targetId);
+                
+                if (targetElement) {
+                    window.scrollTo({
+                        top: targetElement.offsetTop - 70,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+
+        // Animaciones al hacer scroll
+        const animateElements = document.querySelectorAll('.animate-left, .animate-right');
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateX(0)';
+                }
+            });
+        }, { threshold: 0.1 });
+
+        animateElements.forEach(element => {
+            observer.observe(element);
+        });
+
+        // Efecto de carga inicial
+        window.addEventListener('load', () => {
+            document.body.style.opacity = '1';
+        });
+
+        document.body.style.opacity = '0';
+        document.body.style.transition = 'opacity 0.5s ease';
+    </script>
+</body>
+</html>
