@@ -1,0 +1,1084 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Screen Recorder Pro | By RataLife</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #6c5ce7;
+            --secondary: #a29bfe;
+            --dark: #2d3436;
+            --light: #f5f6fa;
+            --accent: #fd79a8;
+            --success: #00b894;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, var(--dark), #1e272e);
+            color: var(--light);
+            min-height: 100vh;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        .mobile-warning {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--dark);
+            z-index: 1000;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .mobile-warning i {
+            font-size: 3rem;
+            color: var(--accent);
+            margin-bottom: 20px;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+
+        .mobile-warning h2 {
+            font-size: 2rem;
+            margin-bottom: 15px;
+            color: var(--accent);
+        }
+
+        .mobile-warning p {
+            font-size: 1.2rem;
+            max-width: 500px;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeIn 0.8s forwards 0.3s;
+        }
+
+        @keyframes fadeIn {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 3rem;
+            position: relative;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--light);
+        }
+
+        .logo i {
+            color: var(--primary);
+            animation: spin 10s linear infinite;
+        }
+
+        @keyframes spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        .settings-btn {
+            background: rgba(255, 255, 255, 0.1);
+            border: none;
+            color: var(--light);
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .settings-btn:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: rotate(30deg);
+        }
+
+        .hero {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1.5rem;
+            background: linear-gradient(to right, var(--primary), var(--accent));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            animation: gradientShift 8s ease infinite;
+            background-size: 200% auto;
+        }
+
+        @keyframes gradientShift {
+            0% { background-position: 0% center; }
+            50% { background-position: 100% center; }
+            100% { background-position: 0% center; }
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            color: rgba(255, 255, 255, 0.7);
+            max-width: 700px;
+            margin: 0 auto 2rem;
+            line-height: 1.6;
+        }
+
+        .recorder-container {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 2rem;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            margin-bottom: 3rem;
+            transform: perspective(1000px) rotateX(0deg);
+            transition: transform 0.5s ease;
+        }
+
+        .recorder-container:hover {
+            transform: perspective(1000px) rotateX(5deg);
+        }
+
+        .preview-container {
+            width: 100%;
+            height: 400px;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 10px;
+            margin-bottom: 2rem;
+            overflow: hidden;
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border: 2px dashed rgba(255, 255, 255, 0.1);
+        }
+
+        .preview-placeholder {
+            text-align: center;
+            color: rgba(255, 255, 255, 0.5);
+        }
+
+        .preview-placeholder i {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+            color: var(--secondary);
+        }
+
+        .preview-video {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            display: none;
+        }
+
+        .controls {
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .control-btn {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            border: none;
+            background: var(--primary);
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(108, 92, 231, 0.4);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .control-btn::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 5px;
+            height: 5px;
+            background: rgba(255, 255, 255, 0.5);
+            opacity: 0;
+            border-radius: 100%;
+            transform: scale(1, 1) translate(-50%);
+            transform-origin: 50% 50%;
+        }
+
+        .control-btn:focus:not(:active)::after {
+            animation: ripple 1s ease-out;
+        }
+
+        @keyframes ripple {
+            0% {
+                transform: scale(0, 0);
+                opacity: 0.5;
+            }
+            100% {
+                transform: scale(20, 20);
+                opacity: 0;
+            }
+        }
+
+        .control-btn:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(108, 92, 231, 0.6);
+        }
+
+        .control-btn.stop {
+            background: var(--accent);
+            box-shadow: 0 5px 15px rgba(253, 121, 168, 0.4);
+        }
+
+        .control-btn.stop:hover {
+            box-shadow: 0 8px 25px rgba(253, 121, 168, 0.6);
+        }
+
+        .control-btn:disabled {
+            background: #636e72;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
+        .options {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .option-btn {
+            background: rgba(255, 255, 255, 0.1);
+            border: none;
+            color: var(--light);
+            padding: 0.8rem 1.5rem;
+            border-radius: 30px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .option-btn:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .option-btn.active {
+            background: var(--primary);
+        }
+
+        .download-btn {
+            background: var(--success);
+            border: none;
+            color: white;
+            padding: 1rem 2rem;
+            border-radius: 30px;
+            cursor: pointer;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin: 2rem auto 0;
+            transition: all 0.3s ease;
+            opacity: 0;
+            transform: translateY(20px);
+        }
+
+        .download-btn.show {
+            opacity: 1;
+            transform: translateY(0);
+            animation: bounce 2s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-5px); }
+        }
+
+        .download-btn:hover {
+            background: #00a884;
+            box-shadow: 0 5px 20px rgba(0, 184, 148, 0.4);
+        }
+
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 4rem;
+        }
+
+        .feature-card {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 2rem;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .feature-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+            border-color: var(--primary);
+        }
+
+        .feature-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1.5rem;
+            color: var(--primary);
+        }
+
+        .feature-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .feature-card p {
+            color: rgba(255, 255, 255, 0.7);
+            line-height: 1.6;
+        }
+
+        .floating-icons {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+            overflow: hidden;
+        }
+
+        .floating-icon {
+            position: absolute;
+            opacity: 0.1;
+            color: var(--primary);
+            animation: float linear infinite;
+        }
+
+        @keyframes float {
+            0% {
+                transform: translateY(0) rotate(0deg);
+            }
+            100% {
+                transform: translateY(-100vh) rotate(360deg);
+            }
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 5rem;
+            padding: 2rem;
+            color: rgba(255, 255, 255, 0.5);
+            font-size: 0.9rem;
+        }
+
+        /* Animaciones para los elementos */
+        .feature-card:nth-child(1) { animation-delay: 0.1s; }
+        .feature-card:nth-child(2) { animation-delay: 0.2s; }
+        .feature-card:nth-child(3) { animation-delay: 0.3s; }
+
+        .animate {
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeInUp 0.6s forwards;
+        }
+
+        @keyframes fadeInUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Modal de configuración */
+        .settings-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(5px);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 100;
+            opacity: 0;
+            pointer-events: none;
+            transition: all 0.3s ease;
+        }
+
+        .settings-modal.active {
+            opacity: 1;
+            pointer-events: all;
+        }
+
+        .settings-content {
+            background: linear-gradient(145deg, #2d3436, #1e272e);
+            border-radius: 20px;
+            padding: 2rem;
+            width: 90%;
+            max-width: 600px;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transform: scale(0.9);
+            transition: all 0.3s ease;
+        }
+
+        .settings-modal.active .settings-content {
+            transform: scale(1);
+        }
+
+        .settings-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .settings-header h2 {
+            font-size: 1.8rem;
+            color: var(--primary);
+        }
+
+        .close-settings {
+            background: none;
+            border: none;
+            color: var(--light);
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        .setting-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .setting-group h3 {
+            margin-bottom: 1rem;
+            color: var(--secondary);
+            font-size: 1.2rem;
+        }
+
+        .setting-option {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.8rem 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .setting-option label {
+            cursor: pointer;
+        }
+
+        select, input[type="range"] {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: white;
+            padding: 0.5rem;
+            border-radius: 5px;
+        }
+
+        input[type="range"] {
+            width: 200px;
+        }
+
+        .save-settings {
+            background: var(--primary);
+            border: none;
+            color: white;
+            padding: 0.8rem 1.5rem;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: 600;
+            margin-top: 1rem;
+            width: 100%;
+            transition: all 0.3s ease;
+        }
+
+        .save-settings:hover {
+            background: #5a4bd1;
+        }
+
+        /* Notificaciones */
+        .notification {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            background: var(--success);
+            color: white;
+            padding: 1rem 1.5rem;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            z-index: 100;
+            transform: translateX(150%);
+            transition: transform 0.3s ease;
+        }
+
+        .notification.show {
+            transform: translateX(0);
+        }
+
+        .notification.error {
+            background: #d63031;
+        }
+
+        .notification.warning {
+            background: #fdcb6e;
+            color: var(--dark);
+        }
+
+        /* Efectos de grabación */
+        .recording-indicator {
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #d63031;
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 30px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            z-index: 90;
+            box-shadow: 0 3px 10px rgba(214, 48, 49, 0.3);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .recording-indicator.active {
+            opacity: 1;
+        }
+
+        .recording-indicator::before {
+            content: '';
+            width: 10px;
+            height: 10px;
+            background: white;
+            border-radius: 50%;
+            animation: recordingPulse 1.5s infinite;
+        }
+
+        @keyframes recordingPulse {
+            0% { opacity: 1; }
+            50% { opacity: 0.3; }
+            100% { opacity: 1; }
+        }
+
+        /* Timer */
+        .recording-timer {
+            font-family: 'Courier New', monospace;
+            font-weight: bold;
+        }
+
+        /* Efecto de ondas */
+        .wave-effect {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            overflow: hidden;
+            z-index: -1;
+        }
+
+        .wave {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 200%;
+            height: 100%;
+            background: url('data:image/svg+xml;utf8,<svg viewBox="0 0 1200 120" xmlns="http://www.w3.org/2000/svg"><path d="M0,0V46.29c47.79,22.2,103.59,32.17,158,28,70.36-5.37,136.33-33.31,206.8-37.5C438.64,32.43,512.34,53.67,583,72.05c69.27,18,138.3,24.88,209.4,13.08,36.15-6,69.85-17.84,104.45-29.34C989.49,25,1113-14.29,1200,52.47V0Z" opacity=".25" fill="%236c5ce7"/><path d="M0,0V15.81C13,36.92,27.64,56.86,47.69,72.05,99.41,111.27,165,111,224.58,91.58c31.15-10.15,60.09-26.07,89.67-39.8,40.92-19,84.73-46,130.83-49.67,36.26-2.85,70.9,9.42,98.6,31.56,31.77,25.39,62.32,62,103.63,73,40.44,10.79,81.35-6.69,119.13-24.28s75.16-39,116.92-43.05c59.73-5.85,113.28,22.88,168.9,38.84,30.2,8.66,59,6.17,87.09-7.5,22.43-10.89,48-26.93,60.65-49.24V0Z" opacity=".5" fill="%236c5ce7"/><path d="M0,0V5.63C149.93,59,314.09,71.32,475.83,42.57c43-7.64,84.23-20.12,127.61-26.46,59-8.63,112.48,12.24,165.56,35.4C827.93,77.22,886,95.24,951.2,90c86.53-7,172.46-45.71,248.8-84.81V0Z" fill="%236c5ce7"/></svg>') repeat-x;
+            background-size: 50% 100%;
+            animation: wave 15s linear infinite;
+            opacity: 0.1;
+        }
+
+        @keyframes wave {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
+
+        /* Responsive check */
+        @media (max-width: 768px) {
+            .mobile-warning {
+                display: flex;
+            }
+            
+            .container {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="mobile-warning">
+        <i class="fas fa-desktop"></i>
+        <h2>Pantalla demasiado pequeña</h2>
+        <p>Esta aplicación está diseñada específicamente para dispositivos de escritorio con pantallas más grandes. Por favor, accede desde una computadora para utilizar todas las funciones de grabación.</p>
+    </div>
+
+    <div class="container">
+        <header>
+            <div class="logo">
+                <i class="fas fa-video"></i>
+                <span>ScreenRec Pro</span>
+            </div>
+            <button class="settings-btn" id="settingsBtn">
+                <i class="fas fa-cog"></i>
+            </button>
+        </header>
+
+        <div class="hero">
+            <h1>Grabación de Pantalla Profesional | By RataLife</h1>
+            <p>Captura tu pantalla en la más alta calidad con audio incluido. Perfecto para tutoriales, presentaciones y contenido creativo.</p>
+        </div>
+
+        <div class="recorder-container">
+            <div class="preview-container" id="previewContainer">
+                <div class="preview-placeholder">
+                    <i class="fas fa-expand"></i>
+                    <p>La vista previa aparecerá aquí</p>
+                </div>
+                <video class="preview-video" id="previewVideo" controls></video>
+            </div>
+
+            <div class="controls">
+                <button class="control-btn" id="startBtn" title="Iniciar grabación">
+                    <i class="fas fa-circle"></i>
+                </button>
+                <button class="control-btn stop" id="stopBtn" disabled title="Detener grabación">
+                    <i class="fas fa-stop"></i>
+                </button>
+            </div>
+
+            <div class="options">
+                <button class="option-btn active" id="fullScreenBtn">
+                    <i class="fas fa-expand"></i> Pantalla completa
+                </button>
+                <button class="option-btn" id="windowBtn">
+                    <i class="fas fa-window-maximize"></i> Ventana de aplicación
+                </button>
+                <button class="option-btn" id="tabBtn">
+                    <i class="fas fa-window-restore"></i> Pestaña del navegador
+                </button>
+                <button class="option-btn" id="audioBtn">
+                    <i class="fas fa-microphone"></i> Incluir audio
+                </button>
+            </div>
+
+            <button class="download-btn" id="downloadBtn">
+                <i class="fas fa-download"></i> Descargar grabación
+            </button>
+        </div>
+
+        <div class="features">
+            <div class="feature-card animate" style="animation-delay: 0.1s;">
+                <div class="feature-icon">
+                    <i class="fas fa-hd"></i>
+                </div>
+                <h3>Alta calidad</h3>
+                <p>Graba en resoluciones hasta 4K con una tasa de bits ajustable para obtener el mejor equilibrio entre calidad y tamaño de archivo.</p>
+            </div>
+            <div class="feature-card animate" style="animation-delay: 0.2s;">
+                <div class="feature-icon">
+                    <i class="fas fa-microphone-alt"></i>
+                </div>
+                <h3>Audio cristalino</h3>
+                <p>Captura audio del sistema y de tu micrófono simultáneamente con controles de volumen independientes.</p>
+            </div>
+            <div class="feature-card animate" style="animation-delay: 0.3s;">
+                <div class="feature-icon">
+                    <i class="fas fa-bolt"></i>
+                </div>
+                <h3>Rendimiento optimizado</h3>
+                <p>Uso mínimo de CPU gracias a nuestra tecnología de codificación por hardware acelerada.</p>
+            </div>
+        </div>
+
+        <div class="floating-icons" id="floatingIcons"></div>
+        <div class="wave-effect">
+            <div class="wave"></div>
+        </div>
+    </div>
+
+    <div class="recording-indicator" id="recordingIndicator">
+        <span class="recording-timer" id="recordingTimer">00:00:00</span>
+    </div>
+
+    <div class="settings-modal" id="settingsModal">
+        <div class="settings-content">
+            <div class="settings-header">
+                <h2>Configuración</h2>
+                <button class="close-settings" id="closeSettings">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            
+            <div class="setting-group">
+                <h3>Calidad de video</h3>
+                <div class="setting-option">
+                    <label for="videoQuality">Resolución:</label>
+                    <select id="videoQuality">
+                        <option value="1080">1080p (Recomendado)</option>
+                        <option value="720">720p</option>
+                        <option value="480">480p</option>
+                        <option value="max">Máxima disponible</option>
+                    </select>
+                </div>
+                <div class="setting-option">
+                    <label for="frameRate">Tasa de fotogramas:</label>
+                    <select id="frameRate">
+                        <option value="30">30 fps</option>
+                        <option value="60">60 fps</option>
+                        <option value="24">24 fps</option>
+                    </select>
+                </div>
+                <div class="setting-option">
+                    <label for="bitrate">Tasa de bits (calidad):</label>
+                    <select id="bitrate">
+                        <option value="high">Alta (mejor calidad)</option>
+                        <option value="medium" selected>Media (recomendado)</option>
+                        <option value="low">Baja (archivos pequeños)</option>
+                    </select>
+                </div>
+            </div>
+            
+            <div class="setting-group">
+                <h3>Audio</h3>
+                <div class="setting-option">
+                    <label for="audioSource">Fuente de audio:</label>
+                    <select id="audioSource">
+                        <option value="mic">Micrófono</option>
+                        <option value="system">Audio del sistema</option>
+                        <option value="both">Ambos</option>
+                    </select>
+                </div>
+                <div class="setting-option">
+                    <label for="micVolume">Volumen micrófono:</label>
+                    <input type="range" id="micVolume" min="0" max="100" value="80">
+                </div>
+                <div class="setting-option">
+                    <label for="systemVolume">Volumen sistema:</label>
+                    <input type="range" id="systemVolume" min="0" max="100" value="100">
+                </div>
+            </div>
+            
+            <button class="save-settings" id="saveSettings">Guardar configuración</button>
+        </div>
+    </div>
+
+    <div class="notification" id="notification">
+        <i class="fas fa-check-circle"></i>
+        <span id="notificationText">Notificación de ejemplo</span>
+    </div>
+
+    <footer>
+        <p>© 2025 ScreenRec Pro. Todos los derechos reservados. | Page developed by RataLife</p>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const startBtn = document.getElementById('startBtn');
+            const stopBtn = document.getElementById('stopBtn');
+            const downloadBtn = document.getElementById('downloadBtn');
+            const previewContainer = document.getElementById('previewContainer');
+            const previewVideo = document.getElementById('previewVideo');
+            const previewPlaceholder = document.querySelector('.preview-placeholder');
+            const recordingIndicator = document.getElementById('recordingIndicator');
+            const recordingTimer = document.getElementById('recordingTimer');
+            const notification = document.getElementById('notification');
+            const notificationText = document.getElementById('notificationText');
+            const settingsBtn = document.getElementById('settingsBtn');
+            const settingsModal = document.getElementById('settingsModal');
+            const closeSettings = document.getElementById('closeSettings');
+            const saveSettings = document.getElementById('saveSettings');
+            const floatingIcons = document.getElementById('floatingIcons');
+            
+            let mediaRecorder;
+            let recordedChunks = [];
+            let recordingStartTime;
+            let timerInterval;
+            let audioEnabled = false;
+            let recordingType = 'fullscreen';
+            
+            createFloatingIcons();
+            
+            setupAnimations();
+            
+            startBtn.addEventListener('click', startRecording);
+            stopBtn.addEventListener('click', stopRecording);
+            downloadBtn.addEventListener('click', downloadRecording);
+            settingsBtn.addEventListener('click', () => settingsModal.classList.add('active'));
+            closeSettings.addEventListener('click', () => settingsModal.classList.remove('active'));
+            saveSettings.addEventListener('click', saveSettingsHandler);
+            
+            document.getElementById('fullScreenBtn').addEventListener('click', () => {
+                setActiveOption('fullScreenBtn');
+                recordingType = 'fullscreen';
+            });
+            
+            document.getElementById('windowBtn').addEventListener('click', () => {
+                setActiveOption('windowBtn');
+                recordingType = 'window';
+            });
+            
+            document.getElementById('tabBtn').addEventListener('click', () => {
+                setActiveOption('tabBtn');
+                recordingType = 'tab';
+            });
+            
+            document.getElementById('audioBtn').addEventListener('click', () => {
+                audioEnabled = !document.getElementById('audioBtn').classList.contains('active');
+                setActiveOption('audioBtn');
+            });
+            
+            function createFloatingIcons() {
+                const icons = ['fa-video', 'fa-film', 'fa-camera', 'fa-play', 'fa-pause', 'fa-stop', 'fa-expand', 'fa-compress'];
+                
+                for (let i = 0; i < 20; i++) {
+                    const icon = document.createElement('i');
+                    icon.className = `fas ${icons[Math.floor(Math.random() * icons.length)]} floating-icon`;
+                    icon.style.left = `${Math.random() * 100}%`;
+                    icon.style.bottom = `-50px`;
+                    icon.style.fontSize = `${Math.random() * 20 + 10}px`;
+                    icon.style.animationDuration = `${Math.random() * 30 + 20}s`;
+                    icon.style.animationDelay = `${Math.random() * 5}s`;
+                    floatingIcons.appendChild(icon);
+                }
+            }
+            
+            function setupAnimations() {
+                const animateElements = document.querySelectorAll('.animate');
+                
+                animateElements.forEach((el, index) => {
+                    setTimeout(() => {
+                        el.style.animation = `fadeInUp 0.6s forwards ${index * 0.1}s`;
+                    }, 100);
+                });
+            }
+            
+            function setActiveOption(btnId) {
+                const btn = document.getElementById(btnId);
+                const isActive = btn.classList.contains('active');
+                
+                if (btnId === 'audioBtn') {
+                    btn.classList.toggle('active', !isActive);
+                } else {
+                    document.querySelectorAll('.option-btn').forEach(b => b.classList.remove('active'));
+                    btn.classList.add('active');
+                }
+            }
+            
+            async function startRecording() {
+                try {
+                    showNotification('Preparando grabación...', 'warning');
+                    
+                    let stream;
+                    const constraints = {
+                        video: {
+                            cursor: 'always'
+                        },
+                        audio: audioEnabled
+                    };
+                    
+                    if (recordingType === 'fullscreen') {
+                        stream = await navigator.mediaDevices.getDisplayMedia({
+                            video: constraints.video,
+                            audio: constraints.audio
+                        });
+                    } else if (recordingType === 'window') {
+                        stream = await navigator.mediaDevices.getDisplayMedia({
+                            video: {
+                                ...constraints.video,
+                                displaySurface: 'window'
+                            },
+                            audio: constraints.audio
+                        });
+                    } else if (recordingType === 'tab') {
+                        stream = await navigator.mediaDevices.getDisplayMedia({
+                            video: {
+                                ...constraints.video,
+                                displaySurface: 'browser'
+                            },
+                            audio: constraints.audio
+                        });
+                    }
+                    
+                    previewVideo.srcObject = stream;
+                    previewPlaceholder.style.display = 'none';
+                    previewVideo.style.display = 'block';
+                    
+                    mediaRecorder = new MediaRecorder(stream, {
+                        mimeType: 'video/webm;codecs=vp9',
+                        bitsPerSecond: 2500000 // 2.5 Mbps
+                    });
+                    
+                    mediaRecorder.ondataavailable = handleDataAvailable;
+                    mediaRecorder.onstop = handleStop;
+                    
+                    recordedChunks = [];
+                    mediaRecorder.start(100); // Recopilar datos cada 100ms
+                    recordingStartTime = Date.now();
+                    startTimer();
+                    
+                    startBtn.disabled = true;
+                    stopBtn.disabled = false;
+                    recordingIndicator.classList.add('active');
+                    
+                    showNotification('Grabación iniciada', 'success');
+                    
+                    stream.getVideoTracks()[0].onended = () => {
+                        stopRecording();
+                    };
+                    
+                } catch (error) {
+                    console.error('Error al iniciar la grabación:', error);
+                    showNotification(`Error: ${error.message}`, 'error');
+                }
+            }
+            
+            function handleDataAvailable(event) {
+                if (event.data.size > 0) {
+                    recordedChunks.push(event.data);
+                }
+            }
+            
+            function stopRecording() {
+                if (mediaRecorder && mediaRecorder.state !== 'inactive') {
+                    mediaRecorder.stop();
+                    mediaRecorder.stream.getTracks().forEach(track => track.stop());
+                    
+                    startBtn.disabled = false;
+                    stopBtn.disabled = true;
+                    recordingIndicator.classList.remove('active');
+                    clearInterval(timerInterval);
+                    
+                    showNotification('Grabación completada', 'success');
+                }
+            }
+            
+            function handleStop() {
+                const blob = new Blob(recordedChunks, {
+                    type: 'video/webm'
+                });
+                
+                const url = URL.createObjectURL(blob);
+                previewVideo.srcObject = null;
+                previewVideo.src = url;
+                previewVideo.controls = true;
+                
+                downloadBtn.classList.add('show');
+            }
+            
+            function downloadRecording() {
+                if (recordedChunks.length === 0) {
+                    showNotification('No hay grabación para descargar', 'error');
+                    return;
+                }
+                
+                const blob = new Blob(recordedChunks, {
+                    type: 'video/webm'
+                });
+                
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.style.display = 'none';
+                a.href = url;
+                a.download = `grabacion-${new Date().toISOString().slice(0, 19).replace(/[:T]/g, '-')}.webm`;
+                document.body.appendChild(a);
+                a.click();
+                
+                setTimeout(() => {
+                    document.body.removeChild(a);
+                    URL.revokeObjectURL(url);
+                }, 100);
+                
+                showNotification('Descarga iniciada', 'success');
+            }
+            
+            function startTimer() {
+                clearInterval(timerInterval);
+                recordingTimer.textContent = '00:00:00';
+                
+                timerInterval = setInterval(() => {
+                    const elapsed = Math.floor((Date.now() - recordingStartTime) / 1000);
+                    const hours = Math.floor(elapsed / 3600).toString().padStart(2, '0');
+                    const minutes = Math.floor((elapsed % 3600) / 60).toString().padStart(2, '0');
+                    const seconds = (elapsed % 60).toString().padStart(2, '0');
+                    recordingTimer.textContent = `${hours}:${minutes}:${seconds}`;
+                }, 1000);
+            }
+            
+            function showNotification(message, type = 'success') {
+                notification.className = 'notification';
+                notification.classList.add(type, 'show');
+                notificationText.textContent = message;
+                
+                setTimeout(() => {
+                    notification.classList.remove('show');
+                }, 3000);
+            }
+            
+            function saveSettingsHandler() {
+                showNotification('Configuración guardada', 'success');
+                settingsModal.classList.remove('active');
+            }
+        });
+    </script>
+</body>
+</html>
