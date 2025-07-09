@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IntegRat - Calculadora de Integrales Avanzada</title>
+    <link rel="stylesheet" href="estilito.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div id="particles-js"></div>
+    
+    <header class="glass">
+        <div class="logo">
+            <h1>Integ<span>Rat</span></h1>
+            <p>Calculadora de Integrales Avanzada</p>
+        </div>
+        <nav>
+            <ul>
+                <li><a href="https://twentyfox.lat/integrat.html" class="active">Calculadora</a></li>
+                <li><a href="https://www.youtube.com/results?search_query=integrales+julioprofe">Tutoriales</a></li>
+                <li><a href="https://twentyfox.lat/ale.html">Desarrollador</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <section class="calculator-container glass">
+            <div class="input-section">
+                <div class="integral-symbol">∫</div>
+                <input type="text" id="integral-input" placeholder="Ingresa tu función aquí (ej: x^2, sin(x), e^x)" autocomplete="off">
+                <div class="dx">dx</div>
+            </div>
+            
+            <div class="controls">
+                <div class="keyboard-shortcuts">
+                    <button class="shortcut-btn" data-insert="^">^</button>
+                    <button class="shortcut-btn" data-insert="√">√</button>
+                    <button class="shortcut-btn" data-insert="π">π</button>
+                    <button class="shortcut-btn" data-insert="e">e</button>
+                    <button class="shortcut-btn" data-insert="sin(">sin</button>
+                    <button class="shortcut-btn" data-insert="cos(">cos</button>
+                    <button class="shortcut-btn" data-insert="tan(">tan</button>
+                    <button class="shortcut-btn" data-insert="ln(">ln</button>
+                </div>
+                
+                <div class="action-buttons">
+                    <button id="calculate-btn" class="btn-primary">
+                        <i class="fas fa-calculator"></i> Calcular Integral
+                    </button>
+                    <button id="clear-btn" class="btn-secondary">
+                        <i class="fas fa-trash-alt"></i> Limpiar
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <section class="result-container glass">
+            <div class="tabs">
+                <button class="tab-btn active" data-tab="solution">Solución</button>
+                <button class="tab-btn" data-tab="steps">Pasos</button>
+                <button class="tab-btn" data-tab="graph">Gráfico</button>
+            </div>
+            
+            <div class="tab-content active" id="solution-tab">
+                <div class="result-placeholder">
+                    <i class="fas fa-integral"></i>
+                    <p>Ingresa una función para calcular su integral</p>
+                </div>
+                <div class="result-content" id="result-content" style="display: none;">
+                    <div class="original-function">
+                        <h3>Función original:</h3>
+                        <div id="original-function" class="math-display"></div>
+                    </div>
+                    <div class="integral-result">
+                        <h3>Resultado:</h3>
+                        <div id="integral-result" class="math-display"></div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="tab-content" id="steps-tab">
+                <div class="steps-placeholder">
+                    <i class="fas fa-list-ol"></i>
+                    <p>Los pasos de solución aparecerán aquí</p>
+                </div>
+                <div class="steps-content" id="steps-content" style="display: none;">
+                    <h3>Pasos de solución:</h3>
+                    <ol id="solution-steps"></ol>
+                </div>
+            </div>
+            
+            <div class="tab-content" id="graph-tab">
+                <div class="graph-placeholder">
+                    <i class="fas fa-chart-line"></i>
+                    <p>La gráfica de la función aparecerá aquí</p>
+                </div>
+                <div class="graph-content" id="graph-content" style="display: none;">
+                    <canvas id="function-graph"></canvas>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="glass">
+        <p>&copy; 2025 <a href="https://twentyfox.lat">TwentyFox</a>. Todos los derechos reservados. Página desarrollada por <a href="https://twentyfox.lat/ale.html">Alejandro Téllez</a>.</p>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-AMS_CHTML"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/mathjs@11.6.0/lib/browser/math.min.js"></script>
+    <script src="sexito.js"></script>
+</body>
+</html>
