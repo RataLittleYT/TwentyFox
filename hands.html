@@ -1,0 +1,680 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MotionSense | Detección de Movimientos</title>
+    <link rel="icon" href="https://i.ibb.co/N2wrjS5r/Dise-o-sin-t-tulo-removebg-preview.png">
+    <style>
+        :root {
+            --primary: #2563eb;
+            --primary-dark: #1d4ed8;
+            --secondary: #10b981;
+            --dark: #1e293b;
+            --light: #f8fafc;
+            --error: #ef4444;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--dark);
+            color: var(--light);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            -webkit-user-select: none; 
+            -moz-user-select: none;   
+            -ms-user-select: none;    
+            user-select: none;  
+        }
+
+        header {
+            background-color: rgba(30, 41, 59, 0.8);
+            backdrop-filter: blur(10px);
+            padding: 1.5rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-weight: 700;
+            font-size: 1.5rem;
+        }
+
+        .logo-icon {
+            width: 32px;
+            height: 32px;
+            background-color: var(--primary);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 1.5rem;
+        }
+
+        .nav-links a {
+            color: var(--light);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s;
+            position: relative;
+        }
+
+        .nav-links a:hover {
+            color: var(--secondary);
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background-color: var(--secondary);
+            transition: width 0.3s;
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        main {
+            flex: 1;
+            padding: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+            width: 100%;
+        }
+
+        .hero {
+            text-align: center;
+            margin-bottom: 3rem;
+            animation: fadeIn 1s ease-out;
+        }
+
+        .hero h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            background: linear-gradient(to right, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .hero p {
+            font-size: 1.1rem;
+            color: #94a3b8;
+            max-width: 700px;
+            margin: 0 auto 2rem;
+        }
+
+        .detection-container {
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+        }
+
+        .video-container {
+            position: relative;
+            width: 100%;
+            max-width: 800px;
+            margin: 0 auto;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.3);
+            background-color: rgba(30, 41, 59, 0.5);
+            aspect-ratio: 16/9;
+        }
+
+        #video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        #canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+
+        .controls {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .btn-primary {
+            background-color: var(--primary);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background-color: var(--primary-dark);
+            transform: translateY(-2px);
+        }
+
+        .btn-secondary {
+            background-color: var(--secondary);
+            color: white;
+        }
+
+        .btn-secondary:hover {
+            background-color: #0d9c6e;
+            transform: translateY(-2px);
+        }
+
+        .btn-outline {
+            background-color: transparent;
+            border: 2px solid var(--light);
+            color: var(--light);
+        }
+
+        .btn-outline:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+            transform: translateY(-2px);
+        }
+
+        .stats-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .stat-card {
+            background-color: rgba(30, 41, 59, 0.7);
+            border-radius: 12px;
+            padding: 1.5rem;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px -5px rgba(0, 0, 0, 0.2);
+        }
+
+        .stat-card h3 {
+            color: #94a3b8;
+            font-size: 0.9rem;
+            margin-bottom: 0.5rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .stat-card p {
+            font-size: 1.8rem;
+            font-weight: 700;
+            background: linear-gradient(to right, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .loading {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 1rem;
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(30, 41, 59, 0.8);
+            z-index: 10;
+        }
+
+        .spinner {
+            width: 50px;
+            height: 50px;
+            border: 5px solid rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            border-top-color: var(--primary);
+            animation: spin 1s ease-in-out infinite;
+        }
+
+        .loading p {
+            color: #94a3b8;
+        }
+
+        footer {
+            background-color: rgba(15, 23, 42, 0.8);
+            padding: 2rem;
+            text-align: center;
+            margin-top: 3rem;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .footer-links a {
+            color: #94a3b8;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .footer-links a:hover {
+            color: var(--secondary);
+        }
+
+        .copyright {
+            color: #64748b;
+            font-size: 0.9rem;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        @media (max-width: 768px) {
+            .navbar {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .nav-links {
+                gap: 1rem;
+            }
+
+            .hero h1 {
+                font-size: 2rem;
+            }
+
+            .controls {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .btn {
+                width: 100%;
+                justify-content: center;
+            }
+        }
+
+        /* Animaciones para los puntos de detección */
+        @keyframes pulse {
+            0% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.2); opacity: 0.7; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        .detection-point {
+            animation: pulse 1.5s infinite;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="navbar">
+            <div class="logo">
+                <div class="logo-icon">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M12 2L3 7L12 12L21 7L12 2Z" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M3 12L12 17L21 12" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M3 17L12 22L21 17" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </div>
+                <span>MotionSense by A. Téllez</span>
+            </div>
+            <div class="nav-links">
+                <a href="#demo">Demo</a>
+                <a href="https://twentyfox.lat/">Aplicaciones</a>
+                <a href="https://twentyfox.lat/ale.html">Contacto</a>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <section class="hero">
+            <h1>Detección Avanzada de Movimientos</h1>
+            <p>Una solución moderna para interactuar con tecnología usando gestos naturales. Controla sistemas, analiza posturas y mejora la interacción humano-computadora sin contacto físico. Hecho por Alejandro Téllez</p>
+        </section>
+
+        <section class="detection-container">
+            <div class="video-container">
+                <video id="video" playsinline></video>
+                <canvas id="canvas"></canvas>
+                <div class="loading" id="loading">
+                    <div class="spinner"></div>
+                    <p>Cargando modelo de detección...</p>
+                </div>
+            </div>
+
+            <div class="controls">
+                <button class="btn btn-primary" id="startBtn">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M10 8L16 12L10 16V8Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                    Iniciar
+                </button>
+                <button class="btn btn-secondary" id="stopBtn" disabled>
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        <rect x="8" y="8" width="8" height="8" rx="1" fill="currentColor"/>
+                    </svg>
+                    Detener
+                </button>
+                <button class="btn btn-outline" id="switchCameraBtn">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M23 19C23 19.5304 22.7893 20.0391 22.4142 20.4142C22.0391 20.7893 21.5304 21 21 21H3C2.46957 21 1.96086 20.7893 1.58579 20.4142C1.21071 20.0391 1 19.5304 1 19V8C1 7.46957 1.21071 6.96086 1.58579 6.58579C1.96086 6.21071 2.46957 6 3 6H7L9 3H15L17 6H21C21.5304 6 22.0391 6.21071 22.4142 6.58579C22.7893 6.96086 23 7.46957 23 8V19Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M12 17C14.2091 17 16 15.2091 16 13C16 10.7909 14.2091 9 12 9C9.79086 9 8 10.7909 8 13C8 15.2091 9.79086 17 12 17Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                    Cambiar Cámara
+                </button>
+            </div>
+
+            <div class="stats-container">
+                <div class="stat-card">
+                    <h3>Personas detectadas</h3>
+                    <p id="peopleCount">0</p>
+                </div>
+                <div class="stat-card">
+                    <h3>Puntos clave</h3>
+                    <p id="keypointsCount">0</p>
+                </div>
+                <div class="stat-card">
+                    <h3>Confianza media</h3>
+                    <p id="avgConfidence">0%</p>
+                </div>
+                <div class="stat-card">
+                    <h3>Estado</h3>
+                    <p id="statusText">Inactivo</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="footer-content">
+            <p class="copyright">© 2025 MotionSense by TwentyFox. Todos los derechos reservados. | Pagina desarrollada por Alejandro Téllez</p>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@3.11.0/dist/tf.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/pose-detection@0.0.6"></script>
+
+    <script>
+        // Variables globales
+        let video = document.getElementById('video');
+        let canvas = document.getElementById('canvas');
+        let ctx = canvas.getContext('2d');
+        let stream = null;
+        let detector = null;
+        let animationId = null;
+        let isRunning = false;
+        let facingMode = "user";
+        let stats = {
+            people: 0,
+            keypoints: 0,
+            confidence: 0
+        };
+
+        const startBtn = document.getElementById('startBtn');
+        const stopBtn = document.getElementById('stopBtn');
+        const switchCameraBtn = document.getElementById('switchCameraBtn');
+        const loadingElement = document.getElementById('loading');
+        const peopleCountElement = document.getElementById('peopleCount');
+        const keypointsCountElement = document.getElementById('keypointsCount');
+        const avgConfidenceElement = document.getElementById('avgConfidence');
+        const statusTextElement = document.getElementById('statusText');
+
+        document.addEventListener('DOMContentLoaded', async () => {
+            statusTextElement.textContent = "Cargando modelo...";
+            
+            try {
+                const model = poseDetection.SupportedModels.MoveNet;
+                const detectorConfig = {
+                    modelType: poseDetection.movenet.modelType.SINGLEPOSE_THUNDER,
+                    enableSmoothing: true
+                };
+                
+                await tf.ready();
+                
+                detector = await poseDetection.createDetector(model, detectorConfig);
+                
+                loadingElement.style.display = "none";
+                statusTextElement.textContent = "Listo";
+                
+                startBtn.disabled = false;
+                
+                console.log("Modelo cargado correctamente");
+            } catch (error) {
+                console.error("Error al cargar el modelo:", error);
+                loadingElement.innerHTML = `
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z" stroke="#ef4444" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M12 8V12" stroke="#ef4444" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M12 16H12.01" stroke="#ef4444" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                    <p>Error al cargar el modelo. Por favor, actualiza tu navegador.</p>
+                `;
+                statusTextElement.textContent = "Error";
+            }
+        });
+
+        async function startCamera() {
+            try {
+                statusTextElement.textContent = "Iniciando cámara...";
+                stream = await navigator.mediaDevices.getUserMedia({
+                    video: {
+                        facingMode: facingMode,
+                        width: { ideal: 1280 },
+                        height: { ideal: 720 }
+                    },
+                    audio: false
+                });
+                
+                video.srcObject = stream;
+                await video.play();
+                
+                canvas.width = video.videoWidth;
+                canvas.height = video.videoHeight;
+                
+                isRunning = true;
+                startBtn.disabled = true;
+                stopBtn.disabled = false;
+                statusTextElement.textContent = "Analizando...";
+                
+                detectPose();
+            } catch (error) {
+                console.error("Error al acceder a la cámara:", error);
+                statusTextElement.textContent = "Error de cámara";
+            }
+        }
+
+        function stopCamera() {
+            if (stream) {
+                stream.getTracks().forEach(track => track.stop());
+                stream = null;
+            }
+            
+            if (animationId) {
+                cancelAnimationFrame(animationId);
+                animationId = null;
+            }
+            
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            
+            isRunning = false;
+            startBtn.disabled = false;
+            stopBtn.disabled = true;
+            statusTextElement.textContent = "Detenido";
+            
+            stats.people = 0;
+            stats.keypoints = 0;
+            stats.confidence = 0;
+            updateStats();
+        }
+
+        async function switchCamera() {
+            if (!isRunning) return;
+            
+            facingMode = facingMode === "user" ? "environment" : "user";
+            stopCamera();
+            await startCamera();
+        }
+
+        async function detectPose() {
+            if (!isRunning) return;
+            
+            try {
+                const poses = await detector.estimatePoses(video);
+                
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                
+                ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+                
+                stats.people = poses.length;
+                stats.keypoints = 0;
+                let totalConfidence = 0;
+                let pointsWithConfidence = 0;
+                
+                poses.forEach(pose => {
+                    const keypoints = pose.keypoints;
+                    stats.keypoints += keypoints.length;
+                    
+                    drawConnections(keypoints);
+                    
+                    keypoints.forEach(keypoint => {
+                        if (keypoint.score > 0.2) { // Umbral de confianza
+                            drawKeypoint(keypoint);
+                            totalConfidence += keypoint.score;
+                            pointsWithConfidence++;
+                        }
+                    });
+                });
+                
+                stats.confidence = pointsWithConfidence > 0 
+                    ? Math.round((totalConfidence / pointsWithConfidence) * 100) 
+                    : 0;
+                
+                updateStats();
+                
+            } catch (error) {
+                console.error("Error en la detección:", error);
+            }
+            
+            animationId = requestAnimationFrame(detectPose);
+        }
+
+        function drawKeypoint(keypoint) {
+            const { x, y, score } = keypoint;
+            
+            if (score > 0.2) {
+                ctx.beginPath();
+                ctx.arc(x, y, 5, 0, 2 * Math.PI);
+                ctx.fillStyle = 'rgba(239, 68, 68, 0.8)';
+                ctx.fill();
+                
+                ctx.beginPath();
+                ctx.arc(x, y, 10, 0, 2 * Math.PI);
+                ctx.strokeStyle = 'rgba(239, 68, 68, 0.4)';
+                ctx.lineWidth = 2;
+                ctx.stroke();
+                
+                ctx.fillStyle = 'rgba(239, 68, 68, 0.8)';
+                ctx.fill();
+            }
+        }
+
+        function drawConnections(keypoints) {
+            const connections = [
+                // Cuerpo
+                [5, 6], [5, 7], [6, 8], [7, 9], [8, 10],
+                // Brazos
+                [5, 11], [6, 12], [11, 12], [11, 13], [12, 14], [13, 15], [14, 16],
+                // Piernas
+                [11, 23], [12, 24], [23, 24], [23, 25], [24, 26], [25, 27], [26, 28]
+            ];
+            
+            connections.forEach(connection => {
+                const [i, j] = connection;
+                const kp1 = keypoints[i];
+                const kp2 = keypoints[j];
+                
+                if (kp1 && kp2 && kp1.score > 0.2 && kp2.score > 0.2) {
+                    ctx.beginPath();
+                    ctx.moveTo(kp1.x, kp1.y);
+                    ctx.lineTo(kp2.x, kp2.y);
+                    ctx.strokeStyle = 'rgba(16, 185, 129, 0.8)';
+                    ctx.lineWidth = 2;
+                    ctx.stroke();
+                }
+            });
+        }
+
+        function updateStats() {
+            peopleCountElement.textContent = stats.people;
+            keypointsCountElement.textContent = stats.keypoints;
+            avgConfidenceElement.textContent = `${stats.confidence}%`;
+        }
+
+        startBtn.addEventListener('click', startCamera);
+        stopBtn.addEventListener('click', stopCamera);
+        switchCameraBtn.addEventListener('click', switchCamera);
+
+        window.addEventListener('beforeunload', () => {
+            stopCamera();
+        });
+    </script>
+</body>
+</html>
