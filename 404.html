@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Página no encontrada | 20Fox Servicios</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="icon" href="https://i.ibb.co/N2wrjS5r/Dise-o-sin-t-tulo-removebg-preview.png">
+    <style>
+        :root {
+            --primary: #6c5ce7;
+            --primary-light: #a29bfe;
+            --secondary: #00cec9;
+            --dark: #2d3436;
+            --darker: #1e272e;
+            --light: #f5f6fa;
+            --lighter: #ffffff;
+            
+            --bg: var(--darker);
+            --text: var(--light);
+            --accent: var(--primary);
+            --accent-hover: var(--primary-light);
+        }
+
+        [data-theme="light"] {
+            --bg: var(--lighter);
+            --text: var(--darker);
+            --accent: var(--secondary);
+            --accent-hover: var(--primary);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            text-align: center;
+            padding: 20px;
+            overflow: hidden;
+        }
+
+        .logo-container {
+            margin-bottom: 30px;
+            animation: fadeIn 1s ease;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--accent);
+            text-decoration: none;
+        }
+
+        .logo-icon {
+            font-size: 2.5rem;
+        }
+
+        .error-container {
+            max-width: 600px;
+            animation: fadeInUp 1s ease;
+        }
+
+        .error-code {
+            font-size: 8rem;
+            font-weight: 700;
+            color: var(--accent);
+            margin-bottom: 20px;
+            line-height: 1;
+            position: relative;
+            display: inline-block;
+        }
+
+        .error-code::after {
+            content: '🦊';
+            position: absolute;
+            right: -40px;
+            top: -20px;
+            font-size: 3rem;
+            animation: bounce 2s infinite;
+        }
+
+        h1 {
+            font-size: 2rem;
+            margin-bottom: 20px;
+        }
+
+        p {
+            font-size: 1.1rem;
+            margin-bottom: 30px;
+            opacity: 0.9;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 12px 30px;
+            background-color: var(--accent);
+            color: white;
+            border: none;
+            border-radius: 30px;
+            font-weight: 600;
+            text-decoration: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            margin: 10px;
+        }
+
+        .btn:hover {
+            background-color: var(--accent-hover);
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+        }
+
+        .btn-outline {
+            background-color: transparent;
+            border: 2px solid var(--accent);
+            color: var(--accent);
+        }
+
+        .btn-outline:hover {
+            background-color: var(--accent);
+            color: white;
+        }
+
+        .suggestions {
+            margin-top: 40px;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 15px;
+        }
+
+        .suggestion {
+            background-color: rgba(108, 92, 231, 0.1);
+            padding: 15px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            transition: transform 0.3s ease;
+        }
+
+        .suggestion:hover {
+            transform: translateY(-5px);
+        }
+
+        .suggestion i {
+            color: var(--accent);
+            font-size: 1.2rem;
+        }
+
+        .theme-toggle {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: none;
+            border: none;
+            color: var(--text);
+            font-size: 1.5rem;
+            cursor: pointer;
+            transition: transform 0.3s ease, color 0.3s ease;
+        }
+
+        .theme-toggle:hover {
+            transform: rotate(30deg);
+            color: var(--accent);
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes bounce {
+            0%, 100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-20px);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .error-code {
+                font-size: 6rem;
+            }
+            
+            .error-code::after {
+                right: -30px;
+                top: -15px;
+                font-size: 2rem;
+            }
+            
+            h1 {
+                font-size: 1.5rem;
+            }
+            
+            p {
+                font-size: 1rem;
+            }
+            
+            .btn {
+                padding: 10px 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <button class="theme-toggle" id="theme-toggle">
+        <i class="fas fa-moon"></i>
+    </button>
+
+    <div class="logo-container">
+        <a href="/" class="logo">
+            <span class="logo-icon">🦊</span>
+            <span>20Fox Servicios</span>
+        </a>
+    </div>
+
+    <div class="error-container">
+        <div class="error-code">404</div>
+        <h1>¡Vaya! Esta página se ha escondido</h1>
+        <p>Parece que el contenido que buscas ha decidido tomar un descanso. Mientras lo encontramos, ¿por qué no exploras otras áreas de nuestro sitio?</p>
+        
+        <div>
+            <a href="/" class="btn">Volver al inicio</a>
+        </div>
+        
+        <div class="suggestions">
+            <div class="suggestion">
+                <i class="fas fa-globe"></i>
+                <span>Diseño Web</span>
+            </div>
+            <div class="suggestion">
+                <i class="fas fa-camera"></i>
+                <span>Fotografía</span>
+            </div>
+            <div class="suggestion">
+                <i class="fas fa-ambulance"></i>
+                <span>Servicios Médicos</span>
+            </div>
+            <div class="suggestion">
+                <i class="fas fa-laptop"></i>
+                <span>Equipos Gamer</span>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Theme Toggle (igual que en tu index)
+        const themeToggle = document.getElementById('theme-toggle');
+        const icon = themeToggle.querySelector('i');
+        
+        // Verificar tema guardado o usar preferencia del sistema
+        const savedTheme = localStorage.getItem('theme') || 'dark';
+        document.documentElement.setAttribute('data-theme', savedTheme);
+        
+        if (savedTheme === 'light') {
+            icon.classList.remove('fa-moon');
+            icon.classList.add('fa-sun');
+        }
+        
+        themeToggle.addEventListener('click', () => {
+            const currentTheme = document.documentElement.getAttribute('data-theme');
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            
+            document.documentElement.setAttribute('data-theme', newTheme);
+            localStorage.setItem('theme', newTheme);
+            
+            if (newTheme === 'light') {
+                icon.classList.remove('fa-moon');
+                icon.classList.add('fa-sun');
+            } else {
+                icon.classList.remove('fa-sun');
+                icon.classList.add('fa-moon');
+            }
+        });
+
+        // Redirección para los elementos de sugerencia
+        document.querySelectorAll('.suggestion').forEach(item => {
+            item.addEventListener('click', () => {
+                let url = '/';
+                
+                if (item.querySelector('span').textContent === 'Diseño Web') {
+                    url = 'ale.html';
+                } else if (item.querySelector('span').textContent === 'Fotografía') {
+                    url = 'mike.html';
+                } else if (item.querySelector('span').textContent === 'Servicios Médicos') {
+                    url = 'zayas.html';
+                } else if (item.querySelector('span').textContent === 'Equipos Gamer') {
+                    url = 'shop.html';
+                }
+                
+                window.location.href = url;
+            });
+        });
+    </script>
+</body>
+</html>
