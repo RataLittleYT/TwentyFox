@@ -1,0 +1,920 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SignSense | Traductor de Lenguaje de Señas</title>
+    <link rel="icon" href="https://i.ibb.co/N2wrjS5r/Dise-o-sin-t-tulo-removebg-preview.png">
+    <style>
+        :root {
+            --primary: #2563eb;
+            --primary-dark: #1d4ed8;
+            --secondary: #10b981;
+            --dark: #1e293b;
+            --light: #f8fafc;
+            --error: #ef4444;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--dark);
+            color: var(--light);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            -webkit-user-select: none; 
+            -moz-user-select: none;   
+            -ms-user-select: none;    
+            user-select: none;  
+        }
+
+        header {
+            background-color: rgba(30, 41, 59, 0.8);
+            backdrop-filter: blur(10px);
+            padding: 1.5rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-weight: 700;
+            font-size: 1.5rem;
+        }
+
+        .logo-icon {
+            width: 32px;
+            height: 32px;
+            background-color: var(--primary);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 1.5rem;
+        }
+
+        .nav-links a {
+            color: var(--light);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s;
+            position: relative;
+        }
+
+        .nav-links a:hover {
+            color: var(--secondary);
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background-color: var(--secondary);
+            transition: width 0.3s;
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        main {
+            flex: 1;
+            padding: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+            width: 100%;
+        }
+
+        .hero {
+            text-align: center;
+            margin-bottom: 3rem;
+            animation: fadeIn 1s ease-out;
+        }
+
+        .hero h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            background: linear-gradient(to right, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .hero p {
+            font-size: 1.1rem;
+            color: #94a3b8;
+            max-width: 700px;
+            margin: 0 auto 2rem;
+        }
+
+        .detection-container {
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+        }
+
+        .detection-wrapper {
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+        }
+
+        @media (min-width: 1024px) {
+            .detection-wrapper {
+                flex-direction: row;
+                align-items: flex-start;
+            }
+        }
+
+        .video-container {
+            position: relative;
+            width: 100%;
+            max-width: 800px;
+            margin: 0 auto;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.3);
+            background-color: rgba(30, 41, 59, 0.5);
+            aspect-ratio: 16/9;
+        }
+
+        #video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        #canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+
+        .translation-container {
+            flex: 1;
+            background-color: rgba(30, 41, 59, 0.7);
+            border-radius: 12px;
+            padding: 2rem;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            min-height: 300px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .translation-title {
+            color: #94a3b8;
+            font-size: 1rem;
+            margin-bottom: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .translation-text {
+            flex: 1;
+            font-size: 1.5rem;
+            padding: 1rem;
+            background-color: rgba(15, 23, 42, 0.5);
+            border-radius: 8px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            overflow-y: auto;
+            max-height: 300px;
+        }
+
+        .translation-history {
+            margin-top: 1rem;
+            font-size: 0.9rem;
+            color: #94a3b8;
+            max-height: 100px;
+            overflow-y: auto;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            padding-top: 1rem;
+        }
+
+        .controls {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .btn-primary {
+            background-color: var(--primary);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background-color: var(--primary-dark);
+            transform: translateY(-2px);
+        }
+
+        .btn-secondary {
+            background-color: var(--secondary);
+            color: white;
+        }
+
+        .btn-secondary:hover {
+            background-color: #0d9c6e;
+            transform: translateY(-2px);
+        }
+
+        .btn-outline {
+            background-color: transparent;
+            border: 2px solid var(--light);
+            color: var(--light);
+        }
+
+        .btn-outline:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+            transform: translateY(-2px);
+        }
+
+        .stats-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .stat-card {
+            background-color: rgba(30, 41, 59, 0.7);
+            border-radius: 12px;
+            padding: 1.5rem;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px -5px rgba(0, 0, 0, 0.2);
+        }
+
+        .stat-card h3 {
+            color: #94a3b8;
+            font-size: 0.9rem;
+            margin-bottom: 0.5rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .stat-card p {
+            font-size: 1.8rem;
+            font-weight: 700;
+            background: linear-gradient(to right, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .loading {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 1rem;
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(30, 41, 59, 0.8);
+            z-index: 10;
+        }
+
+        .spinner {
+            width: 50px;
+            height: 50px;
+            border: 5px solid rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            border-top-color: var(--primary);
+            animation: spin 1s ease-in-out infinite;
+        }
+
+        .loading p {
+            color: #94a3b8;
+        }
+
+        footer {
+            background-color: rgba(15, 23, 42, 0.8);
+            padding: 2rem;
+            text-align: center;
+            margin-top: 3rem;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .footer-links a {
+            color: #94a3b8;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .footer-links a:hover {
+            color: var(--secondary);
+        }
+
+        .copyright {
+            color: #64748b;
+            font-size: 0.9rem;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        @media (max-width: 768px) {
+            .navbar {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .nav-links {
+                gap: 1rem;
+            }
+
+            .hero h1 {
+                font-size: 2rem;
+            }
+
+            .controls {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .btn {
+                width: 100%;
+                justify-content: center;
+            }
+        }
+
+        /* Animaciones para los puntos de detección */
+        @keyframes pulse {
+            0% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.2); opacity: 0.7; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        .detection-point {
+            animation: pulse 1.5s infinite;
+        }
+
+        .hand-landmark {
+            position: absolute;
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background-color: rgba(239, 68, 68, 0.8);
+            transform: translate(-50%, -50%);
+            z-index: 1;
+        }
+
+        .hand-landmark::after {
+            content: '';
+            position: absolute;
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            background-color: rgba(239, 68, 68, 0.4);
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="navbar">
+            <div class="logo">
+                <div class="logo-icon">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M12 2L3 7L12 12L21 7L12 2Z" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M3 12L12 17L21 12" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M3 17L12 22L21 17" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </div>
+                <span>SignSense by A. Téllez</span>
+            </div>
+            <div class="nav-links">
+                <a href="#demo">Demo</a>
+                <a href="https://twentyfox.lat/">Aplicaciones</a>
+                <a href="https://twentyfox.lat/ale.html">Contacto</a>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <section class="hero">
+            <h1>Traductor de Lenguaje de Señas</h1>
+            <p>Una solución innovadora para interpretar el lenguaje de señas en tiempo real. Convierte gestos manuales en texto escrito, facilitando la comunicación entre personas sordas y oyentes. Hecho por Alejandro Téllez</p>
+        </section>
+
+        <section class="detection-container">
+            <div class="detection-wrapper">
+                <div class="video-container">
+                    <video id="video" playsinline></video>
+                    <canvas id="canvas"></canvas>
+                    <div class="loading" id="loading">
+                        <div class="spinner"></div>
+                        <p>Cargando modelo de detección...</p>
+                    </div>
+                </div>
+
+                <div class="translation-container">
+                    <h3 class="translation-title">Traducción en tiempo real</h3>
+                    <div class="translation-text" id="translationText">La traducción aparecerá aquí...</div>
+                    <div class="translation-history" id="translationHistory"></div>
+                </div>
+            </div>
+
+            <div class="controls">
+                <button class="btn btn-primary" id="startBtn">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M10 8L16 12L10 16V8Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                    Iniciar
+                </button>
+                <button class="btn btn-secondary" id="stopBtn" disabled>
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        <rect x="8" y="8" width="8" height="8" rx="1" fill="currentColor"/>
+                    </svg>
+                    Detener
+                </button>
+                <button class="btn btn-outline" id="switchCameraBtn">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M23 19C23 19.5304 22.7893 20.0391 22.4142 20.4142C22.0391 20.7893 21.5304 21 21 21H3C2.46957 21 1.96086 20.7893 1.58579 20.4142C1.21071 20.0391 1 19.5304 1 19V8C1 7.46957 1.21071 6.96086 1.58579 6.58579C1.96086 6.21071 2.46957 6 3 6H7L9 3H15L17 6H21C21.5304 6 22.0391 6.21071 22.4142 6.58579C22.7893 6.96086 23 7.46957 23 8V19Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M12 17C14.2091 17 16 15.2091 16 13C16 10.7909 14.2091 9 12 9C9.79086 9 8 10.7909 8 13C8 15.2091 9.79086 17 12 17Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                    Cambiar Cámara
+                </button>
+            </div>
+
+            <div class="stats-container">
+                <div class="stat-card">
+                    <h3>Manos detectadas</h3>
+                    <p id="handsCount">0</p>
+                </div>
+                <div class="stat-card">
+                    <h3>Puntos clave</h3>
+                    <p id="keypointsCount">0</p>
+                </div>
+                <div class="stat-card">
+                    <h3>Confianza media</h3>
+                    <p id="avgConfidence">0%</p>
+                </div>
+                <div class="stat-card">
+                    <h3>Estado</h3>
+                    <p id="statusText">Inactivo</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="footer-content">
+            <p class="copyright">© 2025 SignSense by TwentyFox. Todos los derechos reservados. | Página desarrollada por Alejandro Téllez</p>
+        </div>
+    </footer>
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@3.11.0/dist/tf.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/hand-pose-detection@0.0.7"></script>
+
+<script>
+    // Variables globales
+    let video = document.getElementById('video');
+    let canvas = document.getElementById('canvas');
+    let ctx = canvas.getContext('2d');
+    let stream = null;
+    let detector = null;
+    let animationId = null;
+    let isRunning = false;
+    let facingMode = "user";
+    let stats = {
+        hands: 0,
+        keypoints: 0,
+        confidence: 0
+    };
+    let translationText = document.getElementById('translationText');
+    let translationHistory = document.getElementById('translationHistory');
+    let currentWord = '';
+    let lastGestureTime = 0;
+    let gestureTimeout = null;
+
+    const startBtn = document.getElementById('startBtn');
+    const stopBtn = document.getElementById('stopBtn');
+    const switchCameraBtn = document.getElementById('switchCameraBtn');
+    const loadingElement = document.getElementById('loading');
+    const handsCountElement = document.getElementById('handsCount');
+    const keypointsCountElement = document.getElementById('keypointsCount');
+    const avgConfidenceElement = document.getElementById('avgConfidence');
+    const statusTextElement = document.getElementById('statusText');
+
+    // Diccionario de gestos mejorado
+    const signLanguageDictionary = {
+        // Alfabeto (gestos básicos)
+        'closed_fist': { text: "A", description: "Puño cerrado" },
+        'open_hand': { text: "B", description: "Mano abierta" },
+        'c_shape': { text: "C", description: "Mano en forma de C" },
+        'point_index': { text: "D", description: "Señalar con índice" },
+        'thumb_up': { text: "👍", description: "Pulgar arriba" },
+        
+        // Palabras comunes
+        'wave': { text: "HOLA", description: "Saludo con movimiento" },
+        'pinch': { text: "PEQUEÑO", description: "Pinza con dedos" },
+        'victory': { text: "VICTORIA", description: "Seña de victoria" }
+    };
+
+    // Función para cargar el modelo con compatibilidad mejorada
+    async function loadHandModel() {
+        statusTextElement.textContent = "Cargando modelo...";
+        
+        try {
+            // 1. Primero configuramos TensorFlow.js
+            await tf.ready();
+            console.log("TensorFlow.js backend:", tf.getBackend());
+            
+            // 2. Si no está usando WebGL, intentamos forzarlo
+            if (tf.getBackend() !== 'webgl') {
+                await tf.setBackend('webgl');
+                console.log("Nuevo backend:", tf.getBackend());
+            }
+            
+            // 3. Configuración del detector con compatibilidad mejorada
+            const model = handPoseDetection.SupportedModels.MediaPipeHands;
+            const detectorConfig = {
+                runtime: 'mediapipe', // Cambiar a 'tfjs' si falla
+                modelType: 'lite',   // Más ligero que 'full'
+                maxHands: 2,
+                solutionPath: 'https://cdn.jsdelivr.net/npm/@mediapipe/hands/'
+            };
+            
+            // 4. Crear el detector
+            detector = await handPoseDetection.createDetector(model, detectorConfig);
+            
+            loadingElement.style.display = "none";
+            statusTextElement.textContent = "Listo";
+            startBtn.disabled = false;
+            
+            console.log("Modelo cargado con éxito");
+        } catch (error) {
+            console.error("Error al cargar el modelo:", error);
+            
+            // Intentar con configuración alternativa
+            try {
+                console.log("Intentando con configuración alternativa...");
+                const altConfig = {
+                    runtime: 'tfjs',
+                    modelType: 'lite',
+                    maxHands: 2
+                };
+                
+                detector = await handPoseDetection.createDetector(model, altConfig);
+                
+                loadingElement.style.display = "none";
+                statusTextElement.textContent = "Listo (modo compatible)";
+                startBtn.disabled = false;
+            } catch (altError) {
+                console.error("Error en modo compatible:", altError);
+                showError();
+            }
+        }
+    }
+
+    function showError() {
+        loadingElement.innerHTML = `
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z" stroke="#ef4444" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M12 8V12" stroke="#ef4444" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M12 16H12.01" stroke="#ef4444" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            <p>Error al cargar el modelo. Prueba lo siguiente:</p>
+            <ul style="text-align: left; margin-top: 0.5rem;">
+                <li>Actualiza tu navegador</li>
+                <li>Prueba con Google Chrome</li>
+                <li>Habilita WebGL en opera://flags</li>
+            </ul>
+        `;
+        statusTextElement.textContent = "Error";
+    }
+
+    // Función para iniciar la cámara
+    async function startCamera() {
+        try {
+            statusTextElement.textContent = "Iniciando cámara...";
+            stream = await navigator.mediaDevices.getUserMedia({
+                video: {
+                    facingMode: facingMode,
+                    width: { ideal: 1280 },
+                    height: { ideal: 720 }
+                },
+                audio: false
+            });
+            
+            video.srcObject = stream;
+            await video.play();
+            
+            canvas.width = video.videoWidth;
+            canvas.height = video.videoHeight;
+            
+            isRunning = true;
+            startBtn.disabled = true;
+            stopBtn.disabled = false;
+            statusTextElement.textContent = "Analizando...";
+            
+            detectHands();
+        } catch (error) {
+            console.error("Error al acceder a la cámara:", error);
+            statusTextElement.textContent = "Error de cámara";
+        }
+    }
+
+    // Función para detener la cámara
+    function stopCamera() {
+        if (stream) {
+            stream.getTracks().forEach(track => track.stop());
+            stream = null;
+        }
+        
+        if (animationId) {
+            cancelAnimationFrame(animationId);
+            animationId = null;
+        }
+        
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        
+        isRunning = false;
+        startBtn.disabled = false;
+        stopBtn.disabled = true;
+        statusTextElement.textContent = "Detenido";
+        
+        // Reiniciar estadísticas
+        stats.hands = 0;
+        stats.keypoints = 0;
+        stats.confidence = 0;
+        updateStats();
+        
+        // Limpiar traducción actual
+        currentWord = '';
+        translationText.textContent = "La traducción aparecerá aquí...";
+    }
+
+    // Función para cambiar de cámara
+    async function switchCamera() {
+        if (!isRunning) return;
+        
+        facingMode = facingMode === "user" ? "environment" : "user";
+        stopCamera();
+        await startCamera();
+    }
+
+    // Función principal de detección
+    async function detectHands() {
+        if (!isRunning) return;
+        
+        try {
+            const hands = await detector.estimateHands(video);
+            
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+            
+            // Actualizar estadísticas
+            stats.hands = hands.length;
+            stats.keypoints = 0;
+            let totalConfidence = 0;
+            let pointsWithConfidence = 0;
+            
+            // Procesar cada mano detectada
+            hands.forEach(hand => {
+                const keypoints = hand.keypoints;
+                stats.keypoints += keypoints.length;
+                
+                drawHandConnections(keypoints);
+                
+                keypoints.forEach(keypoint => {
+                    if (keypoint.score > 0.2) {
+                        drawHandKeypoint(keypoint);
+                        totalConfidence += keypoint.score;
+                        pointsWithConfidence++;
+                    }
+                });
+                
+                // Reconocer gestos si hay suficientes puntos clave
+                if (keypoints.length > 10) {
+                    recognizeGesture(keypoints);
+                }
+            });
+            
+            stats.confidence = pointsWithConfidence > 0 
+                ? Math.round((totalConfidence / pointsWithConfidence) * 100) 
+                : 0;
+            
+            updateStats();
+            
+        } catch (error) {
+            console.error("Error en la detección:", error);
+        }
+        
+        animationId = requestAnimationFrame(detectHands);
+    }
+
+    // Función para dibujar puntos clave
+    function drawHandKeypoint(keypoint) {
+        const { x, y, score } = keypoint;
+        
+        if (score > 0.2) {
+            ctx.beginPath();
+            ctx.arc(x, y, 5, 0, 2 * Math.PI);
+            ctx.fillStyle = 'rgba(239, 68, 68, 0.8)';
+            ctx.fill();
+            
+            ctx.beginPath();
+            ctx.arc(x, y, 10, 0, 2 * Math.PI);
+            ctx.strokeStyle = 'rgba(239, 68, 68, 0.4)';
+            ctx.lineWidth = 2;
+            ctx.stroke();
+        }
+    }
+
+    // Función para dibujar conexiones entre puntos
+    function drawHandConnections(keypoints) {
+        const connections = [
+            // Pulgar
+            [0, 1], [1, 2], [2, 3], [3, 4],
+            // Índice
+            [0, 5], [5, 6], [6, 7], [7, 8],
+            // Medio
+            [0, 9], [9, 10], [10, 11], [11, 12],
+            // Anular
+            [0, 13], [13, 14], [14, 15], [15, 16],
+            // Meñique
+            [0, 17], [17, 18], [18, 19], [19, 20]
+        ];
+        
+        connections.forEach(connection => {
+            const [i, j] = connection;
+            const kp1 = keypoints[i];
+            const kp2 = keypoints[j];
+            
+            if (kp1 && kp2 && kp1.score > 0.2 && kp2.score > 0.2) {
+                ctx.beginPath();
+                ctx.moveTo(kp1.x, kp1.y);
+                ctx.lineTo(kp2.x, kp2.y);
+                ctx.strokeStyle = 'rgba(16, 185, 129, 0.8)';
+                ctx.lineWidth = 2;
+                ctx.stroke();
+            }
+        });
+    }
+
+    // Función mejorada para reconocer gestos
+    function recognizeGesture(keypoints) {
+        // Obtener puntos clave importantes
+        const thumbTip = keypoints.find(k => k.name === 'thumb_tip') || keypoints[4];
+        const indexTip = keypoints.find(k => k.name === 'index_finger_tip') || keypoints[8];
+        const middleTip = keypoints.find(k => k.name === 'middle_finger_tip') || keypoints[12];
+        const palmBase = keypoints.find(k => k.name === 'palm_base') || keypoints[0];
+        
+        if (!thumbTip || !indexTip || !middleTip || !palmBase) return;
+        
+        // Calcular distancias entre dedos
+        const thumbIndexDist = distance(thumbTip, indexTip);
+        const thumbMiddleDist = distance(thumbTip, middleTip);
+        const indexMiddleDist = distance(indexTip, middleTip);
+        
+        // Calcular altura relativa de los dedos respecto a la palma
+        const thumbHeight = thumbTip.y - palmBase.y;
+        const indexHeight = indexTip.y - palmBase.y;
+        
+        // Identificar gestos basados en posiciones relativas
+        let detectedGesture = null;
+        
+        // Gestos básicos
+        if (thumbIndexDist < 30 && thumbMiddleDist < 30) {
+            detectedGesture = 'closed_fist';
+        } else if (thumbIndexDist > 60 && thumbMiddleDist > 60 && indexMiddleDist > 60) {
+            detectedGesture = 'open_hand';
+        } else if (thumbIndexDist < 30 && thumbMiddleDist > 60) {
+            detectedGesture = 'point_index';
+        } else if (thumbHeight < -50 && indexHeight > 0) {
+            detectedGesture = 'thumb_up';
+        } else if (indexMiddleDist < 20 && thumbIndexDist > 40) {
+            detectedGesture = 'victory';
+        }
+        
+        // Procesar gesto detectado
+        if (detectedGesture && signLanguageDictionary[detectedGesture]) {
+            const now = Date.now();
+            
+            // Evitar detecciones demasiado rápidas
+            if (now - lastGestureTime > 800) {
+                lastGestureTime = now;
+                
+                // Agregar a la palabra actual
+                currentWord += signLanguageDictionary[detectedGesture].text;
+                translationText.textContent = currentWord;
+                
+                // Reiniciar temporizador para finalizar palabra
+                if (gestureTimeout) clearTimeout(gestureTimeout);
+                gestureTimeout = setTimeout(finalizeWord, 2000);
+            }
+        }
+    }
+
+    // Función auxiliar para calcular distancia entre puntos
+    function distance(point1, point2) {
+        return Math.sqrt(
+            Math.pow(point1.x - point2.x, 2) + 
+            Math.pow(point1.y - point2.y, 2)
+        );
+    }
+
+    // Función para finalizar la palabra actual
+    function finalizeWord() {
+        if (currentWord.length > 0) {
+            const historyEntry = document.createElement('div');
+            historyEntry.textContent = `${new Date().toLocaleTimeString()}: ${currentWord}`;
+            translationHistory.prepend(historyEntry);
+            
+            // Limitar historial a 5 entradas
+            if (translationHistory.children.length > 5) {
+                translationHistory.removeChild(translationHistory.lastChild);
+            }
+            
+            currentWord = '';
+        }
+    }
+
+    // Función para actualizar estadísticas en la UI
+    function updateStats() {
+        handsCountElement.textContent = stats.hands;
+        keypointsCountElement.textContent = stats.keypoints;
+        avgConfidenceElement.textContent = `${stats.confidence}%`;
+    }
+
+    // Event Listeners
+    document.addEventListener('DOMContentLoaded', loadHandModel);
+    startBtn.addEventListener('click', startCamera);
+    stopBtn.addEventListener('click', stopCamera);
+    switchCameraBtn.addEventListener('click', switchCamera);
+
+    // Limpieza al cerrar la página
+    window.addEventListener('beforeunload', stopCamera);
+</script>
+</body>
+</html>
