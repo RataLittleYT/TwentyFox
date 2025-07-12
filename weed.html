@@ -1,0 +1,1262 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EduCannab - Educación sobre Cannabis</title>
+    <link rel="icon" href="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a8/Cannabis_leaf.svg/1920px-Cannabis_leaf.svg.png" type="image/x-icon">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Nunito:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #4a8f29;
+            --primary-light: #6bb74d;
+            --primary-dark: #2d5a1a;
+            --secondary: #8f6a29;
+            --secondary-light: #c99d4d;
+            --text: #333333;
+            --text-light: #5a5a5a;
+            --bg: #f9f9f9;
+            --card-bg: #ffffff;
+            --gradient: linear-gradient(135deg, var(--primary), var(--secondary));
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Nunito', sans-serif;
+            color: var(--text);
+            background-color: var(--bg);
+            line-height: 1.6;
+            overflow-x: hidden;
+            scroll-behavior: smooth;
+            -webkit-user-select: none; 
+            -moz-user-select: none;   
+            -ms-user-select: none;    
+            user-select: none;  
+        }
+
+        h1, h2, h3, h4 {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 600;
+            color: var(--primary-dark);
+        }
+
+        a {
+            text-decoration: none;
+            color: var(--primary);
+            transition: all 0.3s ease;
+        }
+
+        a:hover {
+            color: var(--secondary);
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header */
+        header {
+            background: var(--gradient);
+            color: white;
+            padding: 20px 0;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        header.scrolled {
+            padding: 10px 0;
+            background: rgba(74, 143, 41, 0.95);
+        }
+
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: white;
+        }
+
+        .logo i {
+            font-size: 2rem;
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 30px;
+        }
+
+        nav a {
+            color: white;
+            font-weight: 600;
+            position: relative;
+        }
+
+        nav a:after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            background: white;
+            bottom: -5px;
+            left: 0;
+            transition: width 0.3s ease;
+        }
+
+        nav a:hover:after {
+            width: 100%;
+        }
+
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        /* Hero Section */
+        .hero {
+            height: 100vh;
+            background: url('https://images.paramount.tech/uri/mgid:arc:imageassetref:shared.southpark.latam.en-us:c595902f-114c-4981-b8ff-c8af7422e528?quality=0.7&gen=ntrn') no-repeat center center/cover;
+            display: flex;
+            align-items: center;
+            position: relative;
+            margin-top: 80px;
+        }
+
+        .hero:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.4);
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 1;
+            color: white;
+            max-width: 600px;
+            padding: 0 20px;
+            animation: fadeInUp 1s ease;
+        }
+
+        .hero h1 {
+            font-size: 3rem;
+            margin-bottom: 20px;
+            color: white;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            margin-bottom: 30px;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 12px 30px;
+            background: var(--primary);
+            color: white;
+            border-radius: 50px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+        }
+
+        .btn:hover {
+            background: transparent;
+            border-color: white;
+            color: white;
+            transform: translateY(-3px);
+        }
+
+        .btn-secondary {
+            background: var(--secondary);
+        }
+
+        .btn-secondary:hover {
+            border-color: var(--secondary);
+            color: var(--secondary);
+            background: transparent;
+        }
+
+        /* About Section */
+        .section {
+            padding: 80px 0;
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 50px;
+            position: relative;
+        }
+
+        .section-title:after {
+            content: '';
+            position: absolute;
+            width: 80px;
+            height: 4px;
+            background: var(--gradient);
+            bottom: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            border-radius: 2px;
+        }
+
+        .about-content {
+            display: flex;
+            align-items: center;
+            gap: 50px;
+        }
+
+        .about-text {
+            flex: 1;
+        }
+
+        .about-image {
+            flex: 1;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            transition: all 0.5s ease;
+        }
+
+        .about-image:hover {
+            transform: scale(1.03);
+        }
+
+        .about-image img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        /* Strains Section */
+        .strains-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .strain-card {
+            background: var(--card-bg);
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s ease;
+        }
+
+        .strain-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .strain-image {
+            height: 200px;
+            overflow: hidden;
+        }
+
+        .strain-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: all 0.5s ease;
+        }
+
+        .strain-card:hover .strain-image img {
+            transform: scale(1.1);
+        }
+
+        .strain-info {
+            padding: 20px;
+        }
+
+        .strain-type {
+            display: inline-block;
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+
+        .indica {
+            background: #6a5acd;
+            color: white;
+        }
+
+        .sativa {
+            background: #4a8f29;
+            color: white;
+        }
+
+        .hybrid {
+            background: #8f6a29;
+            color: white;
+        }
+
+        .strain-effects {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .effect {
+            background: #f0f0f0;
+            padding: 5px 10px;
+            border-radius: 5px;
+            font-size: 0.8rem;
+        }
+
+        /* Compounds Section */
+        .compounds-tabs {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .tab-btn {
+            padding: 10px 20px;
+            background: #f0f0f0;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .tab-btn.active {
+            background: var(--primary);
+            color: white;
+        }
+
+        .tab-content {
+            display: none;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .compound-card {
+            background: var(--card-bg);
+            border-radius: 10px;
+            padding: 30px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            margin-bottom: 20px;
+        }
+
+        .compound-card h3 {
+            color: var(--primary);
+            margin-bottom: 15px;
+        }
+
+        /* Recipes Section */
+        .recipes-slider {
+            position: relative;
+            overflow: hidden;
+            padding: 20px 0;
+        }
+
+        .recipes-container {
+            display: flex;
+            transition: transform 0.5s ease;
+        }
+
+        .recipe-card {
+            min-width: 100%;
+            padding: 0 15px;
+            transition: all 0.3s ease;
+        }
+
+        .recipe-card-inner {
+            background: var(--card-bg);
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        }
+
+        .recipe-image {
+            height: 200px;
+            overflow: hidden;
+        }
+
+        .recipe-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .recipe-info {
+            padding: 20px;
+        }
+
+        .recipe-info h3 {
+            margin-bottom: 10px;
+        }
+
+        .recipe-meta {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 15px;
+            font-size: 0.9rem;
+            color: var(--text-light);
+        }
+
+        .slider-nav {
+            display: flex;
+            justify-content: center;
+            margin-top: 30px;
+            gap: 10px;
+        }
+
+        .slider-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: #ddd;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .slider-dot.active {
+            background: var(--primary);
+        }
+
+        /* Consumption Tips */
+        .tips-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 30px;
+        }
+
+        .tip-card {
+            background: var(--card-bg);
+            border-radius: 10px;
+            padding: 30px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .tip-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        }
+
+        .tip-icon {
+            font-size: 2.5rem;
+            color: var(--primary);
+            margin-bottom: 20px;
+        }
+
+        /* Newsletter */
+        .newsletter {
+            background: var(--gradient);
+            color: white;
+            padding: 60px 0;
+            text-align: center;
+        }
+
+        .newsletter h2 {
+            color: white;
+        }
+
+        .newsletter p {
+            max-width: 600px;
+            margin: 0 auto 30px;
+        }
+
+        .newsletter-form {
+            display: flex;
+            max-width: 500px;
+            margin: 0 auto;
+        }
+
+        .newsletter-form input {
+            flex: 1;
+            padding: 15px;
+            border: none;
+            border-radius: 50px 0 0 50px;
+            font-family: 'Nunito', sans-serif;
+        }
+
+        .newsletter-form button {
+            padding: 15px 30px;
+            background: var(--secondary);
+            color: white;
+            border: none;
+            border-radius: 0 50px 50px 0;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .newsletter-form button:hover {
+            background: var(--secondary-light);
+        }
+
+        /* Footer */
+        footer {
+            background: #222;
+            color: #aaa;
+            padding: 60px 0 20px;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+
+        .footer-column h3 {
+            color: white;
+            margin-bottom: 20px;
+            font-size: 1.2rem;
+        }
+
+        .footer-column ul {
+            list-style: none;
+        }
+
+        .footer-column li {
+            margin-bottom: 10px;
+        }
+
+        .footer-column a {
+            color: #aaa;
+            transition: all 0.3s ease;
+        }
+
+        .footer-column a:hover {
+            color: white;
+            padding-left: 5px;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .social-links a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            background: #333;
+            border-radius: 50%;
+            color: white;
+            transition: all 0.3s ease;
+        }
+
+        .social-links a:hover {
+            background: var(--primary);
+            transform: translateY(-3px);
+        }
+
+        .copyright {
+            text-align: center;
+            padding-top: 20px;
+            border-top: 1px solid #333;
+            font-size: 0.9rem;
+        }
+
+        .copyright a {
+            color: #aaa;
+        }
+
+        .copyright a:hover {
+            color: white;
+        }
+
+        /* 420 Popup */
+        .popup {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 2000;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .popup.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .popup-content {
+            background: white;
+            padding: 40px;
+            border-radius: 10px;
+            text-align: center;
+            max-width: 500px;
+            position: relative;
+            transform: scale(0.8);
+            transition: all 0.3s ease;
+        }
+
+        .popup.active .popup-content {
+            transform: scale(1);
+        }
+
+        .popup-close {
+            position: absolute;
+            top: 10px;
+            right: 15px;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--text-light);
+        }
+
+        .popup h2 {
+            color: var(--primary);
+            margin-bottom: 20px;
+        }
+
+        .popup-icon {
+            font-size: 3rem;
+            color: var(--secondary);
+            margin-bottom: 20px;
+            animation: bounce 2s infinite;
+        }
+
+        /* Back to Top */
+        .back-to-top {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 50px;
+            height: 50px;
+            background: var(--primary);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            cursor: pointer;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+            z-index: 999;
+        }
+
+        .back-to-top.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .back-to-top:hover {
+            background: var(--primary-dark);
+            transform: translateY(-5px);
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes fadeInUp {
+            from { 
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to { 
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+            40% { transform: translateY(-20px); }
+            60% { transform: translateY(-10px); }
+        }
+
+        /* Responsive */
+        @media (max-width: 992px) {
+            .about-content {
+                flex-direction: column;
+            }
+
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            nav ul {
+                position: fixed;
+                top: 80px;
+                left: -100%;
+                width: 100%;
+                height: calc(100vh - 80px);
+                background: var(--primary-dark);
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                gap: 40px;
+                transition: all 0.5s ease;
+            }
+
+            nav ul.active {
+                left: 0;
+            }
+
+            .mobile-menu-btn {
+                display: block;
+            }
+
+            .hero h1 {
+                font-size: 2rem;
+            }
+
+            .newsletter-form {
+                flex-direction: column;
+            }
+
+            .newsletter-form input {
+                border-radius: 50px;
+                margin-bottom: 10px;
+            }
+
+            .newsletter-form button {
+                border-radius: 50px;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .section {
+                padding: 60px 0;
+            }
+
+            .hero h1 {
+                font-size: 1.8rem;
+            }
+
+            .popup-content {
+                padding: 30px 20px;
+                margin: 0 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header id="header">
+        <div class="container header-container">
+            <a href="#" class="logo">
+                <i class="fas fa-cannabis"></i>
+                <span>EduCannab</span>
+            </a>
+            <button class="mobile-menu-btn" id="mobileMenuBtn">
+                <i class="fas fa-bars"></i>
+            </button>
+            <nav>
+                <ul id="navMenu">
+                    <li><a href="#home">Inicio</a></li>
+                    <li><a href="#about">Sobre el Cannabis</a></li>
+                    <li><a href="#strains">Variedades</a></li>
+                    <li><a href="#compounds">Compuestos</a></li>
+                    <li><a href="#recipes">Recetas</a></li>
+                    <li><a href="#tips">Consumo Responsable</a></li>
+                    <li><a href="https://twentyfox.lat">Our Host</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+        <div class="hero-content">
+            <h1>Educación sobre Cannabis Recreativo</h1>
+            <p>Descubre todo lo que necesitas saber sobre las variedades, compuestos y usos del cannabis de manera responsable y educativa.</p>
+            <a href="#about" class="btn">Aprende Más</a>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section class="section" id="about">
+        <div class="container">
+            <h2 class="section-title">Sobre el Cannabis</h2>
+            <div class="about-content">
+                <div class="about-text">
+                    <p>El cannabis es una planta con una rica historia que se remonta a miles de años, utilizada tanto con fines medicinales como recreativos. En EduCannab, nos enfocamos en proporcionar información precisa y actualizada sobre su uso responsable.</p>
+                    <p>Nuestra misión es educar sobre los diferentes aspectos del cannabis, desde sus variedades botánicas hasta sus compuestos activos, siempre promoviendo un consumo consciente y seguro.</p>
+                    <p>Creemos que la educación es clave para desmitificar el cannabis y ayudar a las personas a tomar decisiones informadas sobre su uso recreativo.</p>
+                    <a href="#strains" class="btn btn-secondary" style="margin-top: 20px;">Explora Variedades</a>
+                </div>
+                <div class="about-image">
+                    <img src="https://empirerolling.com/cdn/shop/articles/ultimate-guide-to-rolling-the-perfect-weed-joint-742823.jpg?v=1704211850" alt="Planta de cannabis">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Strains Section -->
+    <section class="section" id="strains" style="background: #f5f9f4;">
+        <div class="container">
+            <h2 class="section-title">Variedades de Cannabis</h2>
+            <div class="strains-grid">
+                <!-- Indica Card -->
+                <div class="strain-card">
+                    <div class="strain-image">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/7/77/Cannabis_indica.jpg" alt="Cannabis Indica">
+                    </div>
+                    <div class="strain-info">
+                        <span class="strain-type indica">Indica</span>
+                        <h3>Efecto Corporal Relajante</h3>
+                        <p>Las variedades Indica suelen producir un efecto relajante y sedante, ideal para la noche o para aliviar el estrés y la tensión muscular.</p>
+                        <div class="strain-effects">
+                            <span class="effect">Relajación</span>
+                            <span class="effect">Sedación</span>
+                            <span class="effect">Alivio del dolor</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Sativa Card -->
+                <div class="strain-card">
+                    <div class="strain-image">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/0/0a/Young_cannabis.jpg" alt="Cannabis Sativa">
+                    </div>
+                    <div class="strain-info">
+                        <span class="strain-type sativa">Sativa</span>
+                        <h3>Efecto Cerebral Energizante</h3>
+                        <p>Las variedades Sativa tienden a producir un efecto más cerebral y energizante, perfecto para actividades creativas o sociales durante el día.</p>
+                        <div class="strain-effects">
+                            <span class="effect">Energía</span>
+                            <span class="effect">Creatividad</span>
+                            <span class="effect">Enfoque</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Hybrid Card -->
+                <div class="strain-card">
+                    <div class="strain-image">
+                        <img src="https://notasdehumo.com/wp-content/uploads/2013/11/a-White-Lemon-a-900.gif" alt="Cannabis Híbrido">
+                    </div>
+                    <div class="strain-info">
+                        <span class="strain-type hybrid">Híbrido</span>
+                        <h3>Combinación de Efectos</h3>
+                        <p>Los híbridos combinan características de las variedades Indica y Sativa, ofreciendo un balance de efectos según su dominancia genética.</p>
+                        <div class="strain-effects">
+                            <span class="effect">Equilibrio</span>
+                            <span class="effect">Versatilidad</span>
+                            <span class="effect">Efecto mixto</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Compounds Section -->
+    <section class="section" id="compounds">
+        <div class="container">
+            <h2 class="section-title">Compuestos del Cannabis</h2>
+            <div class="compounds-tabs">
+                <button class="tab-btn active" data-tab="thc">THC</button>
+                <button class="tab-btn" data-tab="cbd">CBD</button>
+                <button class="tab-btn" data-tab="cbn">CBN</button>
+                <button class="tab-btn" data-tab="terpenes">Terpenos</button>
+            </div>
+
+            <div class="tab-content active" id="thc-tab">
+                <div class="compound-card">
+                    <h3>THC (Tetrahidrocannabinol)</h3>
+                    <p>El THC es el principal compuesto psicoactivo del cannabis, responsable de los efectos "eufóricos" o "colocados" asociados con su consumo recreativo.</p>
+                    <p>Además de sus efectos recreativos, el THC tiene propiedades medicinales que incluyen alivio del dolor, estimulación del apetito y reducción de náuseas.</p>
+                    <p>Los niveles de THC varían según la variedad de cannabis, con algunas cepas modernas que contienen más del 20% de THC.</p>
+                </div>
+            </div>
+
+            <div class="tab-content" id="cbd-tab">
+                <div class="compound-card">
+                    <h3>CBD (Cannabidiol)</h3>
+                    <p>El CBD es un cannabinoide no psicoactivo que ha ganado popularidad por sus potenciales beneficios terapéuticos sin producir efectos intoxicantes.</p>
+                    <p>Entre sus posibles beneficios se incluyen propiedades antiinflamatorias, ansiolíticas y neuroprotectoras. También puede modular los efectos del THC.</p>
+                    <p>El CBD se encuentra disponible en diversas formas, incluyendo aceites, comestibles y productos tópicos.</p>
+                </div>
+            </div>
+
+            <div class="tab-content" id="cbn-tab">
+                <div class="compound-card">
+                    <h3>CBN (Cannabinol)</h3>
+                    <p>El CBN es un cannabinoide que se produce cuando el THC se degrada con el tiempo o por exposición al aire y al calor.</p>
+                    <p>Conocido por sus propiedades sedantes, el CBN puede ser útil para personas que buscan ayuda con el sueño o la relajación.</p>
+                    <p>A diferencia del THC, el CBN tiene efectos psicoactivos mucho más leves, pero puede potenciar los efectos de otros cannabinoides.</p>
+                </div>
+            </div>
+
+            <div class="tab-content" id="terpenes-tab">
+                <div class="compound-card">
+                    <h3>Terpenos</h3>
+                    <p>Los terpenos son compuestos aromáticos responsables del olor y sabor característicos de las diferentes variedades de cannabis.</p>
+                    <p>Además de influir en el aroma, los terpenos pueden modular los efectos de los cannabinoides a través del "efecto séquito".</p>
+                    <p>Algunos terpenos comunes incluyen mirceno (relajante), limoneno (elevador del ánimo) y pineno (que puede mejorar la memoria).</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Recipes Section -->
+    <section class="section" id="recipes" style="background: #f5f9f4;">
+        <div class="container">
+            <h2 class="section-title">Recetas con Cannabis</h2>
+            <div class="recipes-slider">
+                <div class="recipes-container" id="recipesContainer">
+                    <!-- Recipe 1 -->
+                    <div class="recipe-card">
+                        <div class="recipe-card-inner">
+                            <div class="recipe-image">
+                                <img src="https://latitudedispensary.com/wp-content/uploads/2024/04/a-close-up-image-of-a-weed-borwnie-with-cannabis-flowers-surrounding-it.jpg" alt="Brownies de cannabis">
+                            </div>
+                            <div class="recipe-info">
+                                <h3>Brownies Clásicos</h3>
+                                <p>Los clásicos brownies de cannabis, perfectos para una dosis controlada y deliciosa. Recuerda siempre etiquetar claramente tus comestibles.</p>
+                                <div class="recipe-meta">
+                                    <span><i class="fas fa-clock"></i> 45 min</span>
+                                    <span><i class="fas fa-cannabis"></i> Dosis media</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Recipe 2 -->
+                    <div class="recipe-card">
+                        <div class="recipe-card-inner">
+                            <div class="recipe-image">
+                                <img src="https://s3.amazonaws.com/arc-wordpress-client-uploads/infobae-wp/wp-content/uploads/2017/02/16153054/Aceite-de-cannabis-medicinal-1920-1-1024x576.jpg" alt="Ensalada con aderezo de cannabis">
+                            </div>
+                            <div class="recipe-info">
+                                <h3>Aderezo de CBD</h3>
+                                <p>Un aderezo saludable para ensaladas infundido con aceite de CBD, ofreciendo los beneficios sin los efectos psicoactivos.</p>
+                                <div class="recipe-meta">
+                                    <span><i class="fas fa-clock"></i> 15 min</span>
+                                    <span><i class="fas fa-cannabis"></i> Sin THC</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Recipe 3 -->
+                    <div class="recipe-card">
+                        <div class="recipe-card-inner">
+                            <div class="recipe-image">
+                                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRFkzatV2zncQVWC70lja23fd0vBRQRO7HNiQ&s" alt="Té de cannabis">
+                            </div>
+                            <div class="recipe-info">
+                                <h3>Té Relajante</h3>
+                                <p>Una infusión suave con cannabis, perfecta para relajarse por la noche. Combina con manzanilla para potenciar sus efectos calmantes.</p>
+                                <div class="recipe-meta">
+                                    <span><i class="fas fa-clock"></i> 20 min</span>
+                                    <span><i class="fas fa-cannabis"></i> Dosis baja</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="slider-nav">
+                    <div class="slider-dot active" data-slide="0"></div>
+                    <div class="slider-dot" data-slide="1"></div>
+                    <div class="slider-dot" data-slide="2"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Tips Section -->
+    <section class="section" id="tips">
+        <div class="container">
+            <h2 class="section-title">Consumo Responsable</h2>
+            <div class="tips-grid">
+                <div class="tip-card">
+                    <div class="tip-icon">
+                        <i class="fas fa-seedling"></i>
+                    </div>
+                    <h3>Conoce tu Producto</h3>
+                    <p>Infórmate sobre la variedad, potencia y origen del cannabis que consumes. Comprender estos factores te ayuda a dosificar adecuadamente.</p>
+                </div>
+
+                <div class="tip-card">
+                    <div class="tip-icon">
+                        <i class="fas fa-heartbeat"></i>
+                    </div>
+                    <h3>Empieza con Poco</h3>
+                    <p>Especialmente con comestibles, comienza con una dosis baja (5-10mg de THC) y espera al menos 2 horas antes de consumir más.</p>
+                </div>
+
+                <div class="tip-card">
+                    <div class="tip-icon">
+                        <i class="fas fa-glass-whiskey"></i>
+                    </div>
+                    <h3>Evita Mezclar</h3>
+                    <p>El cannabis puede potenciar los efectos del alcohol y otras sustancias. Consume con moderación y evita mezclas riesgosas.</p>
+                </div>
+
+                <div class="tip-card">
+                    <div class="tip-icon">
+                        <i class="fas fa-calendar-alt"></i>
+                    </div>
+                    <h3>Toma Descansos</h3>
+                    <p>Considera periodos de abstinencia regular para mantener la sensibilidad a los efectos y prevenir el desarrollo de tolerancia.</p>
+                </div>
+
+                <div class="tip-card">
+                    <div class="tip-icon">
+                        <i class="fas fa-user-friends"></i>
+                    </div>
+                    <h3>Ambiente Seguro</h3>
+                    <p>Consume en un entorno cómodo y seguro, preferiblemente con personas de confianza, especialmente si eres nuevo en el consumo.</p>
+                </div>
+
+                <div class="tip-card">
+                    <div class="tip-icon">
+                        <i class="fas fa-brain"></i>
+                    </div>
+                    <h3>Escucha tu Cuerpo</h3>
+                    <p>Presta atención a cómo te afecta el cannabis y ajusta tu consumo según tus necesidades y límites personales.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+
+            <div class="copyright">
+                <p>&copy; 2025 Copyright <a href="https://twentyfox.lat">TwentyFox</a> | Página desarrollada por <a href="https://twentyfox.lat/ale.html">Alejandro Tellez</a></p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Back to Top Button -->
+    <div class="back-to-top" id="backToTop">
+        <i class="fas fa-arrow-up"></i>
+    </div>
+
+    <!-- 420 Popup -->
+    <div class="popup" id="popup420">
+        <div class="popup-content">
+            <span class="popup-close" id="popupClose">&times;</span>
+            <div class="popup-icon">
+                <i class="fas fa-cannabis"></i>
+            </div>
+            <h2>¡Es 4:20!</h2>
+            <p>Hora de prender un porro y relajarte. Recuerda siempre consumir con moderación y en un ambiente seguro.</p>
+            <p>Disfruta responsablemente.</p>
+        </div>
+    </div>
+
+    <script>
+        // Mobile Menu Toggle
+        const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+        const navMenu = document.getElementById('navMenu');
+
+        mobileMenuBtn.addEventListener('click', () => {
+            navMenu.classList.toggle('active');
+            mobileMenuBtn.innerHTML = navMenu.classList.contains('active') ? 
+                '<i class="fas fa-times"></i>' : '<i class="fas fa-bars"></i>';
+        });
+
+        // Smooth Scroll for Anchor Links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                if (navMenu.classList.contains('active')) {
+                    navMenu.classList.remove('active');
+                    mobileMenuBtn.innerHTML = '<i class="fas fa-bars"></i>';
+                }
+
+                const targetId = this.getAttribute('href');
+                const targetElement = document.querySelector(targetId);
+                
+                if (targetElement) {
+                    window.scrollTo({
+                        top: targetElement.offsetTop - 80,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+
+        // Header Scroll Effect
+        const header = document.getElementById('header');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 50) {
+                header.classList.add('scrolled');
+            } else {
+                header.classList.remove('scrolled');
+            }
+        });
+
+        // Back to Top Button
+        const backToTop = document.getElementById('backToTop');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 300) {
+                backToTop.classList.add('active');
+            } else {
+                backToTop.classList.remove('active');
+            }
+        });
+
+        backToTop.addEventListener('click', () => {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+
+        // Tab System for Compounds Section
+        const tabBtns = document.querySelectorAll('.tab-btn');
+        tabBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                // Remove active class from all buttons and tabs
+                tabBtns.forEach(btn => btn.classList.remove('active'));
+                document.querySelectorAll('.tab-content').forEach(tab => {
+                    tab.classList.remove('active');
+                });
+
+                // Add active class to clicked button and corresponding tab
+                btn.classList.add('active');
+                const tabId = btn.getAttribute('data-tab') + '-tab';
+                document.getElementById(tabId).classList.add('active');
+            });
+        });
+
+        // Recipe Slider
+        const recipesContainer = document.getElementById('recipesContainer');
+        const sliderDots = document.querySelectorAll('.slider-dot');
+        let currentSlide = 0;
+
+        function showSlide(index) {
+            recipesContainer.style.transform = `translateX(-${index * 100}%)`;
+            
+            // Update dots
+            sliderDots.forEach(dot => dot.classList.remove('active'));
+            sliderDots[index].classList.add('active');
+            
+            currentSlide = index;
+        }
+
+        sliderDots.forEach(dot => {
+            dot.addEventListener('click', () => {
+                const slideIndex = parseInt(dot.getAttribute('data-slide'));
+                showSlide(slideIndex);
+            });
+        });
+
+        // Auto slide change (optional)
+        setInterval(() => {
+            currentSlide = (currentSlide + 1) % sliderDots.length;
+            showSlide(currentSlide);
+        }, 5000);
+
+        // 420 Popup
+        const popup420 = document.getElementById('popup420');
+        const popupClose = document.getElementById('popupClose');
+
+        function check420Time() {
+            const now = new Date();
+            const hours = now.getHours();
+            const minutes = now.getMinutes();
+            
+            // Check if it's 4:20 AM or PM
+            if ((hours === 4 || hours === 16) && minutes === 20) {
+                // Only show if not already shown today
+                const lastShown = localStorage.getItem('last420Shown');
+                const today = now.toDateString();
+                
+                if (lastShown !== today) {
+                    popup420.classList.add('active');
+                    localStorage.setItem('last420Shown', today);
+                }
+            }
+        }
+
+        // Check time every minute
+        check420Time();
+        setInterval(check420Time, 60000);
+
+        popupClose.addEventListener('click', () => {
+            popup420.classList.remove('active');
+        });
+
+        // Close popup when clicking outside
+        popup420.addEventListener('click', (e) => {
+            if (e.target === popup420) {
+                popup420.classList.remove('active');
+            }
+        });
+
+        // Animation on scroll
+        const animateOnScroll = () => {
+            const elements = document.querySelectorAll('.about-image, .strain-card, .tip-card, .compound-card');
+            
+            elements.forEach(element => {
+                const elementPosition = element.getBoundingClientRect().top;
+                const screenPosition = window.innerHeight / 1.2;
+                
+                if (elementPosition < screenPosition) {
+                    element.style.opacity = '1';
+                    element.style.transform = 'translateY(0)';
+                }
+            });
+        };
+
+        // Set initial state for animated elements
+        document.querySelectorAll('.about-image, .strain-card, .tip-card, .compound-card').forEach(element => {
+            element.style.opacity = '0';
+            element.style.transform = 'translateY(20px)';
+            element.style.transition = 'all 0.5s ease';
+        });
+
+        window.addEventListener('scroll', animateOnScroll);
+        window.addEventListener('load', animateOnScroll);
+    </script>
+</body>
+</html>
