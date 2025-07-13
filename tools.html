@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dev Tools Pro | RataLife</title>
+    <link rel="icon" type="image/png" href="https://i.ibb.co/rGcG5ZVC/logo.png">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="estilo.css">
+</head>
+<body>
+    <div class="header">
+        <h1>Dev Tools Pro</h1>
+        <p>Herramientas avanzadas para desarrolladores hecho por RataLife (A. Téllez)</p>
+    </div>
+
+    <div class="grid-container">
+        <div class="card animate-in" style="animation-delay: 0.1s">
+            <div class="card-header">
+                <h2 class="card-title"><i class="fas fa-code"></i> Code Converter</h2>
+                <span class="card-badge">v2.1</span>
+                <button class="info-btn" data-tooltip="Show instructions" onclick="showInstructions('code')">
+                    <i class="fas fa-info-circle"></i>
+                </button>
+            </div>
+            
+            <div class="input-group">
+                <input type="text" class="input-field" placeholder="Input text or bytes..." id="inputField">
+                <button class="input-btn" id="inputIconButton1" data-tooltip="Paste">
+                    <i class="fas fa-paste"></i>
+                </button>
+                <button class="input-btn" id="inputIconButton2" data-tooltip="Clear">
+                    <i class="fas fa-trash-alt"></i>
+                </button>
+            </div>
+            
+            <div class="input-group">
+                <input type="text" class="input-field" placeholder="Output will appear here..." id="outputField" readonly>
+                <button class="input-btn" id="outputIconButton3" data-tooltip="Copy">
+                    <i class="fas fa-copy"></i>
+                </button>
+                <button class="input-btn" id="outputIconButton4" data-tooltip="Clear">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            
+            <div class="btn-group">
+                <button class="btn btn-primary" id="aobToByte">
+                    <i class="fas fa-exchange-alt"></i> AOB to Byte
+                </button>
+                <button class="btn btn-primary" id="byteToAob">
+                    <i class="fas fa-exchange-alt"></i> Byte to AOB
+                </button>
+                <button class="btn btn-danger" id="clearAll">
+                    <i class="fas fa-broom"></i> Clear All
+                </button>
+            </div>
+        </div>
+
+        <div class="card animate-in" style="animation-delay: 0.2s">
+            <div class="card-header">
+                <h2 class="card-title"><i class="fas fa-image"></i> Image Converter</h2>
+                <span class="card-badge">v2.0</span>
+                <button class="info-btn" data-tooltip="Show instructions" onclick="showInstructions('image')">
+                    <i class="fas fa-info-circle"></i>
+                </button>
+            </div>
+            
+            <div id="dropArea" class="drop-area">
+                <p>Drag & drop your image here</p>
+                <p>or</p>
+                <button class="btn" id="addImageButton">
+                    <i class="fas fa-upload"></i> Select Image
+                </button>
+                <img id="imagePreview" class="file-preview" alt="Image preview">
+                <div id="imageInfo" class="file-info"></div>
+            </div>
+            
+            <div id="imageResult" class="result-container"></div>
+            <div id="imageActions" class="result-actions">
+                <button class="btn btn-primary" id="copyImageButton">
+                    <i class="fas fa-copy"></i> Copy Bytes
+                </button>
+                <button class="btn btn-primary" id="downloadImageButton">
+                    <i class="fas fa-download"></i> Download
+                </button>
+            </div>
+            
+            <div class="btn-group">
+                <button class="btn btn-danger" id="clearImageButton">
+                    <i class="fas fa-trash"></i> Clear Image
+                </button>
+                <button class="btn btn-primary" id="convertImageButton">
+                    <i class="fas fa-cogs"></i> Convert to C++
+                </button>
+            </div>
+            
+            <input type="file" id="imageInput" accept="image/*" style="display: none;">
+        </div>
+
+        <div class="card animate-in" style="animation-delay: 0.3s">
+            <div class="card-header">
+                <h2 class="card-title"><i class="fas fa-font"></i> Font Converter</h2>
+                <span class="card-badge">v2.1</span>
+                <button class="info-btn" data-tooltip="Show instructions" onclick="showInstructions('font')">
+                    <i class="fas fa-info-circle"></i>
+                </button>
+            </div>
+            
+            <div id="fontDropArea" class="drop-area">
+                <p>Drag & drop your font file (TTF/OTF)</p>
+                <p>or</p>
+                <button class="btn" id="addFontButton">
+                    <i class="fas fa-upload"></i> Select Font
+                </button>
+                <div id="fontInfo" class="file-info"></div>
+            </div>
+            
+            <div id="fontResult" class="result-container"></div>
+            <div id="fontActions" class="result-actions">
+                <button class="btn btn-primary" id="copyFontButton">
+                    <i class="fas fa-copy"></i> Copy Bytes
+                </button>
+                <button class="btn btn-primary" id="downloadFontButton">
+                    <i class="fas fa-download"></i> Download
+                </button>
+            </div>
+            
+            <div class="btn-group">
+                <button class="btn btn-danger" id="clearFontButton">
+                    <i class="fas fa-trash"></i> Clear Font
+                </button>
+                <button class="btn btn-primary" id="convertFontButton">
+                    <i class="fas fa-cogs"></i> Convert to C++
+                </button>
+            </div>
+            
+            <input type="file" id="fontInput" accept=".ttf,.otf" style="display: none;">
+        </div>
+
+        <div class="card animate-in" style="animation-delay: 0.4s">
+            <div class="card-header">
+                <h2 class="card-title"><i class="fas fa-cubes"></i> Offset Extractor</h2>
+                <span class="card-badge">v2.1</span>
+                <button class="info-btn" data-tooltip="Show instructions" onclick="showInstructions('offset')">
+                    <i class="fas fa-info-circle"></i>
+                </button>
+            </div>
+            
+            <div id="csDropArea" class="drop-area">
+                <p>Drag & drop your .cs file here</p>
+                <p>or</p>
+                <button class="btn" id="addCsButton">
+                    <i class="fas fa-upload"></i> Select .cs File
+                </button>
+                <div id="csFileInfo" class="file-info"></div>
+            </div>
+            
+            <div id="csStatus" class="status status-success">Ready to process files</div>
+            
+            <div class="btn-group">
+                <button class="btn btn-primary" id="extractOffsetsButton">
+                    <i class="fas fa-hammer"></i> Extract Offsets
+                </button>
+                <button class="btn btn-danger" id="clearCsButton">
+                    <i class="fas fa-trash"></i> Clear File
+                </button>
+            </div>
+            
+            <div id="csResult" class="result-container"></div>
+            <div id="csActions" class="result-actions">
+                <button class="btn btn-primary" id="copyCsButton">
+                    <i class="fas fa-copy"></i> Copy Offsets
+                </button>
+                <button class="btn btn-primary" id="downloadCsButton">
+                    <i class="fas fa-download"></i> Download
+                </button>
+            </div>
+            
+            <input type="file" id="csInput" accept=".cs" style="display: none;"/>
+        </div>
+
+        <div class="card animate-in" style="animation-delay: 0.5s">
+            <div class="card-header">
+                <h2 class="card-title"><i class="fas fa-palette"></i> Color Picker</h2>
+                <span class="card-badge">v2.2</span>
+                <button class="info-btn" data-tooltip="Show instructions" onclick="showInstructions('color')">
+                    <i class="fas fa-info-circle"></i>
+                </button>
+            </div>
+            
+            <input type="color" id="colorPicker" value="#6d28d9">
+            
+            <div class="color-preview" id="colorPreviewBox">
+                <i class="fas fa-eye-dropper fa-2x"></i>
+            </div>
+            
+            <div id="colorValues" class="color-values">
+                <div class="color-value">
+                    <strong>HEX:</strong> 
+                    <span id="hexValue">#ff0000</span>
+                    <button class="copy-btn" data-target="hexValue">
+                        <i class="fas fa-copy"></i>
+                    </button>
+                </div>
+                <div class="color-value">
+                    <strong>RGBA:</strong> 
+                    <span id="rgbaValue">255, 0, 0</span>
+                    <button class="copy-btn" data-target="rgbaValue">
+                        <i class="fas fa-copy"></i>
+                    </button>
+                </div>
+                
+                <div id="advancedColorValues" style="display: none;">
+                    <div class="color-value">
+                        <strong>Float:</strong> 
+                        <span id="rgbFloatValue">0.43, 0.16, 0.85</span>
+                        <button class="copy-btn" data-target="rgbFloatValue">
+                            <i class="fas fa-copy"></i>
+                        </button>
+                    </div>
+                    <div class="color-value">
+                        <strong>CMYK:</strong> 
+                        <span id="cmykValue">50%, 82%, 0%, 15%</span>
+                        <button class="copy-btn" data-target="cmykValue">
+                            <i class="fas fa-copy"></i>
+                        </button>
+                    </div>
+                    <div class="color-value">
+                        <strong>HSV:</strong> 
+                        <span id="hsvValue">260°, 82%, 85%</span>
+                        <button class="copy-btn" data-target="hsvValue">
+                            <i class="fas fa-copy"></i>
+                        </button>
+                    </div>
+                    <div class="color-value">
+                        <strong>HSL:</strong> 
+                        <span id="hslValue">260°, 70%, 50%</span>
+                        <button class="copy-btn" data-target="hslValue">
+                            <i class="fas fa-copy"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+            <button class="btn btn-primary" id="toggleAdvancedColors">
+                <i class="fas fa-chevron-down"></i> Show More
+            </button>
+        </div>
+
+
+
+    <!--Web Cloner-->
+    <div class="card animate-in" style="animation-delay: 0.6s">
+    <div class="card-header">
+        <h2 class="card-title"><i class="fas fa-clone"></i> Web Cloner</h2>
+        <span class="card-badge">v1.0</span>
+        <button class="info-btn" data-tooltip="Show instructions" onclick="showInstructions('cloner')">
+            <i class="fas fa-info-circle"></i>
+        </button>
+    </div>
+    
+    <div class="input-group">
+        <input type="text" class="input-field" placeholder="Enter URL to clone..." id="cloneUrlInput">
+        <button class="input-btn" id="pasteCloneUrl" data-tooltip="Paste">
+            <i class="fas fa-paste"></i>
+        </button>
+    </div>
+    
+    <div id="cloneStatus" class="status">Ready to clone websites</div>
+    
+    <div class="btn-group">
+        <button class="btn btn-primary" id="cloneWebsiteBtn">
+            <i class="fas fa-copy"></i> Clone Website
+        </button>
+        <button class="btn btn-danger" id="clearCloneBtn">
+            <i class="fas fa-trash"></i> Clear
+        </button>
+    </div>
+    
+    <div id="cloneResult" class="result-container"></div>
+    <div id="cloneActions" class="result-actions" style="display: none;">
+        <button class="btn btn-primary" id="downloadCloneBtn">
+            <i class="fas fa-download"></i> Download as ZIP
+        </button>
+    </div>
+    </div>
+
+
+    <!--Qr Generatot-->
+    <div class="card animate-in" style="animation-delay: 0.7s">
+    <div class="card-header">
+        <h2 class="card-title"><i class="fas fa-qrcode"></i> QR Generator</h2>
+        <span class="card-badge">v1.0</span>
+        <button class="info-btn" data-tooltip="Show instructions" onclick="showInstructions('qr')">
+            <i class="fas fa-info-circle"></i>
+        </button>
+    </div>
+    
+    <div class="input-group">
+        <input type="text" class="input-field" placeholder="Enter text or URL..." id="qrInput">
+        <button class="input-btn" id="pasteQrInput" data-tooltip="Paste">
+            <i class="fas fa-paste"></i>
+        </button>
+    </div>
+    
+    <div class="color-preview" id="qrPreview" style="margin: 1rem auto; width: 200px; height: 200px; display: flex; align-items: center; justify-content: center;">
+        <p style="color: var(--text-secondary);">QR will appear here</p>
+    </div>
+    
+    <div class="color-values">
+        <div class="color-value">
+            <strong>QR Color:</strong>
+            <input type="color" id="qrColor" value="#000000" style="width: 30px; height: 30px; border: none; background: none;">
+        </div>
+        <div class="color-value">
+            <strong>Background:</strong>
+            <input type="color" id="qrBgColor" value="#ffffff" style="width: 30px; height: 30px; border: none; background: none;">
+        </div>
+    </div>
+    
+    <div class="btn-group">
+        <button class="btn btn-primary" id="generateQrBtn">
+            <i class="fas fa-qrcode"></i> Generate QR
+        </button>
+        <button class="btn btn-primary" id="downloadQrBtn" disabled>
+            <i class="fas fa-download"></i> Download
+        </button>
+        <button class="btn btn-danger" id="clearQrBtn">
+            <i class="fas fa-trash"></i> Clear
+        </button>
+    </div>
+    </div>
+
+<div class="card animate-in" style="animation-delay: 0.8s">
+    <div class="card-header">
+        <h2 class="card-title"><i class="fas fa-map-marker-alt"></i> IP Tracker</h2>
+        <span class="card-badge">v1.0</span>
+        <button class="info-btn" data-tooltip="Show instructions" onclick="showInstructions('ip')">
+            <i class="fas fa-info-circle"></i>
+        </button>
+    </div>
+    
+    <div class="input-group">
+        <input type="text" class="input-field" placeholder="Enter IP address or leave blank for your IP" id="ipInput">
+        <button class="input-btn" id="pasteIpInput" data-tooltip="Paste">
+            <i class="fas fa-paste"></i>
+        </button>
+    </div>
+    
+    <div id="ipStatus" class="status">Ready to track IP</div>
+    
+    <div class="btn-group">
+        <button class="btn btn-primary" id="trackIpBtn">
+            <i class="fas fa-search"></i> Track IP
+        </button>
+        <button class="btn btn-danger" id="clearIpBtn">
+            <i class="fas fa-trash"></i> Clear
+        </button>
+    </div>
+    
+    <div id="ipBasicInfo" style="margin-top: 1rem; display: none;">
+        <div class="color-value">
+            <strong>IP Address:</strong>
+            <span id="ipAddressValue">-</span>
+        </div>
+        <div class="color-value">
+            <strong>Location:</strong>
+            <span id="ipLocationValue">-</span>
+        </div>
+        <div class="color-value">
+            <strong>ISP:</strong>
+            <span id="ipIspValue">-</span>
+        </div>
+    </div>
+    
+    <div id="ipAdvancedInfo" style="display: none; margin-top: 1rem;">
+        <div class="color-value">
+            <strong>Country Code:</strong>
+            <span id="ipCountryCode">-</span>
+        </div>
+        <div class="color-value">
+            <strong>Region:</strong>
+            <span id="ipRegion">-</span>
+        </div>
+        <div class="color-value">
+            <strong>City:</strong>
+            <span id="ipCity">-</span>
+        </div>
+        <div class="color-value">
+            <strong>ZIP Code:</strong>
+            <span id="ipZip">-</span>
+        </div>
+        <div class="color-value">
+            <strong>Timezone:</strong>
+            <span id="ipTimezone">-</span>
+        </div>
+        <div class="color-value">
+            <strong>Coordinates:</strong>
+            <span id="ipCoordinates">-</span>
+        </div>
+    </div>
+    
+    <button class="btn" id="toggleIpInfo" style="margin-top: 1rem; display: none;">
+        <i class="fas fa-chevron-down"></i> Show More Details
+    </button>
+    
+    <div id="ipMap" style="height: 200px; margin-top: 1rem; border-radius: var(--border-radius); display: none;"></div>
+</div>
+<div class="card animate-in" style="animation-delay: 0.9s">
+    <div class="card-header">
+        <h2 class="card-title"><i class="fas fa-heart"></i> Credits</h2>
+        <span class="card-badge">v1.0</span>
+    </div>
+    
+    <div style="text-align: center; margin: 1.5rem 0;">
+        <img src="https://i.ibb.co/rGcG5ZVC/logo.png" alt="Logo" style="max-width: 150px; border-radius: var(--border-radius);">
+        <p style="margin-top: 1rem; color: var(--text-secondary);">Created with ❤️ by RataLife</p>
+    </div>
+    
+    <div class="btn-group" style="justify-content: center;">
+        <button class="btn" onclick="window.open('https://www.instagram.com/rat4life.rar/', '_blank')" style="background: linear-gradient(45deg, #405DE6, #5851DB, #833AB4, #C13584, #E1306C, #FD1D1D);">
+            <i class="fab fa-instagram"></i> Instagram
+        </button>
+        <button class="btn" onclick="window.open('https://discord.gg/vbnxmEuXS5', '_blank')" style="background: #5865F2;">
+            <i class="fab fa-discord"></i> Discord
+        </button>
+    </div>
+</div>
+<!------------------------------------------------------------------------------------------->
+    </div>
+    <!-- Color Picker Modal -->
+    <div id="colorPickerModal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal" onclick="closeColorPickerModal()">&times;</span>
+            <h3><i class="fas fa-palette"></i> Color Picker</h3>
+            <input type="color" id="modalColorPicker" value="#ff0000">
+            <div class="modal-color-preview" id="modalColorPreviewBox"></div>
+            <div class="modal-color-values">
+                <div class="color-value">
+                    <strong>HEX:</strong> 
+                    <span id="modalHexValue">#ff0000</span>
+                    <button class="copy-btn" data-target="modalHexValue">
+                        <i class="fas fa-copy"></i>
+                    </button>
+                </div>
+                <div class="color-value">
+                    <strong>RGBA:</strong> 
+                    <span id="modalRgbaValue">109, 40, 217, 1</span>
+                    <button class="copy-btn" data-target="modalRgbaValue">
+                        <i class="fas fa-copy"></i>
+                    </button>
+                </div>
+                <div class="color-value">
+                    <strong>Float:</strong> 
+                    <span id="modalRgbFloatValue">0.43, 0.16, 0.85</span>
+                    <button class="copy-btn" data-target="modalRgbFloatValue">
+                        <i class="fas fa-copy"></i>
+                    </button>
+                </div>
+            </div>
+            <button class="btn btn-primary" onclick="applyColor()">
+                <i class="fas fa-check"></i> Apply Color</button>
+            </div>
+        </div>
+        <div id="instructionsModal" class="modal"><div class="modal-content">
+            <span class="close-modal" onclick="closeInstructionsModal()">&times;</span>
+            <h3 id="instructionsTitle"><i class="fas fa-info-circle"></i> Instructions</h3>
+            <div id="instructionsContent"></div>
+        </div>
+    </div>
+    <div id="notification" class="notification"><span id="notificationMessage">
+    </span>
+</div>
+<script src="scriipt.js"></script></body></html>
