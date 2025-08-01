@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>JM Carreto - Bloc/Portafolio</title>
+    <title>Comunicado Oficial - TwentyFox</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
     <link rel="icon" href="https://i.ibb.co/pB4YR9bP/Dise-o-sin-t-tulo-1-removebg-preview.png">
@@ -114,429 +114,78 @@
             font-size: 1.5rem;
         }
 
-        /* Hero Section */
-        .hero {
-            height: 100vh;
-            background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('https://i.ibb.co/RpVRFCxS/original-e13b302a-45bd-48f2-bd9f-0c3fe598339f-IMG-20250123-WA0087.jpg') no-repeat center center/cover;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+        /* Main Content */
+        .main-content {
+            padding: 8rem 2rem 4rem;
+            max-width: 1200px;
+            margin: 0 auto;
             text-align: center;
-            color: white;
-            padding: 0 2rem;
         }
 
-        .hero-content {
-            max-width: 800px;
-            animation: fadeInUp 1s ease;
+        .notice-container {
+            background-color: white;
+            border-radius: 10px;
+            padding: 3rem;
+            box-shadow: 0 5px 30px rgba(0, 0, 0, 0.1);
+            margin-bottom: 3rem;
         }
 
-        .hero h1 {
-            font-size: 3.5rem;
-            margin-bottom: 1rem;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
-        }
-
-        .hero p {
-            font-size: 1.2rem;
+        .notice-title {
+            color: var(--secondary);
+            font-size: 2.5rem;
             margin-bottom: 2rem;
-            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+            border-bottom: 2px solid var(--accent);
+            padding-bottom: 1rem;
+            display: inline-block;
         }
 
-        .cta-button {
+        .notice-text {
+            text-align: left;
+            line-height: 1.8;
+            margin-bottom: 2rem;
+            font-size: 1.1rem;
+        }
+
+        .notice-text p {
+            margin-bottom: 1.5rem;
+        }
+
+        .countdown {
+            background-color: var(--primary);
+            color: white;
+            padding: 2rem;
+            border-radius: 10px;
+            margin: 2rem 0;
+        }
+
+        .countdown-title {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .timer {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: var(--accent);
+        }
+
+        .return-btn {
             display: inline-block;
             background-color: var(--accent);
             color: white;
-            padding: 0.8rem 2rem;
+            padding: 1rem 2.5rem;
             border-radius: 50px;
             text-decoration: none;
             font-weight: 600;
             transition: all 0.3s ease;
-            box-shadow: 0 4px 15px rgba(52, 152, 219, 0.4);
-        }
-
-        .cta-button:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 6px 20px rgba(52, 152, 219, 0.6);
-            background-color: #2980b9;
-        }
-
-        /* About Section */
-        .section {
-            padding: 5rem 2rem;
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-
-        .section-title {
-            text-align: center;
-            margin-bottom: 3rem;
-            position: relative;
-        }
-
-        .section-title h2 {
-            font-size: 2.5rem;
-            color: var(--primary);
-            display: inline-block;
-        }
-
-        .section-title h2::after {
-            content: '';
-            position: absolute;
-            bottom: -10px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 80px;
-            height: 3px;
-            background-color: var(--accent);
-        }
-
-        .about-content {
-            display: flex;
-            gap: 3rem;
-            align-items: center;
-        }
-
-        .about-text {
-            flex: 1;
-        }
-
-        .about-text h3 {
-            font-size: 1.8rem;
-            margin-bottom: 1.5rem;
-            color: var(--primary);
-        }
-
-        .about-text p {
-            margin-bottom: 1rem;
-            line-height: 1.6;
-        }
-
-        .about-image {
-            flex: 1;
-            position: relative;
-            border-radius: 10px;
-            overflow: hidden;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-        }
-
-        .about-image img {
-            width: 100%;
-            height: auto;
-            display: block;
-            transition: transform 0.5s ease;
-        }
-
-        .about-image:hover img {
-            transform: scale(1.05);
-        }
-
-        .stats {
-            display: flex;
-            gap: 2rem;
             margin-top: 2rem;
-        }
-
-        .stat-item {
-            text-align: center;
-            padding: 1.5rem;
-            background-color: white;
-            border-radius: 10px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
-            transition: all 0.3s ease;
-            flex: 1;
-        }
-
-        .stat-item:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
-        }
-
-        .stat-item i {
-            font-size: 2rem;
-            color: var(--accent);
-            margin-bottom: 1rem;
-        }
-
-        .stat-item h4 {
-            font-size: 1.5rem;
-            margin-bottom: 0.5rem;
-            color: var(--primary);
-        }
-
-        .stat-item p {
-            font-size: 0.9rem;
-            color: #666;
-        }
-
-        /* Pricing Section */
-        .pricing {
-            background-color: var(--light);
-        }
-
-        .pricing-plans {
-            display: flex;
-            gap: 2rem;
-            justify-content: center;
-        }
-
-        .plan {
-            background-color: white;
-            border-radius: 10px;
-            padding: 2rem;
-            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
-            transition: all 0.3s ease;
-            flex: 1;
-            max-width: 350px;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .plan:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
-        }
-
-        .plan.popular::before {
-            content: 'Popular';
-            position: absolute;
-            top: 15px;
-            right: -30px;
-            background-color: var(--secondary);
-            color: white;
-            padding: 0.2rem 2rem;
-            transform: rotate(45deg);
-            font-size: 0.8rem;
-            font-weight: 600;
-        }
-
-        .plan-header {
-            text-align: center;
-            margin-bottom: 2rem;
-            padding-bottom: 1.5rem;
-            border-bottom: 1px solid #eee;
-        }
-
-        .plan-name {
-            font-size: 1.5rem;
-            color: var(--primary);
-            margin-bottom: 0.5rem;
-        }
-
-        .plan-price {
-            font-size: 2.5rem;
-            font-weight: 700;
-            color: var(--accent);
-            margin-bottom: 0.5rem;
-        }
-
-        .plan-price span {
-            font-size: 1rem;
-            color: #666;
-            font-weight: normal;
-        }
-
-        .plan-features {
-            margin-bottom: 2rem;
-        }
-
-        .plan-features li {
-            list-style: none;
-            padding: 0.5rem 0;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-
-        .plan-features i {
-            color: var(--accent);
-        }
-
-        .plan-button {
-            display: block;
-            text-align: center;
-            background-color: var(--accent);
-            color: white;
-            padding: 0.8rem;
-            border-radius: 5px;
-            text-decoration: none;
-            font-weight: 600;
-            transition: all 0.3s ease;
-        }
-
-        .plan-button:hover {
-            background-color: #2980b9;
-        }
-
-        /* Gallery Section */
-        .gallery-container {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 1.5rem;
-        }
-
-        .gallery-item {
-            position: relative;
-            border-radius: 10px;
-            overflow: hidden;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-            aspect-ratio: 4/3;
-        }
-
-        .gallery-item img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            transition: transform 0.5s ease;
-        }
-
-        .gallery-item:hover img {
-            transform: scale(1.1);
-        }
-
-        .gallery-overlay {
-            position: absolute;
-            bottom: -100%;
-            left: 0;
-            width: 100%;
-            padding: 1.5rem;
-            background: linear-gradient(transparent, rgba(0, 0, 0, 0.8));
-            color: white;
-            transition: bottom 0.3s ease;
-        }
-
-        .gallery-item:hover .gallery-overlay {
-            bottom: 0;
-        }
-
-        .gallery-overlay h3 {
-            margin-bottom: 0.5rem;
-            font-size: 1.2rem;
-        }
-
-        .gallery-overlay p {
-            font-size: 0.9rem;
-            line-height: 1.5;
-        }
-
-        /* Contact Section */
-        .contact {
-            background-color: var(--light);
-        }
-
-        .contact-container {
-            display: flex;
-            gap: 3rem;
-        }
-
-        .contact-info {
-            flex: 1;
-        }
-
-        .contact-info h3 {
-            font-size: 1.8rem;
-            margin-bottom: 1.5rem;
-            color: var(--primary);
-        }
-
-        .contact-info p {
-            margin-bottom: 2rem;
-            line-height: 1.6;
-        }
-
-        .contact-methods {
-            display: flex;
-            flex-direction: column;
-            gap: 1.5rem;
-        }
-
-        .contact-method {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-        }
-
-        .contact-icon {
-            width: 50px;
-            height: 50px;
-            background-color: var(--accent);
-            color: white;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.2rem;
-        }
-
-        .contact-text h4 {
             font-size: 1.1rem;
-            margin-bottom: 0.3rem;
-            color: var(--primary);
         }
 
-        .contact-text a {
-            color: var(--text);
-            text-decoration: none;
-            transition: color 0.3s ease;
-        }
-
-        .contact-text a:hover {
-            color: var(--accent);
-        }
-
-        .contact-form {
-            flex: 1;
-            background-color: white;
-            padding: 2rem;
-            border-radius: 10px;
-            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
-        }
-
-        .form-group {
-            margin-bottom: 1.5rem;
-        }
-
-        .form-group label {
-            display: block;
-            margin-bottom: 0.5rem;
-            font-weight: 500;
-        }
-
-        .form-group input,
-        .form-group textarea {
-            width: 100%;
-            padding: 0.8rem;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-            font-size: 1rem;
-            transition: border-color 0.3s ease;
-        }
-
-        .form-group input:focus,
-        .form-group textarea:focus {
-            border-color: var(--accent);
-            outline: none;
-        }
-
-        .form-group textarea {
-            min-height: 150px;
-            resize: vertical;
-        }
-
-        .submit-button {
-            background-color: var(--accent);
-            color: white;
-            border: none;
-            padding: 0.8rem 2rem;
-            border-radius: 5px;
-            font-size: 1rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-
-        .submit-button:hover {
+        .return-btn:hover {
             background-color: #2980b9;
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
         }
 
         /* Footer */
@@ -609,39 +258,7 @@
             text-decoration: none;
         }
 
-        /* Animations */
-        .animate-on-scroll {
-            opacity: 0;
-            transform: translateY(30px);
-            transition: all 0.6s ease;
-        }
-
-        .animate-on-scroll.visible {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
         /* Responsive */
-        @media (max-width: 992px) {
-            .about-content {
-                flex-direction: column;
-            }
-
-            .pricing-plans {
-                flex-direction: column;
-                align-items: center;
-            }
-
-            .plan {
-                max-width: 100%;
-                width: 100%;
-            }
-
-            .contact-container {
-                flex-direction: column;
-            }
-        }
-
         @media (max-width: 768px) {
             nav ul {
                 position: fixed;
@@ -665,41 +282,15 @@
                 display: block;
             }
 
-            .hero h1 {
-                font-size: 2.5rem;
+            .main-content {
+                padding: 6rem 1.5rem 3rem;
             }
 
-            .hero p {
-                font-size: 1rem;
+            .notice-container {
+                padding: 2rem;
             }
 
-            .stats {
-                flex-direction: column;
-            }
-
-            .section {
-                padding: 3rem 1.5rem;
-            }
-
-            .section-title h2 {
-                font-size: 2rem;
-            }
-        }
-
-        @media (max-width: 576px) {
-            .hero h1 {
-                font-size: 2rem;
-            }
-
-            .about-text h3 {
-                font-size: 1.5rem;
-            }
-
-            .plan-name {
-                font-size: 1.3rem;
-            }
-
-            .plan-price {
+            .notice-title {
                 font-size: 2rem;
             }
 
@@ -708,261 +299,80 @@
                 gap: 1rem;
             }
         }
+
+        @media (max-width: 576px) {
+            .notice-title {
+                font-size: 1.8rem;
+            }
+
+            .timer {
+                font-size: 2rem;
+            }
+        }
     </style>
 </head>
 <body>
     <header id="header">
         <div class="header-container">
-            <a href="#" class="logo">
-                <span class="logo-icon">📸</span>
-                <span>JM Carreto</span>
+            <a href="index.html" class="logo">
+                <span class="logo-icon">🦊</span>
+                <span>TwentyFox</span>
             </a>
             <nav>
                 <div class="hamburger" id="hamburger">
                     <i class="fas fa-bars"></i>
                 </div>
                 <ul id="nav-menu">
-                    <li><a href="#home">Home</a></li>
-                    <li><a href="#about">About</a></li>
-                    <li><a href="#pricing">Prices/Plans</a></li>
-                    <li><a href="#gallery">Gallery</a></li>
-                    <li><a href="#contact">Contact</a></li>
-                    <li><a href="https://twentyfox.lat/">Our Host</a></li>
+                    <li><a href="index.html">Inicio</a></li>
+                    <li><a href="index.html#about">Nosotros</a></li>
+                    <li><a href="index.html#services">Servicios</a></li>
+                    <li><a href="index.html#contact">Contacto</a></li>
                 </ul>
             </nav>
         </div>
     </header>
 
-    <section class="hero" id="home">
-        <div class="hero-content">
-            <h1 class="animate__animated animate__fadeInDown">Capturando Momentos, Creando Recuerdos</h1>
-            <p class="animate__animated animate__fadeInUp animate__delay-1s">Fotografía profesional para eventos especiales, sesiones personales y ocasiones únicas. Cada imagen cuenta tu historia.</p>
-            <a href="#contact" class="cta-button animate__animated animate__fadeInUp animate__delay-2s">Contáctame</a>
-        </div>
-    </section>
-
-    <section class="section" id="about">
-        <div class="section-title">
-            <h2>About</h2>
-        </div>
-        <div class="about-content animate-on-scroll">
-            <div class="about-text">
-                <h3>Acerca de Mí</h3>
-                <p>Con más de tres años de experiencia en el mundo de la fotografía, me especializo en capturar la esencia de cada momento, transformando instantes fugaces en recuerdos eternos.</p>
-                <p>Mi enfoque combina técnica profesional con una sensibilidad artística única, asegurando que cada imagen no solo documente, sino que también evoque emociones y cuente una historia.</p>
-                <p>Ya sea un evento formal, una ocasión casual o una sesión personal, trabajo meticulosamente para ofrecer resultados excepcionales que superen expectativas, con una relación calidad-precio que hace accesible la excelencia fotográfica.</p>
+    <main class="main-content">
+        <div class="notice-container animate__animated animate__fadeIn">
+            <h1 class="notice-title">COMUNICADO OFICIAL</h1>
+            
+            <div class="notice-text">
+                <p><strong>Estimada comunidad, clientes y colaboradores:</strong></p>
                 
-                <div class="stats">
-                    <div class="stat-item">
-                        <i class="fas fa-camera"></i>
-                        <h4>500+</h4>
-                        <p>Eventos Capturados</p>
-                    </div>
-                    <div class="stat-item">
-                        <i class="fas fa-smile"></i>
-                        <h4>100%</h4>
-                        <p>Clientes Satisfechos</p>
-                    </div>
-                    <div class="stat-item">
-                        <i class="fas fa-calendar-alt"></i>
-                        <h4>3+</h4>
-                        <p>Años de Experiencia</p>
-                    </div>
-                </div>
-            </div>
-            <div class="about-image">
-                <img src="https://i.ibb.co/3mnt2MV0/imagen-2025-06-28-220332960.png" alt="Fotógrafo trabajando">
-            </div>
-        </div>
-    </section>
-
-    <section class="section pricing" id="pricing">
-        <div class="section-title">
-            <h2>Prices/Plans</h2>
-        </div>
-        <div class="pricing-plans">
-            <div class="plan animate-on-scroll" style="transition-delay: 0.1s;">
-                <div class="plan-header">
-                    <h3 class="plan-name">Básico</h3>
-                    <div class="plan-price">$3,000 <span>MXN / $158 USD</span></div>
-                    <p>Perfecto para eventos pequeños</p>
-                </div>
-                <ul class="plan-features">
-                    <li><i class="fas fa-check"></i> Todas las fotos en USB o Drive</li>
-                    <li><i class="fas fa-check"></i> Album con 36 fotos</li>
-                    <li><i class="fas fa-check"></i> 4 horas de cobertura</li>
-                </ul>
-                <a href="#contact" class="plan-button">Reservar</a>
+                <p>Por medio del presente, TwentyFox Services desea informar a la opinión pública que, a partir de la fecha, la empresa se deslinda completamente de cualquier relación profesional, contractual o personal con el señor José Miguel Martínez Carreto, quien hasta ahora había utilizado nuestros servicios de hosting para su página web personal.</p>
+                
+                <p>Esta decisión se ha tomado después de una cuidadosa evaluación interna y en estricto cumplimiento de nuestros valores corporativos y código de ética. TwentyFox Services rechaza categóricamente cualquier forma de acoso, discriminación, discurso de odio o comportamiento que atente contra la dignidad de las personas, ya sea en redes sociales o en cualquier otro ámbito.</p>
+                
+                <p>Como empresa comprometida con la inclusión, la diversidad y el respeto a los derechos humanos, consideramos fundamental tomar distancia de cualquier individuo o situación que no se alinee con estos principios fundamentales. Nuestra organización no tolera ni tolerará conductas que promuevan la división, el odio o la violencia en cualquiera de sus formas.</p>
+                
+                <p>Informamos además que esta página será dada de baja permanentemente el día <strong>15 de agosto de 2025</strong>, como parte de las medidas adoptadas por nuestra empresa. Todos los contenidos aquí alojados dejarán de estar disponibles a partir de esa fecha.</p>
+                
+                <p>Reiteramos nuestro compromiso con la transparencia y la responsabilidad social corporativa. TwentyFox LATAM continuará trabajando para ofrecer servicios de calidad, siempre dentro de un marco de respeto mutuo y valores éticos inquebrantables.</p>
+                
+                <p>Para cualquier aclaración o información adicional, quedamos a su disposición a través de nuestros canales oficiales de comunicación.</p>
+                
+                <p><strong>Atentamente,</strong><br>
+                Dirección General | Alejandro Téllez<br>
+                TwentyFox Services</p>
             </div>
             
-            <div class="plan popular animate-on-scroll" style="transition-delay: 0.2s;">
-                <div class="plan-header">
-                    <h3 class="plan-name">Estándar</h3>
-                    <div class="plan-price">$4,300 <span>MXN / $225 USD</span></div>
-                    <p>El más popular para eventos</p>
-                </div>
-                <ul class="plan-features">
-                    <li><i class="fas fa-check"></i> Todas las fotos en USB o Drive</li>
-                    <li><i class="fas fa-check"></i> Album con fotos</li>
-                    <li><i class="fas fa-check"></i> 5 horas de cobertura</li>
-                    <li><i class="fas fa-check"></i> Una Filmacion</li>
-                </ul>
-                <a href="#contact" class="plan-button">Reservar</a>
+            <div class="countdown">
+                <h3 class="countdown-title">Esta página será eliminada en:</h3>
+                <div class="timer" id="countdown-timer"></div>
             </div>
             
-            <div class="plan animate-on-scroll" style="transition-delay: 0.3s;">
-                <div class="plan-header">
-                    <h3 class="plan-name">Premium</h3>
-                    <div class="plan-price">$7,500 <span>MXN / $395 USD</span></div>
-                    <p>Cobertura completa</p>
-                </div>
-                <ul class="plan-features">
-                    <li><i class="fas fa-check"></i> Todas las fotos en USB o Drive</li>
-                    <li><i class="fas fa-check"></i> Album con 80 fotos</li>
-                    <li><i class="fas fa-check"></i> 6 horas de cobertura</li>
-                    <li><i class="fas fa-check"></i> Una Filmacion</li>
-                    <li><i class="fas fa-check"></i> Cuadro 11x14"</li>
-                </ul>
-                <a href="#contact" class="plan-button">Reservar</a>
-            </div>
+            <a href="index.html" class="return-btn">Volver al sitio oficial</a>
         </div>
-    </section>
-
-    <section class="section" id="gallery">
-        <div class="section-title">
-            <h2>Gallery</h2>
-        </div>
-        <div class="gallery-container">
-            <div class="gallery-item animate-on-scroll">
-                <img src="https://i.ibb.co/23qNYD1h/IMG-0582.jpg" alt="Deportes">
-                <div class="gallery-overlay">
-                    <h3>Deportes</h3>
-                    <p>Capturando la intensidad y pasión del movimiento atlético en su máxima expresión.</p>
-                </div>
-            </div>
-            <div class="gallery-item animate-on-scroll" style="transition-delay: 0.1s;">
-                <img src="https://i.ibb.co/5gHz8N74/imagen-2025-06-28-221604018.png" alt="Eventos Formales">
-                <div class="gallery-overlay">
-                    <h3>Eventos Formales</h3>
-                    <p>Elegancia y sofisticación en cada toma para bodas, galas y eventos corporativos.</p>
-                </div>
-            </div>
-            <div class="gallery-item animate-on-scroll" style="transition-delay: 0.2s;">
-                <img src="https://i.ibb.co/RWBYT7D/imagen-2025-06-28-221730048.png" alt="Eventos Casuales">
-                <div class="gallery-overlay">
-                    <h3>Eventos Casuales</h3>
-                    <p>La autenticidad de momentos espontáneos en reuniones familiares y fiestas íntimas.</p>
-                </div>
-            </div>
-            <div class="gallery-item animate-on-scroll" style="transition-delay: 0.3s;">
-                <img src="https://i.ibb.co/qM59Q4bV/imagen-2025-06-28-221857186.png" alt="Sesiones Personales">
-                <div class="gallery-overlay">
-                    <h3>Sesiones Personales</h3>
-                    <p>Retratos que revelan la esencia única de cada individuo con estilo y profundidad.</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section class="section contact" id="contact">
-        <div class="section-title">
-            <h2>Contact</h2>
-        </div>
-        <div class="contact-container">
-            <div class="contact-info animate-on-scroll">
-                <h3>Ponte en Contacto</h3>
-                <p>¿Listo para capturar tus momentos especiales? Contáctame para discutir tu proyecto, solicitar un presupuesto o simplemente para resolver cualquier duda que puedas tener sobre mis servicios.</p>
-                
-                <div class="contact-methods">
-                    <div class="contact-method">
-                        <div class="contact-icon">
-                            <i class="fab fa-whatsapp"></i>
-                        </div>
-                        <div class="contact-text">
-                            <h4>WhatsApp</h4>
-                            <a href="https://wa.me/2441044115">+52 1 244 104 4115</a>
-                        </div>
-                    </div>
-                    <div class="contact-method">
-                        <div class="contact-icon">
-                            <i class="fas fa-envelope"></i>
-                        </div>
-                        <div class="contact-text">
-                            <h4>Email</h4>
-                            <a href="mailto:carretojosemiguel@gmail.com">carretojosemiguel@gmail.com</a>
-                        </div>
-                    </div>
-                    <div class="contact-method">
-                        <div class="contact-icon">
-                            <i class="fab fa-instagram"></i>
-                        </div>
-                        <div class="contact-text">
-                            <h4>Instagram</h4>
-                            <a href="https://www.instagram.com/jm_cto/">@jm_cto</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="contact-form animate-on-scroll" style="transition-delay: 0.1s;">
-    <form action="https://formsubmit.co/carretojosemiguel@gmail.com" method="POST">
-        <input type="text" name="_honey" style="display:none">
-        <input type="hidden" name="_captcha" value="false">
-        
-        <div class="form-group">
-            <label for="name">Nombre</label>
-            <input type="text" id="name" name="name" required>
-        </div>
-        
-        <div class="form-group">
-            <label for="email">Email</label>
-            <input type="email" id="email" name="email" required>
-        </div>
-        
-        <div class="form-group">
-            <label for="phone">Teléfono</label>
-            <input type="tel" id="phone" name="phone" pattern="[0-9]{9,15}" title="Por favor ingresa un número de teléfono válido">
-        </div>
-        
-        <div class="form-group">
-            <label for="event-type">Tipo de Evento</label>
-            <select id="event-type" name="event-type" required>
-                <option value="" disabled selected>Selecciona una opción</option>
-                <option value="wedding">Boda</option>
-                <option value="portrait">Retratos</option>
-                <option value="sports">Deportes</option>
-                <option value="corporate">Corporativo</option>
-                <option value="other">Otro</option>
-            </select>
-        </div>
-        
-        <div class="form-group">
-            <label for="message">Mensaje</label>
-            <textarea id="message" name="message" rows="5" required></textarea>
-        </div>
-        
-        <button type="submit" class="submit-button">Enviar Mensaje</button>
-    </form>
-</div>
-        </div>
-    </section>
+    </main>
 
     <footer>
         <div class="footer-content">
-            <div class="footer-logo">JM Carreto</div>
+            <div class="footer-logo">TwentyFox Services</div>
             <div class="footer-links">
-                <a href="#home">Home</a>
-                <a href="#about">About</a>
-                <a href="#pricing">Prices/Plans</a>
-                <a href="#gallery">Gallery</a>
-                <a href="#contact">Contact</a>
-            </div>
-            <div class="social-links">
-                <a href="https://wa.me/2441044115" class="social-link"><i class="fab fa-whatsapp"></i></a>
-                <a href="mailto:carretojosemiguel@gmail.com" class="social-link"><i class="fas fa-envelope"></i></a>
-                <a href="https://instagram.com/jm_cto" class="social-link"><i class="fab fa-instagram"></i></a>
+                <a href="index.html">Inicio</a>
             </div>
             <div class="copyright">
-               &copy; 2025 <a href="index.html">TwentyFox</a>. Todos los derechos reservados. Página desarrollada por <a href="ale.html">Alejandro Téllez</a>.
+                &copy; 2025 <a href="index.html">TwentyFox Services</a>. Todos los derechos reservados.
             </div>
         </div>
     </footer>
@@ -997,55 +407,28 @@
             }
         });
 
-        // Smooth scrolling for anchor links
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function(e) {
-                e.preventDefault();
-                document.querySelector(this.getAttribute('href')).scrollIntoView({
-                    behavior: 'smooth'
-                });
-            });
-        });
-
-        // Animation on scroll
-        const animateElements = document.querySelectorAll('.animate-on-scroll');
-
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('visible');
-                }
-            });
-        }, {
-            threshold: 0.1
-        });
-
-        animateElements.forEach(element => {
-            observer.observe(element);
-        });
-
-        // Form submission
-        const form = document.querySelector('form');
-        if (form) {
-            form.addEventListener('submit', async (e) => {
-                e.preventDefault();
-                const formData = new FormData(form);
-                const response = await fetch(form.action, {
-                    method: 'POST',
-                    body: formData,
-                    headers: {
-                        'Accept': 'application/json'
-                    }
-                });
-                
-                if (response.ok) {
-                    alert('Mensaje enviado con éxito. ¡Gracias!');
-                    form.reset();
-                } else {
-                    alert('Hubo un error al enviar el mensaje. Por favor, inténtalo de nuevo.');
-                }
-            });
+        // Countdown timer
+        function updateCountdown() {
+            const countdownDate = new Date('August 15, 2025 00:00:00').getTime();
+            const now = new Date().getTime();
+            const distance = countdownDate - now;
+            
+            const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+            
+            document.getElementById('countdown-timer').innerHTML = 
+                `${days}d ${hours}h ${minutes}m ${seconds}s`;
+            
+            if (distance < 0) {
+                clearInterval(countdownInterval);
+                document.getElementById('countdown-timer').innerHTML = "PÁGINA ELIMINADA";
+            }
         }
+
+        const countdownInterval = setInterval(updateCountdown, 1000);
+        updateCountdown(); // Initial call
     </script>
 </body>
 </html>
