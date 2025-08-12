@@ -1,0 +1,366 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Tonalpohualli — Calculadora</title>
+  <link rel="icon" href="https://pueblodelalunametzitzin.wordpress.com/wp-content/uploads/2019/04/piedra-de-los-soles.png" />
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600;700&family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --bg1:#0f1724; --bg2:#0b1020; --accent:#ff7a18; --muted:rgba(255,255,255,0.75);
+      --glass: rgba(255,255,255,0.04);
+      --accent-glow: 0 10px 40px rgba(255,122,24,0.18);
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%;margin:0;font-family:'Quicksand',system-ui,-apple-system,Segoe UI,Roboto,'Helvetica Neue',Arial}
+    body{background:linear-gradient(120deg,var(--bg1),var(--bg2));color:var(--muted);display:flex;align-items:center;justify-content:center;padding:32px;user-select:none;-webkit-user-select:none;-moz-user-select:none}
+
+    /* allow selecting inside form controls */
+    input,textarea,button{user-select:text;-webkit-user-select:text}
+
+    /* particles canvas full-screen */
+    #bg-canvas{position:fixed;inset:0;z-index:0;pointer-events:none;mix-blend-mode:screen;opacity:0.35}
+
+    .app{position:relative;z-index:1;max-width:980px;width:100%;display:grid;grid-template-columns:1fr 360px;gap:28px;align-items:start}
+    @media (max-width:900px){.app{grid-template-columns:1fr;padding:18px}}
+
+    .card{background:linear-gradient(180deg,rgba(255,255,255,0.02),transparent);border-radius:20px;padding:28px;box-shadow:0 8px 30px rgba(0,0,0,0.6);backdrop-filter: blur(8px);border:1px solid rgba(255,255,255,0.03);transition:transform .28s ease,box-shadow .28s ease}
+    .card.react{transform:translateY(-6px) scale(1.01);box-shadow:var(--accent-glow)}
+
+    header{display:flex;align-items:center;gap:16px;margin-bottom:14px}
+    header h1{margin:0;font-size:28px;letter-spacing:0.4px}
+    .subtitle{margin:0;color:rgba(255,255,255,0.55);font-size:13px}
+
+    .controls{display:flex;gap:12px;align-items:center}
+    .date-input{padding:12px 14px;border-radius:12px;border:1px solid rgba(255,255,255,0.06);background:transparent;color:var(--muted);font-size:15px}
+    .btn{display:inline-flex;align-items:center;gap:10px;padding:12px 14px;border-radius:12px;background:linear-gradient(90deg,var(--accent),#ffb76b);border:none;color:#111;font-weight:700;cursor:pointer;box-shadow:0 6px 18px rgba(255,122,24,0.12);transition:transform .12s ease}
+    .btn:active{transform:translateY(1px)}
+    .secondary{background:transparent;border:1px solid rgba(255,255,255,0.06);color:var(--muted);font-weight:600}
+
+    .result{margin-top:18px;display:grid;grid-template-columns:120px 1fr;gap:16px;align-items:center}
+    .glyph{width:120px;height:120px;border-radius:16px;display:flex;align-items:center;justify-content:center;font-size:48px;background:linear-gradient(180deg,rgba(255,255,255,0.02),transparent);border:1px solid rgba(255,255,255,0.03);box-shadow:0 8px 30px rgba(0,0,0,0.4);position:relative;overflow:visible}
+    .glyph.react{animation:pop .9s cubic-bezier(.2,.9,.2,1)}
+    @keyframes pop{0%{transform:scale(1)}30%{transform:scale(1.25)}60%{transform:scale(0.95)}100%{transform:scale(1)}}
+
+    .burst{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;pointer-events:none}
+    .burst .ring{width:10px;height:10px;border-radius:50%;background:rgba(255,186,120,0.9);box-shadow:0 0 30px rgba(255,150,60,0.9);animation:burst 900ms ease-out}
+    @keyframes burst{0%{transform:scale(0.2);opacity:1}100%{transform:scale(8);opacity:0}}
+
+    .name{font-size:20px;font-weight:700}
+    .meta{color:rgba(255,255,255,0.7);font-size:14px;margin-top:6px}
+
+    .info{background:linear-gradient(90deg,rgba(255,255,255,0.02),transparent);padding:16px;border-radius:12px;border:1px solid rgba(255,255,255,0.03);margin-top:18px}
+    .info p{margin:8px 0;color:rgba(255,255,255,0.72);font-size:14px}
+
+    .side{position:relative}
+    .panel{position:sticky;top:28px;background:linear-gradient(180deg,rgba(255,255,255,0.02),transparent);padding:18px;border-radius:16px;border:1px solid rgba(255,255,255,0.03)}
+    .panel h3{margin:0 0 10px 0}
+    .small{font-size:13px;color:rgba(255,255,255,0.65)}
+
+    .chip{padding:8px 10px;border-radius:999px;background:rgba(255,255,255,0.03);font-weight:600;border:1px solid rgba(255,255,255,0.03)}
+
+    footer{grid-column:1/-1;margin-top:14px;color:rgba(255,255,255,0.45);font-size:13px}
+
+    /* little animation */
+    .pulse{animation:pulse 2s infinite}
+    @keyframes pulse{0%{transform:scale(1)}50%{transform:scale(1.03)}100%{transform:scale(1)}}
+
+    /* small responsive tweaks */
+    @media (max-width:560px){.result{grid-template-columns:1fr;grid-auto-rows:auto;text-align:center}.glyph{margin:0 auto}} 
+
+    /* tooltip */
+    .hint{font-size:12px;color:rgba(255,255,255,0.55);margin-top:8px}
+
+    /* subtle floating card accent */
+    .logo-mark{width:56px;height:56px;border-radius:12px;background:linear-gradient(180deg,#fff2e6,#ffd7b3);display:flex;align-items:center;justify-content:center;color:#111;font-weight:800}
+
+    /* small copied feedback */
+    .copied{background:#1f5; color:#012; padding:6px 10px; border-radius:8px; font-weight:700}
+  </style>
+</head>
+<body>
+  <canvas id="bg-canvas"></canvas>
+  <div class="app">
+    <div class="card" id="main-card">
+      <header>
+        <div class="logo-mark"><i class="fa-solid fa-sun"></i></div>
+        <div>
+          <h1>Tonalpohualli</h1>
+          <p class="subtitle">Descubre tu nombre en el calendario sagrado mexica</p>
+        </div>
+      </header>
+
+      <section class="controls">
+        <input id="birthdate" class="date-input" type="date" aria-label="Fecha de nacimiento" />
+        <button id="calculate-btn" class="btn"><i class="fa-solid fa-magnifying-glass"></i> Calcular</button>
+      </section>
+
+      <div id="output" class="info" hidden>
+        <div class="result">
+          <div class="glyph" id="glyph">🐒</div>
+          <div>
+            <div class="name" id="mexica-name">5 Ozomatli — Cinco Mono</div>
+            <div class="meta" id="meta">Trecena: 1 Venado • Día en ciclo: 123</div>
+            <div class="hint" id="hint">Se muestra el número (1–13), el signo (20 signos) y la trecena.</div>
+          </div>
+        </div>
+
+        <div style="display:flex;gap:12px;margin-top:14px;flex-wrap:wrap">
+          <div class="chip">Tonalpohualli día #: <strong id="tp-index">—</strong></div>
+          <div class="chip">Número (1–13): <strong id="tp-number">—</strong></div>
+          <div class="chip">Signo (0–19): <strong id="tp-sign">—</strong></div>
+          <div class="chip">Trecena #: <strong id="tp-trecena">—</strong></div>
+        </div>
+
+        <div id="extra" style="margin-top:12px;color:rgba(255,255,255,0.72)"></div>
+
+        <div style="margin-top:12px;display:flex;gap:8px;align-items:center">
+          <button id="copy-btn" class="btn secondary"><i class="fa-solid fa-copy"></i> Copiar resultado</button>
+          <div id="copy-feedback" style="min-width:120px"></div>
+        </div>
+      </div>
+
+      <div class="info" style="margin-top:18px">
+        <h3 style="margin-top:0">¿Qué es el Tonalpohualli?</h3>
+        <p>El <strong>Tonalpohualli</strong> es el calendario ritual mesoamericano de 260 días. Surge de la combinación de <strong>13 números</strong> (1 a 13) y <strong>20 signos</strong> (por ejemplo: Cipactli, Ehecatl, Calli, ...). Cada día resulta en una pareja número + signo — por ejemplo, <em>5 Ozomatli</em> (Cinco Mono).</p>
+        <p>Cada conjunto de 13 días forma una <strong>trecena</strong>. Hay 20 trecenas en total (13 × 20 = 260). El sistema no se alinea con el año solar; es un ciclo ritual usado para la adivinación, pronósticos y ceremonias.</p>
+        <p class="small">Para interpretar un día se suele considerar el número, el signo y la posición dentro de la trecena. Distintos códices y tradiciones ofrecen capas de asociación lingüística, iconográfica y ceremonial.</p>
+      </div>
+
+      <footer>© 2025 — Creado por RataLife</footer>
+    </div>
+
+    <aside class="side">
+      <div class="panel">
+        <h3>Signos (Tonalpohualli — 20)</h3>
+        <div id="signs-list" style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:10px"></div>
+
+        <hr style="border:none;border-top:1px solid rgba(255,255,255,0.04);margin:12px 0">
+    </aside>
+  </div>
+
+  <script>
+    // Signs array
+    const signs = [
+      {id:'cipactli', nahuatl:'Cipactli', esp:'Lagarto / Cocodrilo', glyph:'🐊'},
+      {id:'ehecatl', nahuatl:'Ehecatl', esp:'Viento', glyph:'💨'},
+      {id:'calli', nahuatl:'Calli', esp:'Casa', glyph:'🏠'},
+      {id:'cuetzpalin', nahuatl:'Cuetzpalin', esp:'Lagartija', glyph:'🦎'},
+      {id:'coatl', nahuatl:'Coatl', esp:'Serpiente', glyph:'🐍'},
+      {id:'miquiztli', nahuatl:'Miquiztli', esp:'Muerte', glyph:'💀'},
+      {id:'mazatl', nahuatl:'Mazatl', esp:'Venado', glyph:'🦌'},
+      {id:'tochtli', nahuatl:'Tochtli', esp:'Conejo', glyph:'🐇'},
+      {id:'atl', nahuatl:'Atl', esp:'Agua', glyph:'💧'},
+      {id:'itzcuintli', nahuatl:'Itzcuintli', esp:'Perro', glyph:'🐕'},
+      {id:'ozomahtli', nahuatl:'Ozomahtli', esp:'Mono', glyph:'🐒'},
+      {id:'malinalli', nahuatl:'Malinalli', esp:'Hierba', glyph:'🌿'},
+      {id:'acatl', nahuatl:'Acatl', esp:'Carrizo', glyph:'🎋'},
+      {id:'ocelotl', nahuatl:'Ocelotl', esp:'Jaguar', glyph:'🐆'},
+      {id:'cuauhtli', nahuatl:'Cuauhtli', esp:'Águila', glyph:'🦅'},
+      {id:'cozcacuauhtli', nahuatl:'Cozcacuauhtli', esp:'Buitre', glyph:'🦅'},
+      {id:'ollin', nahuatl:'Ollin', esp:'Movimiento / Terremoto', glyph:'🌊'},
+      {id:'tecpatl', nahuatl:'Tecpatl', esp:'Pedernal / Cuchillo', glyph:'🔪'},
+      {id:'quiahuitl', nahuatl:'Quiahuitl', esp:'Lluvia', glyph:'🌧️'},
+      {id:'xochitl', nahuatl:'Xochitl', esp:'Flor', glyph:'🌸'}
+    ];
+
+    // Fill side panel list
+    const listEl = document.getElementById('signs-list');
+    signs.forEach((s,i)=>{
+      const el = document.createElement('div');
+      el.style.padding='8px'; el.style.borderRadius='10px'; el.style.background='rgba(255,255,255,0.02)'; el.style.fontSize='14px'; el.innerHTML = `<strong style="display:inline-block;width:28px">${i+1}.</strong> ${s.nahuatl} — <span style="opacity:.8">${s.esp}</span> <span style="float:right">${s.glyph}</span>`;
+      listEl.appendChild(el);
+    });
+
+    // Reference date & reference tonalpohualli day from verified mapping
+    const referenceDate = new Date('2025-07-23T00:43:00-05:00');
+    const referenceNumber = 5; // number (1-13) on that reference day
+    const referenceSignIndex = signs.findIndex(s=>/ozoma/i.test(s.nahuatl)); // index of Ozomahtli
+
+    // helpers
+    function daysBetweenDates(d1,d2){
+      const msPerDay = 24*60*60*1000;
+      const utc1 = Date.UTC(d1.getFullYear(),d1.getMonth(),d1.getDate());
+      const utc2 = Date.UTC(d2.getFullYear(),d2.getMonth(),d2.getDate());
+      return Math.floor((utc1 - utc2) / msPerDay);
+    }
+
+    function calculateFromDate(inpDate){
+      const diffDays = daysBetweenDates(inpDate, referenceDate);
+      let tonalpohualliDay = ((referenceSignIndex * 13 + referenceNumber - 1 + diffDays) % 260 + 260) % 260;
+
+      const number = (tonalpohualliDay % 13) + 1; // 1-13
+      const signIndex = Math.floor(tonalpohualliDay / 13); // 0-19
+      const selectedSign = signs[signIndex];
+
+      const trecenaNumber = Math.floor(tonalpohualliDay / 13) + 1; // 1-20
+      const trecenaSign = signs[Math.floor(tonalpohualliDay / 13)];
+
+      return {
+        tonalpohualliDay, number, signIndex, selectedSign, trecenaNumber, trecenaSign, diffDays
+      };
+    }
+
+    // UI wiring
+    const birthInput = document.getElementById('birthdate');
+    const calcBtn = document.getElementById('calculate-btn');
+    const output = document.getElementById('output');
+
+    const glyphEl = document.getElementById('glyph');
+    const nameEl = document.getElementById('mexica-name');
+    const metaEl = document.getElementById('meta');
+    const tpIndex = document.getElementById('tp-index');
+    const tpNumber = document.getElementById('tp-number');
+    const tpSign = document.getElementById('tp-sign');
+    const tpTrecena = document.getElementById('tp-trecena');
+    const extra = document.getElementById('extra');
+    const copyBtn = document.getElementById('copy-btn');
+    const copyFeedback = document.getElementById('copy-feedback');
+    const mainCard = document.getElementById('main-card');
+
+    function createBurst(){
+      const burst = document.createElement('div');
+      burst.className = 'burst';
+      burst.innerHTML = '<div class="ring"></div>';
+      return burst;
+    }
+
+    function triggerReaction(){
+      // card lift
+      mainCard.classList.add('react');
+      glyphEl.classList.add('react');
+      // add burst to glyph
+      const b = createBurst();
+      glyphEl.appendChild(b);
+
+      // intensify particles briefly by toggling a flag
+      window._particleBoost = true;
+
+      setTimeout(()=>{
+        mainCard.classList.remove('react');
+        glyphEl.classList.remove('react');
+        if(b && b.parentNode) b.parentNode.removeChild(b);
+        window._particleBoost = false;
+      }, 1200);
+    }
+
+    function showResult(res, date){
+      output.hidden = false;
+      glyphEl.textContent = res.selectedSign.glyph;
+      nameEl.innerHTML = `${res.number} ${res.selectedSign.nahuatl} — ${res.number} ${res.selectedSign.esp}`;
+      metaEl.textContent = `Trecena: ${res.trecenaNumber} — ${res.trecenaSign.nahuatl} (${res.trecenaSign.esp}) • Día en ciclo: ${res.tonalpohualliDay}`;
+
+      tpIndex.textContent = res.tonalpohualliDay;
+      tpNumber.textContent = res.number;
+      tpSign.textContent = `${res.signIndex} (${res.selectedSign.nahuatl})`;
+      tpTrecena.textContent = `${res.trecenaNumber} (${res.trecenaSign.nahuatl})`;
+
+      extra.innerHTML = `<strong>Fecha consultada:</strong> ${date.toLocaleDateString()} (${date.toLocaleString()})`;
+
+      // react visually
+      triggerReaction();
+    }
+
+    calcBtn.addEventListener('click', ()=>{
+      const val = birthInput.value;
+      if(!val){alert('Por favor selecciona una fecha de nacimiento.'); return}
+      const parts = val.split('-');
+      const date = new Date(parts[0], parts[1]-1, parts[2]);
+      const res = calculateFromDate(date);
+      showResult(res, date);
+    });
+
+    // Copy button builds formatted text similar to user's example
+    copyBtn.addEventListener('click', async ()=>{
+      if(output.hidden){ alert('Primero calcula un resultado para copiar.'); return }
+      const val = birthInput.value;
+      const parts = val.split('-');
+      const date = new Date(parts[0], parts[1]-1, parts[2]);
+      const weekday = date.toLocaleDateString('es-ES', {weekday:'long'});
+      const day = date.getDate();
+      const month = date.toLocaleDateString('es-ES', {month:'long'});
+      const year = date.getFullYear();
+
+      const res = calculateFromDate(date);
+      const trecenaSign = res.trecenaSign.nahuatl;
+      const trecenaEsp = res.trecenaSign.esp;
+
+      const text = `*In tlaneztia in tonatiuh nochtin,* de acuerdo a la cuenta de nuestra continua tradición ancestral del tiempo:
+
+🌌 El día ${weekday} ${day} de ${month} de ${year} es un día:
+
+Axkan in tonalli:
+${res.selectedSign.glyph} *Makuilli ${res.selectedSign.nahuatl}*
+${res.number} ${res.selectedSign.esp}
+
+Iktlamakyei
+De la trecena:
+${res.trecenaSign.glyph} *Tze ${trecenaSign}*
+${res.trecenaNumber} ${trecenaEsp}
+
+Axkan Xiwitl
+Del Año:
+—`;
+
+      try{
+        await navigator.clipboard.writeText(text);
+        copyFeedback.innerHTML = `<span class="copied">Copiado al portapapeles</span>`;
+        setTimeout(()=>{ copyFeedback.innerHTML = ''; }, 2500);
+      }catch(e){
+        copyFeedback.innerHTML = `<span style="color:#ffb7b7">Error al copiar</span>`;
+      }
+    });
+
+    // small UX: enter key trigger
+    birthInput.addEventListener('keydown', (e)=>{ if(e.key==='Enter') calcBtn.click(); });
+
+    // Particles background (lightweight) with boost support
+    const canvas = document.getElementById('bg-canvas');
+    const ctx = canvas.getContext('2d');
+    let w,h,particles=[];
+    function initCanvas(){
+      const dpr = Math.max(1, window.devicePixelRatio || 1);
+      w = canvas.width = innerWidth * dpr;
+      h = canvas.height = innerHeight * dpr;
+      canvas.style.width = innerWidth + 'px';
+      canvas.style.height = innerHeight + 'px';
+      ctx.scale(dpr,dpr);
+
+      particles = Array.from({length: Math.round(window.innerWidth/40)}, ()=>({
+        x: Math.random()*innerWidth,
+        y: Math.random()*innerHeight,
+        r: Math.random()*1.6+0.6,
+        baseR: 0,
+        vx: (Math.random()-0.5)*0.2,
+        vy: -0.15 - Math.random()*0.2
+      }));
+    }
+    function tick(){
+      ctx.clearRect(0,0,innerWidth,innerHeight);
+      const boost = !!window._particleBoost;
+      particles.forEach(p=>{
+        p.x += p.vx * (boost?2.5:1);
+        p.y += p.vy * (boost?2.2:1);
+        // draw larger when boosted
+        const rad = p.r * (boost? (1.6 + Math.random()*0.8) : 1);
+        if(p.y < -20) { p.y = innerHeight+20; p.x = Math.random()*innerWidth }
+        ctx.beginPath(); ctx.globalAlpha = boost?0.9:0.6; ctx.fillStyle = boost? '#ffd6a6' : '#ffd6a6'; ctx.arc(p.x,p.y,rad,0,Math.PI*2); ctx.fill();
+      });
+      requestAnimationFrame(tick);
+    }
+    addEventListener('resize', ()=>initCanvas());
+    initCanvas(); tick();
+
+    // Pre-fill to user's approximate local date
+    (function prefill(){
+      const today = new Date();
+      const yyyy = today.getFullYear();
+      const mm = String(today.getMonth()+1).padStart(2,'0');
+      const dd = String(today.getDate()).padStart(2,'0');
+      birthInput.value = `${yyyy}-${mm}-${dd}`;
+    })();
+  </script>
+</body>
+</html>
