@@ -1,680 +1,826 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MotionSense | Detección de Movimientos</title>
-    <link rel="icon" href="https://i.ibb.co/N2wrjS5r/Dise-o-sin-t-tulo-removebg-preview.png">
-    <style>
-        :root {
-            --primary: #2563eb;
-            --primary-dark: #1d4ed8;
-            --secondary: #10b981;
-            --dark: #1e293b;
-            --light: #f8fafc;
-            --error: #ef4444;
-        }
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>MotionSense | Detección y Traducción de Señas</title>
+  <link rel="icon" href="https://i.ibb.co/N2wrjS5r/Dise-o-sin-t-tulo-removebg-preview.png">
+  <style>
+    :root{
+      --primary:#7c3aed; /* morado futurista */
+      --primary-2:#2563eb;
+      --secondary:#10b981;
+      --dark:#0b1220;
+      --panel:#0f172a;
+      --muted:#94a3b8;
+      --light:#e5e7eb;
+      --error:#ef4444;
+      --glass: rgba(15,23,42,0.6);
+      --border: rgba(255,255,255,0.08);
+    }
+    *{ box-sizing:border-box; margin:0; padding:0; font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Inter, Arial, "Noto Sans", "Helvetica Neue", "Apple Color Emoji","Segoe UI Emoji";}
+    html,body{height:100%}
+    body{
+      background:
+        radial-gradient(1200px 800px at 10% -10%, rgba(124,58,237,0.18), transparent 60%),
+        radial-gradient(1000px 600px at 110% 10%, rgba(37,99,235,0.16), transparent 60%),
+        linear-gradient(180deg,#070b14 0%, #0c1221 100%);
+      color:var(--light);
+      min-height:100vh; display:flex; flex-direction:column;
+      user-select:none;
+    }
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
+    header{
+      position:sticky; top:0; z-index:50; backdrop-filter: blur(10px);
+      background:linear-gradient(180deg, rgba(2,6,23,0.9), rgba(2,6,23,0.6));
+      border-bottom:1px solid var(--border);
+    }
+    .navbar{max-width:1200px; margin:0 auto; display:flex; align-items:center; justify-content:space-between; padding:1rem 1.25rem; gap:1rem;}
+    .logo{display:flex; align-items:center; gap:.75rem; font-weight:800; letter-spacing:.2px;}
+    .logo-icon{width:36px;height:36px;border-radius:10px;background:linear-gradient(135deg,var(--primary),var(--primary-2));display:grid;place-items:center; box-shadow: 0 6px 20px rgba(124,58,237,.35);}
+    .logo span{background:linear-gradient(90deg,#fff, #c7d2fe); -webkit-background-clip:text; background-clip:text; color:transparent;}
 
-        body {
-            background-color: var(--dark);
-            color: var(--light);
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            -webkit-user-select: none; 
-            -moz-user-select: none;   
-            -ms-user-select: none;    
-            user-select: none;  
-        }
+    .nav-links{display:flex; gap:1.25rem; flex-wrap:wrap}
+    .nav-links a{
+      color:var(--light); text-decoration:none; font-weight:600; opacity:.85; position:relative;
+    }
+    .nav-links a:hover{opacity:1}
+    .nav-links a::after{
+      content:""; position:absolute; left:0; bottom:-4px; height:2px; width:0; background:linear-gradient(90deg,var(--secondary),var(--primary));
+      transition:width .25s;
+    }
+    .nav-links a:hover::after{width:100%}
 
-        header {
-            background-color: rgba(30, 41, 59, 0.8);
-            backdrop-filter: blur(10px);
-            padding: 1.5rem;
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-            position: sticky;
-            top: 0;
-            z-index: 100;
-        }
+    main{flex:1; width:100%; max-width:1200px; margin:0 auto; padding:1.25rem; display:grid; gap:1.5rem}
+    .hero{
+      text-align:center; padding:1.25rem 0 0.5rem;
+      animation:fadeIn .8s ease-out both;
+    }
+    .hero h1{
+      font-size: clamp(1.8rem, 2.6vw, 2.6rem);
+      line-height:1.1;
+      background:linear-gradient(90deg,#fff, #93c5fd);
+      -webkit-background-clip:text; background-clip:text; color:transparent;
+      margin-bottom:.6rem; font-weight:900;
+    }
+    .hero p{max-width:800px; margin:0 auto; color:var(--muted)}
 
-        .navbar {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            max-width: 1200px;
-            margin: 0 auto;
-        }
+    .layout{
+      display:grid; grid-template-columns: 1.3fr .7fr; gap:1.25rem;
+    }
+    @media (max-width: 980px){
+      .layout{grid-template-columns: 1fr; }
+    }
 
-        .logo {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            font-weight: 700;
-            font-size: 1.5rem;
-        }
+    .panel{
+      background:var(--glass); border:1px solid var(--border); border-radius:16px; overflow:hidden;
+      box-shadow: 0 10px 30px rgba(0,0,0,.35);
+    }
+    .panel-header{
+      display:flex; align-items:center; justify-content:space-between; gap:1rem;
+      padding: .9rem 1rem; border-bottom:1px solid var(--border);
+      background: linear-gradient(180deg, rgba(124,58,237,.08), transparent);
+    }
+    .panel-title{font-weight:800; letter-spacing:.2px}
+    .panel-body{padding:1rem}
 
-        .logo-icon {
-            width: 32px;
-            height: 32px;
-            background-color: var(--primary);
-            border-radius: 8px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
+    .video-container{
+      position:relative; aspect-ratio:16/9; border-radius:12px; overflow:hidden;
+      background:rgba(2,6,23,.6);
+    }
+    video{width:100%; height:100%; object-fit:cover; display:block}
+    canvas#canvas{position:absolute; inset:0; width:100%; height:100%}
 
-        .nav-links {
-            display: flex;
-            gap: 1.5rem;
-        }
+    .floating-controls{
+      position:absolute; right:12px; bottom:12px; display:flex; gap:.5rem; flex-wrap:wrap;
+      z-index:20;
+    }
+    .chip{
+      border:1px solid var(--border); background:rgba(15,23,42,.7); padding:.55rem .8rem; border-radius:999px; font-weight:700; font-size:.86rem;
+      display:flex; align-items:center; gap:.5rem; cursor:pointer; transition: transform .15s ease, background .15s ease;
+    }
+    .chip:hover{transform: translateY(-1px); background:rgba(39,39,42,.5)}
 
-        .nav-links a {
-            color: var(--light);
-            text-decoration: none;
-            font-weight: 500;
-            transition: color 0.3s;
-            position: relative;
-        }
+    .controls{display:flex; flex-wrap:wrap; gap:.6rem}
+    .btn{
+      padding:.7rem 1rem; border-radius:10px; border:1px solid var(--border); background:rgba(2,6,23,.6); color:var(--light);
+      font-weight:800; display:inline-flex; align-items:center; gap:.6rem; cursor:pointer; transition:transform .15s ease, background .2s ease, opacity .2s ease;
+    }
+    .btn:disabled{opacity:.5; cursor:not-allowed}
+    .btn:hover{transform: translateY(-1px); background:rgba(30,41,59,.6)}
+    .btn-primary{background: linear-gradient(135deg,var(--primary), var(--primary-2)); border-color: transparent}
+    .btn-primary:hover{filter:brightness(1.05)}
 
-        .nav-links a:hover {
-            color: var(--secondary);
-        }
+    .stats{display:grid; grid-template-columns: repeat(4, minmax(0,1fr)); gap:.8rem; margin-top:1rem}
+    .stat{
+      padding:1rem; border:1px solid var(--border); border-radius:12px; background:rgba(2,6,23,.6); transition:transform .2s;
+    }
+    .stat:hover{transform:translateY(-2px)}
+    .stat h3{color:var(--muted); text-transform:uppercase; font-size:.78rem; letter-spacing:.12rem; margin-bottom:.35rem}
+    .stat p{font-weight:900; font-size:1.5rem; background:linear-gradient(90deg, var(--secondary), #a7f3d0); -webkit-background-clip:text; background-clip:text; color:transparent}
 
-        .nav-links a::after {
-            content: '';
-            position: absolute;
-            bottom: -4px;
-            left: 0;
-            width: 0;
-            height: 2px;
-            background-color: var(--secondary);
-            transition: width 0.3s;
-        }
+    .subtitles{
+      position:absolute; left:50%; transform:translateX(-50%); bottom:4%; max-width:86%;
+      background:rgba(0,0,0,.55); backdrop-filter: blur(6px);
+      border:1px solid rgba(255,255,255,.15); border-radius:12px; padding:.5rem .9rem; font-size: clamp(1rem, 2vw, 1.2rem); z-index:30; display:none;
+    }
 
-        .nav-links a:hover::after {
-            width: 100%;
-        }
+    .translator{
+      display:grid; gap:1rem;
+    }
+    .translator .row{display:flex; flex-wrap:wrap; gap:.6rem; align-items:center}
+    .select{
+      padding:.6rem .8rem; background:rgba(2,6,23,.6); border:1px solid var(--border); color:var(--light); border-radius:10px; font-weight:700;
+    }
+    .toggle{display:flex; align-items:center; gap:.4rem; cursor:pointer}
+    .kbd{
+      border:1px solid var(--border); background:rgba(0,0,0,.25); padding:.1rem .45rem; border-radius:6px; font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+      font-size:.82rem;
+    }
 
-        main {
-            flex: 1;
-            padding: 2rem;
-            max-width: 1200px;
-            margin: 0 auto;
-            width: 100%;
-        }
+    .transcript{
+      display:grid; gap:.6rem;
+    }
+    .transcript-box{
+      min-height:140px; max-height:280px; overflow:auto; border:1px solid var(--border); border-radius:12px; padding:.8rem; background:rgba(2,6,23,.6);
+      font-size:1rem; line-height:1.4;
+    }
+    .small{color:var(--muted); font-size:.9rem}
 
-        .hero {
-            text-align: center;
-            margin-bottom: 3rem;
-            animation: fadeIn 1s ease-out;
-        }
+    .loading{position:absolute; inset:0; display:grid; place-items:center; gap:.8rem; background:rgba(2,6,23,.65); z-index:10}
+    .spinner{width:44px;height:44px;border:4px solid rgba(255,255,255,.18); border-top-color: var(--primary); border-radius:999px; animation:spin 1s linear infinite}
 
-        .hero h1 {
-            font-size: 2.5rem;
-            margin-bottom: 1rem;
-            background: linear-gradient(to right, var(--primary), var(--secondary));
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-        }
+    footer{margin-top:1.5rem; background:rgba(2,6,23,.75); border-top:1px solid var(--border)}
+    .footer-inner{max-width:1200px; margin:0 auto; padding:1rem 1.25rem; text-align:center; color:var(--muted)}
 
-        .hero p {
-            font-size: 1.1rem;
-            color: #94a3b8;
-            max-width: 700px;
-            margin: 0 auto 2rem;
-        }
+    @keyframes fadeIn{from{opacity:0; transform:translateY(12px)} to{opacity:1; transform:none}}
+    @keyframes spin{to{transform:rotate(360deg)}}
 
-        .detection-container {
-            display: flex;
-            flex-direction: column;
-            gap: 2rem;
-        }
-
-        .video-container {
-            position: relative;
-            width: 100%;
-            max-width: 800px;
-            margin: 0 auto;
-            border-radius: 12px;
-            overflow: hidden;
-            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.3);
-            background-color: rgba(30, 41, 59, 0.5);
-            aspect-ratio: 16/9;
-        }
-
-        #video {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            display: block;
-        }
-
-        #canvas {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-        }
-
-        .controls {
-            display: flex;
-            justify-content: center;
-            gap: 1rem;
-            flex-wrap: wrap;
-        }
-
-        .btn {
-            padding: 0.75rem 1.5rem;
-            border: none;
-            border-radius: 8px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-
-        .btn-primary {
-            background-color: var(--primary);
-            color: white;
-        }
-
-        .btn-primary:hover {
-            background-color: var(--primary-dark);
-            transform: translateY(-2px);
-        }
-
-        .btn-secondary {
-            background-color: var(--secondary);
-            color: white;
-        }
-
-        .btn-secondary:hover {
-            background-color: #0d9c6e;
-            transform: translateY(-2px);
-        }
-
-        .btn-outline {
-            background-color: transparent;
-            border: 2px solid var(--light);
-            color: var(--light);
-        }
-
-        .btn-outline:hover {
-            background-color: rgba(255, 255, 255, 0.1);
-            transform: translateY(-2px);
-        }
-
-        .stats-container {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 1.5rem;
-            margin-top: 2rem;
-        }
-
-        .stat-card {
-            background-color: rgba(30, 41, 59, 0.7);
-            border-radius: 12px;
-            padding: 1.5rem;
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            transition: transform 0.3s, box-shadow 0.3s;
-        }
-
-        .stat-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 20px -5px rgba(0, 0, 0, 0.2);
-        }
-
-        .stat-card h3 {
-            color: #94a3b8;
-            font-size: 0.9rem;
-            margin-bottom: 0.5rem;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-
-        .stat-card p {
-            font-size: 1.8rem;
-            font-weight: 700;
-            background: linear-gradient(to right, var(--primary), var(--secondary));
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-        }
-
-        .loading {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            gap: 1rem;
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(30, 41, 59, 0.8);
-            z-index: 10;
-        }
-
-        .spinner {
-            width: 50px;
-            height: 50px;
-            border: 5px solid rgba(255, 255, 255, 0.1);
-            border-radius: 50%;
-            border-top-color: var(--primary);
-            animation: spin 1s ease-in-out infinite;
-        }
-
-        .loading p {
-            color: #94a3b8;
-        }
-
-        footer {
-            background-color: rgba(15, 23, 42, 0.8);
-            padding: 2rem;
-            text-align: center;
-            margin-top: 3rem;
-        }
-
-        .footer-content {
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-
-        .footer-links {
-            display: flex;
-            justify-content: center;
-            gap: 1.5rem;
-            margin-bottom: 1.5rem;
-        }
-
-        .footer-links a {
-            color: #94a3b8;
-            text-decoration: none;
-            transition: color 0.3s;
-        }
-
-        .footer-links a:hover {
-            color: var(--secondary);
-        }
-
-        .copyright {
-            color: #64748b;
-            font-size: 0.9rem;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        @keyframes spin {
-            to { transform: rotate(360deg); }
-        }
-
-        @media (max-width: 768px) {
-            .navbar {
-                flex-direction: column;
-                gap: 1rem;
-            }
-
-            .nav-links {
-                gap: 1rem;
-            }
-
-            .hero h1 {
-                font-size: 2rem;
-            }
-
-            .controls {
-                flex-direction: column;
-                align-items: center;
-            }
-
-            .btn {
-                width: 100%;
-                justify-content: center;
-            }
-        }
-
-        /* Animaciones para los puntos de detección */
-        @keyframes pulse {
-            0% { transform: scale(1); opacity: 1; }
-            50% { transform: scale(1.2); opacity: 0.7; }
-            100% { transform: scale(1); opacity: 1; }
-        }
-
-        .detection-point {
-            animation: pulse 1.5s infinite;
-        }
-    </style>
+    @media (max-width: 768px){
+      .navbar{flex-direction:column; align-items:flex-start}
+      .stats{grid-template-columns: repeat(2, minmax(0,1fr));}
+    }
+  </style>
 </head>
 <body>
-    <header>
-        <div class="navbar">
-            <div class="logo">
-                <div class="logo-icon">
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M12 2L3 7L12 12L21 7L12 2Z" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                        <path d="M3 12L12 17L21 12" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                        <path d="M3 17L12 22L21 17" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                    </svg>
-                </div>
-                <span>MotionSense by A. Téllez</span>
-            </div>
-            <div class="nav-links">
-                <a href="#demo">Demo</a>
-                <a href="https://twentyfox.lat/">Aplicaciones</a>
-                <a href="https://twentyfox.lat/ale.html">Contacto</a>
-            </div>
+  <header>
+    <div class="navbar">
+      <div class="logo">
+        <div class="logo-icon">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <path d="M12 2 3 7l9 5 9-5-9-5Z" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="m3 12 9 5 9-5" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="m3 17 9 5 9-5" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
         </div>
-    </header>
+        <span>MotionSense by A. Téllez</span>
+      </div>
+      <nav class="nav-links">
+        <a href="#demo">Demo</a>
+        <a href="https://twentyfox.lat/" target="_blank" rel="noopener">Aplicaciones</a>
+        <a href="https://twentyfox.lat/ale.html" target="_blank" rel="noopener">Contacto</a>
+      </nav>
+    </div>
+  </header>
 
-    <main>
-        <section class="hero">
-            <h1>Detección Avanzada de Movimientos</h1>
-            <p>Una solución moderna para interactuar con tecnología usando gestos naturales. Controla sistemas, analiza posturas y mejora la interacción humano-computadora sin contacto físico. Hecho por Alejandro Téllez</p>
-        </section>
+  <main>
+    <section class="hero">
+      <h1>Detección de Movimientos + Traducción de Señas en Tiempo Real</h1>
+      <p>Interacción natural con visión por computadora: control gestual, análisis de postura y <strong>traducción de señas</strong> con subtítulos y transcripción en vivo, todo en el navegador.</p>
+    </section>
 
-        <section class="detection-container">
-            <div class="video-container">
-                <video id="video" playsinline></video>
-                <canvas id="canvas"></canvas>
-                <div class="loading" id="loading">
-                    <div class="spinner"></div>
-                    <p>Cargando modelo de detección...</p>
-                </div>
-            </div>
-
-            <div class="controls">
-                <button class="btn btn-primary" id="startBtn">
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                        <path d="M10 8L16 12L10 16V8Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                    </svg>
-                    Iniciar
-                </button>
-                <button class="btn btn-secondary" id="stopBtn" disabled>
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                        <rect x="8" y="8" width="8" height="8" rx="1" fill="currentColor"/>
-                    </svg>
-                    Detener
-                </button>
-                <button class="btn btn-outline" id="switchCameraBtn">
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M23 19C23 19.5304 22.7893 20.0391 22.4142 20.4142C22.0391 20.7893 21.5304 21 21 21H3C2.46957 21 1.96086 20.7893 1.58579 20.4142C1.21071 20.0391 1 19.5304 1 19V8C1 7.46957 1.21071 6.96086 1.58579 6.58579C1.96086 6.21071 2.46957 6 3 6H7L9 3H15L17 6H21C21.5304 6 22.0391 6.21071 22.4142 6.58579C22.7893 6.96086 23 7.46957 23 8V19Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                        <path d="M12 17C14.2091 17 16 15.2091 16 13C16 10.7909 14.2091 9 12 9C9.79086 9 8 10.7909 8 13C8 15.2091 9.79086 17 12 17Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                    </svg>
-                    Cambiar Cámara
-                </button>
-            </div>
-
-            <div class="stats-container">
-                <div class="stat-card">
-                    <h3>Personas detectadas</h3>
-                    <p id="peopleCount">0</p>
-                </div>
-                <div class="stat-card">
-                    <h3>Puntos clave</h3>
-                    <p id="keypointsCount">0</p>
-                </div>
-                <div class="stat-card">
-                    <h3>Confianza media</h3>
-                    <p id="avgConfidence">0%</p>
-                </div>
-                <div class="stat-card">
-                    <h3>Estado</h3>
-                    <p id="statusText">Inactivo</p>
-                </div>
-            </div>
-        </section>
-    </main>
-
-    <footer>
-        <div class="footer-content">
-            <p class="copyright">© 2025 MotionSense by TwentyFox. Todos los derechos reservados. | Pagina desarrollada por Alejandro Téllez</p>
+    <section id="demo" class="layout">
+      <!-- Lado de video -->
+      <div class="panel">
+        <div class="panel-header">
+          <div class="panel-title">Cámara y Detección</div>
+          <div class="controls">
+            <button class="btn btn-primary" id="startBtn">Iniciar</button>
+            <button class="btn" id="stopBtn" disabled>Detener</button>
+            <button class="btn" id="switchCameraBtn">Cambiar Cámara</button>
+          </div>
         </div>
-    </footer>
+        <div class="panel-body">
+          <div class="video-container">
+            <video id="video" playsinline></video>
+            <canvas id="canvas"></canvas>
 
-    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@3.11.0/dist/tf.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/pose-detection@0.0.6"></script>
+            <div id="subtitles" class="subtitles"></div>
 
-    <script>
-        // Variables globales
-        let video = document.getElementById('video');
-        let canvas = document.getElementById('canvas');
-        let ctx = canvas.getContext('2d');
-        let stream = null;
-        let detector = null;
-        let animationId = null;
-        let isRunning = false;
-        let facingMode = "user";
-        let stats = {
-            people: 0,
-            keypoints: 0,
-            confidence: 0
-        };
+            <div class="floating-controls">
+              <div class="chip" id="chipStatus">Estado: <span id="statusText">Inactivo</span></div>
+              <div class="chip">Conf: <span id="avgConfidence">0%</span></div>
+            </div>
 
-        const startBtn = document.getElementById('startBtn');
-        const stopBtn = document.getElementById('stopBtn');
-        const switchCameraBtn = document.getElementById('switchCameraBtn');
-        const loadingElement = document.getElementById('loading');
-        const peopleCountElement = document.getElementById('peopleCount');
-        const keypointsCountElement = document.getElementById('keypointsCount');
-        const avgConfidenceElement = document.getElementById('avgConfidence');
-        const statusTextElement = document.getElementById('statusText');
+            <div class="loading" id="loading">
+              <div class="spinner"></div>
+              <div class="small">Cargando modelos…</div>
+            </div>
+          </div>
 
-        document.addEventListener('DOMContentLoaded', async () => {
-            statusTextElement.textContent = "Cargando modelo...";
-            
-            try {
-                const model = poseDetection.SupportedModels.MoveNet;
-                const detectorConfig = {
-                    modelType: poseDetection.movenet.modelType.SINGLEPOSE_THUNDER,
-                    enableSmoothing: true
-                };
-                
-                await tf.ready();
-                
-                detector = await poseDetection.createDetector(model, detectorConfig);
-                
-                loadingElement.style.display = "none";
-                statusTextElement.textContent = "Listo";
-                
-                startBtn.disabled = false;
-                
-                console.log("Modelo cargado correctamente");
-            } catch (error) {
-                console.error("Error al cargar el modelo:", error);
-                loadingElement.innerHTML = `
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z" stroke="#ef4444" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                        <path d="M12 8V12" stroke="#ef4444" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                        <path d="M12 16H12.01" stroke="#ef4444" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                    </svg>
-                    <p>Error al cargar el modelo. Por favor, actualiza tu navegador.</p>
-                `;
-                statusTextElement.textContent = "Error";
-            }
+          <div class="stats">
+            <div class="stat"><h3>Personas detectadas</h3><p id="peopleCount">0</p></div>
+            <div class="stat"><h3>Puntos clave</h3><p id="keypointsCount">0</p></div>
+            <div class="stat"><h3>FPS aprox.</h3><p id="fpsText">0</p></div>
+            <div class="stat"><h3>Manos</h3><p id="handsCount">0</p></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Lado traductor -->
+      <div class="panel">
+        <div class="panel-header">
+          <div class="panel-title">Traductor de Señas</div>
+          <div class="row">
+            <select id="dictSelect" class="select" title="Diccionario">
+              <option value="mixed" selected>Alfabeto + Señas comunes</option>
+              <option value="alphabet">Solo Alfabeto (A–Z)</option>
+              <option value="phrases">Solo Señas comunes</option>
+            </select>
+          </div>
+        </div>
+        <div class="panel-body translator">
+          <div class="row small">
+            <span class="kbd">Espacio</span> gesto “deslizar derecha” ·
+            <span class="kbd">Borrar</span> gesto “deslizar izquierda” ·
+            <span class="kbd">Confirmar</span> gesto “pulgar arriba”
+          </div>
+
+          <div class="transcript">
+            <div class="transcript-box" id="transcriptBox" aria-live="polite"></div>
+            <div class="row">
+              <button class="btn" id="clearTranscript">Limpiar</button>
+              <button class="btn" id="copyTranscript">Copiar</button>
+              <span class="small" id="lastWordHint"></span>
+            </div>
+          </div>
+
+          <div class="small">
+            <strong>Consejos:</strong> mantén la mano centrada y bien iluminada. El alfabeto se reconoce por posición de dedos;
+            para frases, usa las señas estáticas soportadas. Este módulo usa reglas geométricas + suavizado temporal.
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="footer-inner">© 2025 MotionSense by TwentyFox — Desarrollado por Alejandro Téllez</div>
+  </footer>
+
+  <!-- Libs -->
+  <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@4.12.0"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/pose-detection@2.1.3"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@mediapipe/hands/hands.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@mediapipe/camera_utils/camera_utils.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@mediapipe/drawing_utils/drawing_utils.js"></script>
+
+  <script>
+    // ---------- Estado global ----------
+    const video = document.getElementById('video');
+    const canvas = document.getElementById('canvas');
+    const ctx = canvas.getContext('2d');
+
+    let stream = null;
+    let detector = null;           // MoveNet
+    let cameraMP = null;           // MediaPipe camera
+    let isRunning = false;
+    let facingMode = 'user';
+    let animationId = null;
+
+    // UI
+    const loadingEl = document.getElementById('loading');
+    const peopleCountEl = document.getElementById('peopleCount');
+    const keypointsCountEl = document.getElementById('keypointsCount');
+    const avgConfidenceEl = document.getElementById('avgConfidence');
+    const statusTextEl = document.getElementById('statusText');
+    const fpsTextEl = document.getElementById('fpsText');
+    const handsCountEl = document.getElementById('handsCount');
+
+    const startBtn = document.getElementById('startBtn');
+    const stopBtn = document.getElementById('stopBtn');
+    const switchBtn = document.getElementById('switchCameraBtn');
+
+    const subtitlesEl = document.getElementById('subtitles');
+    const dictSelect = document.getElementById('dictSelect');
+    const transcriptBox = document.getElementById('transcriptBox');
+    const clearBtn = document.getElementById('clearTranscript');
+    const copyBtn = document.getElementById('copyTranscript');
+    const lastWordHint = document.getElementById('lastWordHint');
+
+    // Métricas
+    const stats = { people:0, keypoints:0, confidence:0, hands:0, fps:0 };
+    let lastFrameTime = performance.now();
+
+    // ---------- MediaPipe Hands ----------
+    const hands = new Hands({ locateFile: f => `https://cdn.jsdelivr.net/npm/@mediapipe/hands/${f}` });
+    hands.setOptions({
+      maxNumHands: 2,
+      modelComplexity: 1,
+      minDetectionConfidence: 0.7,
+      minTrackingConfidence: 0.7
+    });
+    hands.onResults(onHandsResults);
+
+    // ---------- Inicialización MoveNet ----------
+    document.addEventListener('DOMContentLoaded', async () => {
+      setStatus('Cargando modelos…');
+      try {
+        await tf.ready();
+        const model = poseDetection.SupportedModels.MoveNet;
+        const detectorConfig = { modelType: poseDetection.movenet.modelType.SINGLEPOSE_THUNDER, enableSmoothing:true };
+        detector = await poseDetection.createDetector(model, detectorConfig);
+        loadingEl.style.display = 'none';
+        setStatus('Listo');
+        startBtn.disabled = false;
+      } catch (e) {
+        console.error(e);
+        loadingEl.innerHTML =
+          `<div style="text-align:center">
+              <div style="margin-bottom:.5rem;color:#ef4444;font-weight:800">Error al cargar el modelo</div>
+              <div class="small">Actualiza tu navegador o verifica tu conexión.</div>
+           </div>`;
+        setStatus('Error');
+      }
+    });
+
+    // ---------- Cámara ----------
+    async function startCamera(){
+      try{
+        setStatus('Iniciando cámara…');
+        stream = await navigator.mediaDevices.getUserMedia({
+          video:{ facingMode, width:{ideal:1280}, height:{ideal:720} }, audio:false
         });
+        video.srcObject = stream;
+        await video.play();
+        canvas.width = video.videoWidth;
+        canvas.height = video.videoHeight;
 
-        async function startCamera() {
-            try {
-                statusTextElement.textContent = "Iniciando cámara...";
-                stream = await navigator.mediaDevices.getUserMedia({
-                    video: {
-                        facingMode: facingMode,
-                        width: { ideal: 1280 },
-                        height: { ideal: 720 }
-                    },
-                    audio: false
-                });
-                
-                video.srcObject = stream;
-                await video.play();
-                
-                canvas.width = video.videoWidth;
-                canvas.height = video.videoHeight;
-                
-                isRunning = true;
-                startBtn.disabled = true;
-                stopBtn.disabled = false;
-                statusTextElement.textContent = "Analizando...";
-                
-                detectPose();
-            } catch (error) {
-                console.error("Error al acceder a la cámara:", error);
-                statusTextElement.textContent = "Error de cámara";
-            }
-        }
+        isRunning = true;
+        startBtn.disabled = true; stopBtn.disabled = false;
+        setStatus('Analizando…');
 
-        function stopCamera() {
-            if (stream) {
-                stream.getTracks().forEach(track => track.stop());
-                stream = null;
-            }
-            
-            if (animationId) {
-                cancelAnimationFrame(animationId);
-                animationId = null;
-            }
-            
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-            
-            isRunning = false;
-            startBtn.disabled = false;
-            stopBtn.disabled = true;
-            statusTextElement.textContent = "Detenido";
-            
-            stats.people = 0;
-            stats.keypoints = 0;
-            stats.confidence = 0;
-            updateStats();
-        }
+        // Lanzar bucle de pose
+        detectPose();
 
-        async function switchCamera() {
-            if (!isRunning) return;
-            
-            facingMode = facingMode === "user" ? "environment" : "user";
-            stopCamera();
-            await startCamera();
-        }
-
-        async function detectPose() {
-            if (!isRunning) return;
-            
-            try {
-                const poses = await detector.estimatePoses(video);
-                
-                ctx.clearRect(0, 0, canvas.width, canvas.height);
-                
-                ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
-                
-                stats.people = poses.length;
-                stats.keypoints = 0;
-                let totalConfidence = 0;
-                let pointsWithConfidence = 0;
-                
-                poses.forEach(pose => {
-                    const keypoints = pose.keypoints;
-                    stats.keypoints += keypoints.length;
-                    
-                    drawConnections(keypoints);
-                    
-                    keypoints.forEach(keypoint => {
-                        if (keypoint.score > 0.2) { // Umbral de confianza
-                            drawKeypoint(keypoint);
-                            totalConfidence += keypoint.score;
-                            pointsWithConfidence++;
-                        }
-                    });
-                });
-                
-                stats.confidence = pointsWithConfidence > 0 
-                    ? Math.round((totalConfidence / pointsWithConfidence) * 100) 
-                    : 0;
-                
-                updateStats();
-                
-            } catch (error) {
-                console.error("Error en la detección:", error);
-            }
-            
-            animationId = requestAnimationFrame(detectPose);
-        }
-
-        function drawKeypoint(keypoint) {
-            const { x, y, score } = keypoint;
-            
-            if (score > 0.2) {
-                ctx.beginPath();
-                ctx.arc(x, y, 5, 0, 2 * Math.PI);
-                ctx.fillStyle = 'rgba(239, 68, 68, 0.8)';
-                ctx.fill();
-                
-                ctx.beginPath();
-                ctx.arc(x, y, 10, 0, 2 * Math.PI);
-                ctx.strokeStyle = 'rgba(239, 68, 68, 0.4)';
-                ctx.lineWidth = 2;
-                ctx.stroke();
-                
-                ctx.fillStyle = 'rgba(239, 68, 68, 0.8)';
-                ctx.fill();
-            }
-        }
-
-        function drawConnections(keypoints) {
-            const connections = [
-                // Cuerpo
-                [5, 6], [5, 7], [6, 8], [7, 9], [8, 10],
-                // Brazos
-                [5, 11], [6, 12], [11, 12], [11, 13], [12, 14], [13, 15], [14, 16],
-                // Piernas
-                [11, 23], [12, 24], [23, 24], [23, 25], [24, 26], [25, 27], [26, 28]
-            ];
-            
-            connections.forEach(connection => {
-                const [i, j] = connection;
-                const kp1 = keypoints[i];
-                const kp2 = keypoints[j];
-                
-                if (kp1 && kp2 && kp1.score > 0.2 && kp2.score > 0.2) {
-                    ctx.beginPath();
-                    ctx.moveTo(kp1.x, kp1.y);
-                    ctx.lineTo(kp2.x, kp2.y);
-                    ctx.strokeStyle = 'rgba(16, 185, 129, 0.8)';
-                    ctx.lineWidth = 2;
-                    ctx.stroke();
-                }
-            });
-        }
-
-        function updateStats() {
-            peopleCountElement.textContent = stats.people;
-            keypointsCountElement.textContent = stats.keypoints;
-            avgConfidenceElement.textContent = `${stats.confidence}%`;
-        }
-
-        startBtn.addEventListener('click', startCamera);
-        stopBtn.addEventListener('click', stopCamera);
-        switchCameraBtn.addEventListener('click', switchCamera);
-
-        window.addEventListener('beforeunload', () => {
-            stopCamera();
+        // Lanzar MediaPipe Hands
+        cameraMP = new Camera(video, {
+          onFrame: async () => { await hands.send({ image: video }); },
+          width: 1280, height: 720
         });
-    </script>
+        cameraMP.start();
+      }catch(e){
+        console.error('Camera error', e);
+        setStatus('Error de cámara');
+      }
+    }
+    function stopCamera(){
+      if (stream){ stream.getTracks().forEach(t=>t.stop()); stream = null; }
+      if (cameraMP){ cameraMP.stop(); cameraMP = null; }
+      if (animationId) cancelAnimationFrame(animationId);
+      isRunning = false;
+      startBtn.disabled = false; stopBtn.disabled = true;
+      ctx.clearRect(0,0,canvas.width,canvas.height);
+      stats.people = stats.keypoints = stats.confidence = stats.fps = stats.hands = 0;
+      updateStats();
+      setStatus('Detenido');
+    }
+    async function switchCamera(){
+      if (!isRunning) return;
+      facingMode = (facingMode === 'user') ? 'environment' : 'user';
+      stopCamera();
+      await startCamera();
+    }
+
+    startBtn.addEventListener('click', startCamera);
+    stopBtn.addEventListener('click', stopCamera);
+    switchBtn.addEventListener('click', switchCamera);
+    window.addEventListener('beforeunload', stopCamera);
+    clearBtn.addEventListener('click', () => { transcript = ''; renderTranscript(); });
+    copyBtn.addEventListener('click', () => {
+      navigator.clipboard.writeText(transcript).then(()=>showSubtitle('Transcripción copiada', 1200));
+    });
+
+    // ---------- Pose ----------
+    async function detectPose(){
+      if (!isRunning) return;
+
+      try{
+        const poses = await detector.estimatePoses(video);
+        ctx.clearRect(0,0,canvas.width,canvas.height);
+        ctx.drawImage(video,0,0,canvas.width,canvas.height);
+
+        stats.people = poses.length;
+        stats.keypoints = 0;
+        let total = 0; let count = 0;
+
+        for (const pose of poses){
+          const kps = pose.keypoints; stats.keypoints += kps.length;
+          drawPoseConnections(kps);
+          for (const kp of kps){
+            if (kp.score>0.2){
+              drawKP(kp);
+              total += kp.score; count++;
+            }
+          }
+        }
+        stats.confidence = count ? Math.round(100*total/count) : 0;
+
+        // FPS estimado
+        const now = performance.now();
+        const dt = now - lastFrameTime; lastFrameTime = now;
+        stats.fps = Math.round(1000 / Math.max(dt, 1));
+        updateStats();
+      }catch(e){
+        console.error('Pose error', e);
+      }
+      animationId = requestAnimationFrame(detectPose);
+    }
+    function drawKP({x,y}){
+      ctx.beginPath(); ctx.arc(x,y,5,0,2*Math.PI);
+      ctx.fillStyle='rgba(239,68,68,.85)'; ctx.fill();
+      ctx.beginPath(); ctx.arc(x,y,10,0,2*Math.PI);
+      ctx.strokeStyle='rgba(239,68,68,.35)'; ctx.lineWidth=2; ctx.stroke();
+    }
+    function drawPoseConnections(kps){
+      const conns = [
+        [5,6],[5,7],[6,8],[7,9],[8,10],
+        [5,11],[6,12],[11,12],[11,13],[12,14],[13,15],[14,16],
+        [11,23],[12,24],[23,24],[23,25],[24,26],[25,27],[26,28]
+      ];
+      for (const [i,j] of conns){
+        const a=kps[i], b=kps[j];
+        if (a&&b&&a.score>0.2&&b.score>0.2){
+          ctx.beginPath(); ctx.moveTo(a.x,a.y); ctx.lineTo(b.x,b.y);
+          ctx.strokeStyle='rgba(16,185,129,.85)'; ctx.lineWidth=2; ctx.stroke();
+        }
+      }
+    }
+    function setStatus(t){ statusTextEl.textContent = t; }
+
+    function updateStats(){
+      peopleCountEl.textContent = stats.people;
+      keypointsCountEl.textContent = stats.keypoints;
+      avgConfidenceEl.textContent = stats.confidence + '%';
+      fpsTextEl.textContent = stats.fps;
+      handsCountEl.textContent = stats.hands;
+    }
+
+    function showSubtitle(text, duration=1600){
+      subtitlesEl.textContent = text;
+      subtitlesEl.style.display = 'block';
+      clearTimeout(showSubtitle.t);
+      showSubtitle.t = setTimeout(()=>{ subtitlesEl.style.display = 'none'; }, duration);
+    }
+
+    // ---------- Traductor de señas (reglas) ----------
+    // Idea: evaluar "estado de dedo" (extendido/cerrado) comparando y (mano vertical) y distancias.
+    // Smoothing: ventana temporal + confirmación por estabilidad.
+    let transcript = '';
+    let currentWord = '';
+    let lastSymbol = null;
+    let stableCounter = 0;
+    const STABLE_FRAMES = 6; // frames necesarios para confirmar símbolo
+    const COOLDOWN_FRAMES = 6;
+    let cooldown = 0;
+
+    // Gestos dinámicos simples (swipe)
+    const motionHistory = [];
+    const MOTION_LEN = 6;
+    const SWIPE_THRESH = 0.08; // proporcional al ancho [0,1] del frame normalizado
+
+    // Diccionarios
+    const phrasesStatic = {
+      // Reconocidas por patrones predefinidos:
+      'HOLA':'OPEN_PALM',
+      'GRACIAS':'FLAT_THUMB_CHIN', // gesto: mano plana frente a boca (aprox. con pulgar cerca de barbilla) -> heurístico
+      'POR FAVOR':'FLAT_RUB',      // heurístico: mano plana centrada moviéndose leve
+      'SÍ':'THUMBS_UP',
+      'NO':'PINCH_INDEX_MIDDLE',   // juntar índice+medio (como "no") -> heurístico
+      'TE AMO':'ILY'               // ILY (meñique+pulgar+índice extendidos)
+    };
+
+    // Alfabeto (selección amplia con reglas típicas de ASL/LSM que son robustas en 2D)
+    // NOTA: Muchas letras se parecen; aquí hay un set práctico de alto acierto.
+    const alphabetRules = {
+      'A':'FIST_THUMB_SIDE',
+      'B':'ALL_EXTENDED_THUMB_CROSS',
+      'C':'CURVE_ALL',
+      'D':'INDEX_UP_RING_BENT',
+      'E':'CURLED_FINGERS_THUMB_TOUCH',
+      'F':'OK_SIGN',        // pulgar+índice círculo
+      'G':'INDEX_SIDE',
+      'H':'INDEX_MIDDLE_SIDE',
+      'I':'PINKY_UP',
+      'J':'I_SWEEP',        // meñique traza curva (detectamos como I + movimiento)
+      'K':'INDEX_MIDDLE_UP_THUMB_TOUCH',
+      'L':'INDEX_THUMB_L',
+      'M':'THREE_OVER_THUMB',
+      'N':'TWO_OVER_THUMB',
+      'O':'ALL_TOUCH_TIPS',
+      'P':'K_TILT_DOWN',
+      'Q':'G_TILT_DOWN',
+      'R':'CROSSED_INDEX_MIDDLE',
+      'S':'FIST_THUMB_OVER',
+      'T':'THUMB_BETWEEN_INDEX_MIDDLE',
+      'U':'INDEX_MIDDLE_UP_JOINED',
+      'V':'INDEX_MIDDLE_V',
+      'W':'THREE_UP',
+      'X':'CROOKED_INDEX',
+      'Y':'THUMB_PINKY_OUT',
+      'Z':'Z_DRAW'          // índice dibuja z (detectamos movimiento lateral/vertical)
+    };
+
+    // Conmutador de diccionario
+    function getActiveSets(){
+      const mode = dictSelect.value;
+      return {
+        useAlpha: mode !== 'phrases',
+        usePhrases: mode !== 'alphabet'
+      };
+    }
+
+    // Utilidades geométricas para estados de dedos
+    function isFingerExtended(landmarks, tip, pip){
+      // Si tip está significativamente más lejos de la muñeca que el PIP (en eje Y para mano vertical),
+      // y distancia con MCP sugiere extensión.
+      const wrist = landmarks[0];
+      const Ltip = landmarks[tip], Lpip = landmarks[pip];
+      if (!Ltip || !Lpip) return false;
+      const dyTip = Math.abs(Ltip.y - wrist.y);
+      const dyPip = Math.abs(Lpip.y - wrist.y);
+      const dx = Math.abs(Ltip.x - Lpip.x);
+      return (dyTip < dyPip) && (dx > 0.02 || Math.abs(Ltip.y - Lpip.y) > 0.025); // mano mirando a cámara (y menor = arriba)
+    }
+    function distance(a,b){ return Math.hypot(a.x-b.x, a.y-b.y); }
+
+    // Estados de dedos básicos (índices MediaPipe)
+    const FINGERS = {
+      THUMB: { tip:4, pip:3, mcp:2, ip:3, cmc:1 },
+      INDEX: { tip:8, pip:6, mcp:5 },
+      MIDDLE:{ tip:12, pip:10, mcp:9 },
+      RING:  { tip:16, pip:14, mcp:13 },
+      PINKY: { tip:20, pip:18, mcp:17 }
+    };
+
+    // Smoothing de manos activas
+    let lastHandsWorld = []; // guardamos histórico leve para movimiento
+    let lastSymbolShownAt = 0;
+
+    function onHandsResults(results){
+      if (!isRunning) return;
+
+      // Dibujo de manos
+      if (results.multiHandLandmarks){
+        stats.hands = results.multiHandLandmarks.length;
+        results.multiHandLandmarks.forEach(lms => {
+          drawConnectors(ctx, lms, HAND_CONNECTIONS, { color: '#10b981', lineWidth: 2 });
+          drawLandmarks(ctx, lms, { color: '#facc15', lineWidth: 1 });
+        });
+      } else {
+        stats.hands = 0;
+      }
+      updateStats();
+
+      // Traducción
+      if (cooldown>0) cooldown--;
+
+      const sets = getActiveSets();
+      if (results.multiHandLandmarks && results.multiHandLandmarks.length){
+        // Tomamos la mano principal (la de mayor área a ojo: bbox)
+        const best = pickPrimaryHand(results.multiHandLandmarks);
+        const sym = recognizeSymbol(best, results.multiHandedness ? results.multiHandedness[0] : null);
+        processSymbol(sym);
+        // movimiento para "swipe"
+        trackMotion(best);
+      }
+    }
+
+    function pickPrimaryHand(list){
+      let best=null, bestSpan=0;
+      for (const lms of list){
+        let minx=1, miny=1, maxx=0, maxy=0;
+        for (const p of lms){ minx=Math.min(minx,p.x); miny=Math.min(miny,p.y); maxx=Math.max(maxx,p.x); maxy=Math.max(maxy,p.y); }
+        const span=(maxx-minx)*(maxy-miny);
+        if (span>bestSpan){ bestSpan=span; best=lms; }
+      }
+      return best || list[0];
+    }
+
+    function recognizeSymbol(landmarks, handedness){
+      if (!landmarks) return null;
+
+      // Estados de dedos
+      const thumbUp = isFingerExtended(landmarks, FINGERS.THUMB.tip, FINGERS.THUMB.ip);
+      const indexUp = isFingerExtended(landmarks, FINGERS.INDEX.tip, FINGERS.INDEX.pip);
+      const middleUp = isFingerExtended(landmarks, FINGERS.MIDDLE.tip, FINGERS.MIDDLE.pip);
+      const ringUp = isFingerExtended(landmarks, FINGERS.RING.tip, FINGERS.RING.pip);
+      const pinkyUp = isFingerExtended(landmarks, FINGERS.PINKY.tip, FINGERS.PINKY.pip);
+
+      // Relaciones básicas
+      const thumbIndex = distance(landmarks[FINGERS.THUMB.tip], landmarks[FINGERS.INDEX.tip]);
+      const indexMiddle = distance(landmarks[FINGERS.INDEX.tip], landmarks[FINGERS.MIDDLE.tip]);
+      const wrist = landmarks[0];
+
+      // Gestos dinámicos (espacio/borrar) por swipe
+      const swipe = detectSwipe();
+      if (swipe === 'RIGHT') return { type:'COMMAND', value:'SPACE' };
+      if (swipe === 'LEFT') return { type:'COMMAND', value:'BACKSPACE' };
+
+      // Comandos sencillos
+      if (thumbUp && !indexUp && !middleUp && !ringUp && !pinkyUp) return { type:'COMMAND', value:'CONFIRM' }; // pulgar arriba
+
+      const {useAlpha, usePhrases} = getActiveSets();
+
+      // Frases comunes
+      if (usePhrases){
+        // OPEN_PALM (HOLA): todos extendidos, mano plana
+        if (indexUp && middleUp && ringUp && pinkyUp && !thumbUp) return { type:'PHRASE', value:'HOLA' };
+        // THUMBS_UP (SÍ) ya detectada vía comando -> mapeamos a palabra también si no estamos en edición
+        if (thumbUp && !indexUp && !middleUp && !ringUp && !pinkyUp) return { type:'PHRASE', value:'SÍ' };
+        // ILY (TE AMO): pulgar+índice+meñique extendidos
+        if (thumbUp && indexUp && !middleUp && !ringUp && pinkyUp) return { type:'PHRASE', value:'TE AMO' };
+        // "GRACIAS" y "POR FAVOR" son heurísticas avanzadas (aproximadas)
+        // Detectamos mano plana cerca de boca (pulgar cerca de barbilla)
+        const mouthY = 0.45; // aproximación: parte superior central
+        if (indexUp && middleUp && ringUp && pinkyUp && thumbUp && wrist.y < mouthY){
+          return { type:'PHRASE', value:'GRACIAS' };
+        }
+        // Mano plana centrada con leve micro-movimiento: lo aproximamos a POR FAVOR si palma abierta estable
+        if (indexUp && middleUp && ringUp && pinkyUp && thumbUp){
+          return { type:'PHRASE', value:'POR FAVOR' };
+        }
+        // "NO": pinza índice+medio (cercanos)
+        if (indexUp && middleUp && thumbIndex>0.08 && indexMiddle<0.035){
+          return { type:'PHRASE', value:'NO' };
+        }
+      }
+
+      // Alfabeto
+      if (useAlpha){
+        // L
+        if (indexUp && thumbUp && !middleUp && !ringUp && !pinkyUp) return { type:'LETTER', value:'L' };
+        // A/S (puños). Si pulgar de lado -> A, si sobre puño -> S
+        const thumbOnTop = distance(landmarks[FINGERS.THUMB.tip], landmarks[FINGERS.INDEX.mcp]) < 0.05;
+        const fist = !indexUp && !middleUp && !ringUp && !pinkyUp;
+        if (fist){
+          return { type:'LETTER', value: thumbOnTop ? 'S' : 'A' };
+        }
+        // B: todos extendidos excepto pulgar cruzado
+        if (!thumbUp && indexUp && middleUp && ringUp && pinkyUp) return { type:'LETTER', value:'B' };
+        // C: todos curvados (detectamos tips formando arco)
+        if (curvedAll(landmarks)) return { type:'LETTER', value:'C' };
+        // D: índice arriba solo + pulgar tocando medio
+        if (indexUp && !middleUp && !ringUp && !pinkyUp && thumbIndex<0.06) return { type:'LETTER', value:'D' };
+        // E: dedos curvados con pulgar tocando tips
+        if (!indexUp && !middleUp && !ringUp && !pinkyUp && thumbCloseToTips(landmarks)) return { type:'LETTER', value:'E' };
+        // F: OK
+        if (okSign(landmarks)) return { type:'LETTER', value:'F' };
+        // G: índice lateral (índice extendido, pulgar lateral, mano girada) — aproximación: índice extendido solo y pulgar cerca de índice
+        if (indexUp && !middleUp && !ringUp && !pinkyUp && thumbIndex<0.05) return { type:'LETTER', value:'G' };
+        // H: índice+medio extendidos (juntos), resto abajo
+        if (indexUp && middleUp && !ringUp && !pinkyUp) return { type:'LETTER', value:'H' };
+        // I: meñique arriba
+        if (!indexUp && !middleUp && !ringUp && pinkyUp) return { type:'LETTER', value:'I' };
+        // K: índice+medio arriba con pulgar tocando entre ambos
+        if (indexUp && middleUp && !ringUp && !pinkyUp && thumbBetween(landmarks,FINGERS.INDEX.tip,FINGERS.MIDDLE.tip)) return { type:'LETTER', value:'K' };
+        // M/N: tres o dos dedos sobre el pulgar
+        if (!indexUp && !middleUp && !ringUp && !pinkyUp && fingersOverThumb(landmarks)>=3) return { type:'LETTER', value:'M' };
+        if (!indexUp && !middleUp && !ringUp && !pinkyUp && fingersOverThumb(landmarks)===2) return { type:'LETTER', value:'N' };
+        // O: tips cerca formando círculo
+        if (allTipsClose(landmarks)) return { type:'LETTER', value:'O' };
+        // R: índice y medio cruzados (tips cercanos y PIPs cruzados) — aproximación: tips muy juntos
+        if (indexUp && middleUp && indexMiddle<0.02) return { type:'LETTER', value:'R' };
+        // T: pulgar entre índice y medio
+        if (!indexUp && !middleUp && !ringUp && !pinkyUp && thumbBetween(landmarks,FINGERS.INDEX.pip,FINGERS.MIDDLE.pip)) return { type:'LETTER', value:'T' };
+        // U/V/W
+        if (indexUp && middleUp && !ringUp && !pinkyUp && indexMiddle>0.03) return { type:'LETTER', value:'V' };
+        if (indexUp && middleUp && ringUp && !pinkyUp) return { type:'LETTER', value:'W' };
+        if (indexUp && middleUp && !ringUp && !pinkyUp && indexMiddle<0.03) return { type:'LETTER', value:'U' };
+        // X: índice encorvado
+        if (!middleUp && !ringUp && !pinkyUp && indexCurved(landmarks)) return { type:'LETTER', value:'X' };
+        // Y: pulgar y meñique fuera
+        if (thumbUp && !indexUp && !middleUp && !ringUp && pinkyUp) return { type:'LETTER', value:'Y' };
+      }
+
+      return null;
+    }
+
+    // --- Helpers de reglas ---
+    function curvedAll(lms){
+      // tips más cerca de sus PIPs que de la muñeca
+      const fingers = [FINGERS.INDEX, FINGERS.MIDDLE, FINGERS.RING, FINGERS.PINKY];
+      let curved=0;
+      for (const f of fingers){
+        if (distance(lms[f.tip], lms[f.pip]) < distance(lms[f.pip], lms[0]) * 0.6) curved++;
+      }
+      return curved>=3;
+    }
+    function thumbCloseToTips(lms){
+      const t=lms[FINGERS.THUMB.tip];
+      const fTips=[FINGERS.INDEX.tip, FINGERS.MIDDLE.tip, FINGERS.RING.tip, FINGERS.PINKY.tip].map(i=>lms[i]);
+      return fTips.some(p=>distance(t,p)<0.045);
+    }
+    function okSign(lms){
+      const t=lms[FINGERS.THUMB.tip], i=lms[FINGERS.INDEX.tip];
+      return distance(t,i)<0.035;
+    }
+    function thumbBetween(lms, aIdx, bIdx){
+      const t=lms[FINGERS.THUMB.tip], a=lms[aIdx], b=lms[bIdx];
+      const d = Math.abs((b.y - a.y) * t.x - (b.x - a.x) * t.y + b.x * a.y - b.y * a.x) / Math.hypot(b.y - a.y, b.x - a.x);
+      return d < 0.03;
+    }
+    function fingersOverThumb(lms){
+      const t=lms[FINGERS.THUMB.tip];
+      let over=0;
+      for (const f of [FINGERS.INDEX, FINGERS.MIDDLE, FINGERS.RING]){
+        if (lms[f.pip].y < t.y) over++;
+      }
+      return over;
+    }
+    function allTipsClose(lms){
+      const tips=[4,8,12,16,20].map(i=>lms[i]);
+      let maxd=0;
+      for (let i=0;i<tips.length;i++){
+        for (let j=i+1;j<tips.length;j++){
+          maxd = Math.max(maxd, distance(tips[i], tips[j]));
+        }
+      }
+      return maxd<0.12;
+    }
+    function indexCurved(lms){
+      // índice con tip más cerca del PIP que de la muñeca
+      return distance(lms[8], lms[6]) < distance(lms[6], lms[0]) * 0.7;
+    }
+
+    // --- Movimiento (swipe izquierda/derecha) ---
+    function trackMotion(lms){
+      const center = centroid(lms);
+      motionHistory.push(center);
+      if (motionHistory.length > MOTION_LEN) motionHistory.shift();
+    }
+    function centroid(lms){
+      let x=0,y=0; for (const p of lms){ x+=p.x; y+=p.y; }
+      const n=lms.length||1; return {x:x/n, y:y/n};
+    }
+    function detectSwipe(){
+      if (motionHistory.length < MOTION_LEN) return null;
+      const dx = motionHistory[motionHistory.length-1].x - motionHistory[0].x;
+      if (dx > SWIPE_THRESH) return 'RIGHT';
+      if (dx < -SWIPE_THRESH) return 'LEFT';
+      return null;
+    }
+
+    // --- Pipeline de confirmación y construcción de texto ---
+    function processSymbol(sym){
+      if (!sym) { stableCounter=0; lastSymbol=null; return; }
+      // Debounce por estabilidad de frames
+      const key = sym.type + ':' + sym.value;
+      if (lastSymbol === key){
+        stableCounter++;
+      }else{
+        lastSymbol = key; stableCounter = 1;
+      }
+      if (cooldown>0) return;
+
+      if (stableCounter >= STABLE_FRAMES){
+        stableCounter = 0; cooldown = COOLDOWN_FRAMES;
+
+        if (sym.type === 'LETTER'){
+          currentWord += sym.value;
+          showSubtitle(sym.value);
+          lastWordHint.textContent = 'Palabra: ' + currentWord;
+        } else if (sym.type === 'PHRASE'){
+          pushToken(sym.value + ' ');
+        } else if (sym.type === 'COMMAND'){
+          if (sym.value === 'SPACE'){
+            if (currentWord) { pushToken(currentWord + ' '); currentWord=''; }
+            else { pushToken(' '); }
+          } else if (sym.value === 'BACKSPACE'){
+            if (currentWord.length) currentWord = currentWord.slice(0,-1);
+            else transcript = transcript.trimEnd().slice(0,-1);
+            renderTranscript();
+            lastWordHint.textContent = currentWord ? ('Palabra: ' + currentWord) : '';
+            showSubtitle('⌫', 700);
+          } else if (sym.value === 'CONFIRM'){
+            if (currentWord){ pushToken(currentWord + ' '); currentWord=''; }
+            showSubtitle('✔️');
+          }
+        }
+      }
+    }
+
+    function pushToken(t){
+      transcript += t;
+      renderTranscript();
+      lastWordHint.textContent = '';
+    }
+    function renderTranscript(){
+      transcriptBox.textContent = transcript + (currentWord ? ('['+currentWord+']') : '');
+      transcriptBox.scrollTop = transcriptBox.scrollHeight;
+    }
+
+    // ---------- FIN ----------
+  </script>
 </body>
 </html>
