@@ -1,0 +1,949 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RataLife's Webhook Fucker</title>
+    <link rel="shortcut icon" href="https://i.ibb.co/gbzJqzZG/05f4d2897f81a059bdd883b485f7c352.webp" type="image/x-icon">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: radial-gradient(circle at center, #0a0a0a 0%, #000000 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            color: #e0e0e0;
+            overflow: hidden;
+            position: relative;
+    -webkit-user-select: none; /* Chrome/Safari */        
+    -moz-user-select: none; /* Firefox */
+    -ms-user-select: none; /* IE10+/Edge */
+    user-select: none;
+        }
+        
+        /* Fondo de partículas */
+        #particle-canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+        }
+        
+        /* Contenedor principal con efecto vidrio */
+        .container {
+            width: 100%;
+            max-width: 850px;
+            background: rgba(20, 20, 20, 0.8);
+            backdrop-filter: blur(12px);
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.7);
+            border: 1px solid rgba(80, 80, 80, 0.3);
+            position: relative;
+            z-index: 10;
+        }
+        
+        /* Cabecera con degradado de grises */
+        header {
+            background: linear-gradient(90deg, #121212 0%, #1e1e1e 100%);
+            padding: 25px 40px;
+            text-align: center;
+            position: relative;
+            border-bottom: 1px solid rgba(100, 100, 100, 0.3);
+        }
+        
+        h1 {
+            font-size: 2.8rem;
+            margin-bottom: 10px;
+            background: linear-gradient(to right, #d0d0d0, #a0a0a0);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 0 15px rgba(180, 180, 180, 0.2);
+            letter-spacing: 1px;
+            font-weight: 800;
+            text-transform: uppercase;
+        }
+        
+        .subtitle {
+            font-size: 1.1rem;
+            opacity: 0.7;
+            margin-top: 5px;
+            color: #aaa;
+        }
+        
+        /* Contenido principal */
+        .content {
+            padding: 30px 40px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+        }
+        
+        .panel {
+            background: rgba(30, 30, 30, 0.6);
+            border-radius: 12px;
+            padding: 25px;
+            border: 1px solid rgba(70, 70, 70, 0.3);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .panel:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 25px rgba(50, 50, 50, 0.3);
+        }
+        
+        .panel-title {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 1.4rem;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid rgba(90, 90, 90, 0.3);
+            color: #d0d0d0;
+        }
+        
+        .panel-title i {
+            font-size: 1.6rem;
+            color: #b0b0b0;
+        }
+        
+        /* Grupos de entrada */
+        .input-group {
+            margin-bottom: 22px;
+            position: relative;
+        }
+        
+        .input-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: #c0c0c0;
+        }
+        
+        .input-group i {
+            font-size: 1.1rem;
+            color: #909090;
+        }
+        
+        .input-group input, 
+        .input-group textarea,
+        .input-group select {
+            width: 100%;
+            padding: 14px 18px;
+            background: rgba(10, 10, 10, 0.5);
+            border: 1px solid rgba(100, 100, 100, 0.4);
+            border-radius: 10px;
+            color: #f0f0f0;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+        
+        .input-group input:focus, 
+        .input-group textarea:focus {
+            outline: none;
+            border-color: #707070;
+            box-shadow: 0 0 0 2px rgba(120, 120, 120, 0.2);
+        }
+        
+        .input-group textarea {
+            min-height: 120px;
+            resize: vertical;
+            font-family: monospace;
+        }
+        
+        /* Grupo de botones */
+        .button-group {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 15px;
+            margin-top: 10px;
+        }
+        
+        .btn {
+            padding: 16px;
+            border: none;
+            border-radius: 10px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+        }
+        
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+            transform: translateX(-100%);
+            z-index: -1;
+        }
+        
+        .btn:hover::before {
+            animation: shine 1.5s infinite;
+        }
+        
+        @keyframes shine {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+        
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.5);
+        }
+        
+        .btn:active {
+            transform: translateY(0);
+        }
+        
+        .btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+        
+        .btn i {
+            font-size: 1.3rem;
+        }
+        
+        .start-btn {
+            background: linear-gradient(90deg, #404040 0%, #606060 100%);
+            color: white;
+        }
+        
+        .stop-btn {
+            background: linear-gradient(90deg, #303030 0%, #505050 100%);
+            color: #e0e0e0;
+        }
+        
+        .delete-btn {
+            background: linear-gradient(90deg, #8b0000 0%, #a00000 100%);
+            color: white;
+        }
+        
+        /* Área de estado */
+        .status-panel {
+            grid-column: span 2;
+            padding: 25px;
+            background: rgba(30, 30, 30, 0.6);
+            border-radius: 12px;
+            border: 1px solid rgba(70, 70, 70, 0.3);
+            margin-top: 10px;
+        }
+        
+        .status-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+        }
+        
+        .counter {
+            font-size: 1.4rem;
+            font-weight: 600;
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+        
+        .counter span {
+            color: #d0d0d0;
+            font-size: 1.8rem;
+            font-weight: 700;
+        }
+        
+        .progress-container {
+            width: 100%;
+            max-width: 600px;
+            height: 12px;
+            background: rgba(10, 10, 10, 0.5);
+            border-radius: 6px;
+            overflow: hidden;
+            margin-top: 5px;
+        }
+        
+        .progress-bar {
+            height: 100%;
+            background: linear-gradient(90deg, #505050, #909090);
+            width: 0%;
+            transition: width 0.4s ease;
+            border-radius: 6px;
+        }
+        
+        /* Notificaciones */
+        .notification {
+            position: fixed;
+            top: 30px;
+            right: 30px;
+            padding: 18px 28px;
+            border-radius: 10px;
+            color: white;
+            font-weight: 600;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.5);
+            transform: translateX(150%);
+            transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            background: rgba(30, 30, 30, 0.9);
+            border-left: 4px solid #8b0000;
+        }
+        
+        .notification.show {
+            transform: translateX(0);
+        }
+        
+        .notification.success {
+            border-left: 4px solid #1e9650;
+        }
+        
+        .notification.error {
+            border-left: 4px solid #b4283c;
+        }
+        
+        .notification.warning {
+            border-left: 4px solid #c8961e;
+        }
+        
+        /* Modal personalizado */
+        .custom-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 2000;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+        }
+        
+        .custom-modal.active {
+            opacity: 1;
+            visibility: visible;
+        }
+        
+        .modal-content {
+            background: rgba(30, 30, 30, 0.95);
+            width: 90%;
+            max-width: 500px;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.7);
+            border: 1px solid rgba(100, 100, 100, 0.3);
+            transform: translateY(20px);
+            transition: transform 0.4s ease;
+        }
+        
+        .custom-modal.active .modal-content {
+            transform: translateY(0);
+        }
+        
+        .modal-header {
+            padding: 20px;
+            background: rgba(20, 20, 20, 0.9);
+            border-bottom: 1px solid rgba(100, 100, 100, 0.3);
+            text-align: center;
+        }
+        
+        .modal-header h2 {
+            font-size: 1.8rem;
+            color: #d0d0d0;
+        }
+        
+        .modal-body {
+            padding: 30px;
+            text-align: center;
+        }
+        
+        .modal-body p {
+            font-size: 1.2rem;
+            margin-bottom: 25px;
+            color: #c0c0c0;
+            line-height: 1.6;
+        }
+        
+        .modal-footer {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            padding: 20px;
+            border-top: 1px solid rgba(100, 100, 100, 0.3);
+        }
+        
+        .modal-btn {
+            padding: 12px 30px;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .modal-confirm {
+            background: linear-gradient(90deg, #8b0000 0%, #a00000 100%);
+            color: white;
+        }
+        
+        .modal-cancel {
+            background: rgba(60, 60, 60, 0.8);
+            color: #e0e0e0;
+        }
+        
+        .modal-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
+        }
+        
+        /* Animaciones de entrada */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .panel {
+            animation: fadeInUp 0.6s ease-out forwards;
+            opacity: 0;
+        }
+        
+        .panel:nth-child(1) {
+            animation-delay: 0.1s;
+        }
+        
+        .panel:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+        
+        .status-panel {
+            animation: fadeInUp 0.6s ease-out 0.3s forwards;
+            opacity: 0;
+        }
+        
+        /* Responsive */
+        @media (max-width: 900px) {
+            .content {
+                grid-template-columns: 1fr;
+            }
+            
+            .status-panel {
+                grid-column: span 1;
+            }
+            
+            h1 {
+                font-size: 2.2rem;
+            }
+        }
+        
+        @media (max-width: 600px) {
+            .container {
+                border-radius: 12px;
+            }
+            
+            header {
+                padding: 20px;
+            }
+            
+            .content {
+                padding: 20px;
+            }
+            
+            .panel {
+                padding: 20px;
+            }
+            
+            h1 {
+                font-size: 1.8rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Canvas para partículas -->
+    <canvas id="particle-canvas"></canvas>
+    
+    <!-- Contenedor principal -->
+    <div class="container">
+        <header>
+            <h1><i class="fas fa-skull"></i> RataLife's Webhook Fucker</h1>
+            <div class="subtitle">Terminate Discord Webhooks | Powered by RataLife</div>
+        </header>
+        
+        <div class="content">
+            <!-- Panel de configuración -->
+            <div class="panel">
+                <div class="panel-title">
+                    <i class="fas fa-cog"></i> Webhook Settings
+                </div>
+                
+                <div class="input-group">
+                    <label for="webhook_url"><i class="fas fa-link"></i> Webhook URL</label>
+                    <input type="text" id="webhook_url" placeholder="https://discord.com/api/webhooks/...">
+                </div>
+                
+                <div class="input-group">
+                    <label for="username"><i class="fas fa-user"></i> Username (optional)</label>
+                    <input type="text" id="username" placeholder="Custom username" value="𝐑𝐚𝐭𝐚𝐋𝐢𝐟𝐞'𝐬 𝐖𝐞𝐛𝐡𝐨𝐨𝐤 𝐅𝐮𝐜𝐤𝐞𝐫">
+                </div>
+                
+                <div class="input-group">
+                    <label for="avatar_url"><i class="fas fa-image"></i> Avatar URL (optional)</label>
+                    <input type="text" id="avatar_url" placeholder="https://example.com/avatar.png" value="https://i.ibb.co/gbzJqzZG/05f4d2897f81a059bdd883b485f7c352.webp">
+                </div>
+                
+                <div class="input-group">
+                    <label for="message"><i class="fas fa-envelope"></i> Message</label>
+                    <textarea id="message" placeholder="Message to spam">Webhook fucked by RataLife\nhttps://discord.gg/uDP54jEEmy \n||@here @everyone||</textarea>
+                </div>
+            </div>
+            
+            <!-- Panel de control -->
+            <div class="panel">
+                <div class="panel-title">
+                    <i class="fas fa-gamepad"></i> Control Panel
+                </div>
+                
+                <div class="input-group">
+                    <label for="repeat_count"><i class="fas fa-redo"></i> Repeat Count</label>
+                    <input type="number" id="repeat_count" value="50" min="1">
+                </div>
+                
+                <div class="input-group">
+                    <label for="delay"><i class="fas fa-clock"></i> Delay (seconds)</label>
+                    <input type="number" id="delay" value="0.1" min="0" step="0.05">
+                </div>
+                
+                <div class="button-group">
+                    <button id="start_btn" class="btn start-btn">
+                        <i class="fas fa-rocket"></i> Start Spamming
+                    </button>
+                    
+                    <button id="stop_btn" class="btn stop-btn" disabled>
+                        <i class="fas fa-stop-circle"></i> Stop
+                    </button>
+                    
+                    <button id="delete_btn" class="btn delete-btn">
+                        <i class="fas fa-trash-alt"></i> Delete Webhook
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Panel de estado -->
+            <div class="status-panel">
+                <div class="panel-title">
+                    <i class="fas fa-chart-line"></i> Spam Status
+                </div>
+                
+                <div class="status-content">
+                    <div class="counter">
+                        Messages Sent: <span id="sent_count">0</span>/<span id="total_count">0</span>
+                    </div>
+                    
+                    <div class="progress-container">
+                        <div class="progress-bar" id="progress_bar"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Notificación -->
+    <div class="notification" id="notification"></div>
+    
+    <!-- Modal personalizado para confirmación -->
+    <div class="custom-modal" id="custom-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2><i class="fas fa-exclamation-triangle"></i> Confirm Deletion</h2>
+            </div>
+            <div class="modal-body">
+                <p>Are you sure you want to permanently delete this webhook?</p>
+                <p>This action is irreversible and will terminate the webhook immediately.</p>
+            </div>
+            <div class="modal-footer">
+                <button class="modal-btn modal-cancel" id="modal-cancel">Cancel</button>
+                <button class="modal-btn modal-confirm" id="modal-confirm">Delete Webhook</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // ============== PARTICLE SYSTEM ==============
+        const canvas = document.getElementById('particle-canvas');
+        const ctx = canvas.getContext('2d');
+        
+        // Ajustar canvas al tamaño de la ventana
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        
+        window.addEventListener('resize', resizeCanvas);
+        resizeCanvas();
+        
+        // Configuración de partículas
+        const particles = [];
+        const particleCount = 150;
+        
+        class Particle {
+            constructor() {
+                this.reset();
+                this.size = Math.random() * 2 + 0.5;
+            }
+            
+            reset() {
+                this.x = Math.random() * canvas.width;
+                this.y = Math.random() * canvas.height;
+                this.speedX = Math.random() * 0.5 - 0.25;
+                this.speedY = Math.random() * 0.5 - 0.25;
+                this.alpha = Math.random() * 0.5 + 0.1;
+                this.color = `rgba(150, 150, 150, ${this.alpha})`;
+            }
+            
+            update() {
+                this.x += this.speedX;
+                this.y += this.speedY;
+                
+                // Rebotar en los bordes
+                if (this.x > canvas.width || this.x < 0) this.speedX = -this.speedX;
+                if (this.y > canvas.height || this.y < 0) this.speedY = -this.speedY;
+            }
+            
+            draw() {
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fillStyle = this.color;
+                ctx.fill();
+            }
+        }
+        
+        // Crear partículas
+        for (let i = 0; i < particleCount; i++) {
+            particles.push(new Particle());
+        }
+        
+        // Animación de partículas
+        function animateParticles() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            
+            // Dibujar partículas
+            particles.forEach(particle => {
+                particle.update();
+                particle.draw();
+                
+                // Conectar partículas cercanas
+                particles.forEach(otherParticle => {
+                    const dx = particle.x - otherParticle.x;
+                    const dy = particle.y - otherParticle.y;
+                    const distance = Math.sqrt(dx * dx + dy * dy);
+                    
+                    if (distance < 100) {
+                        ctx.beginPath();
+                        ctx.strokeStyle = `rgba(150, 150, 150, ${0.1 * (1 - distance/100)})`;
+                        ctx.lineWidth = 0.3;
+                        ctx.moveTo(particle.x, particle.y);
+                        ctx.lineTo(otherParticle.x, otherParticle.y);
+                        ctx.stroke();
+                    }
+                });
+            });
+            
+            requestAnimationFrame(animateParticles);
+        }
+        
+        animateParticles();
+        
+        // ============== WEBHOOK FUNCTIONS ==============
+        
+        // Mostrar notificación
+        function showNotification(message, type) {
+            const notification = document.getElementById('notification');
+            notification.innerHTML = `<i class="fas ${type === 'success' ? 'fa-check-circle' : type === 'error' ? 'fa-exclamation-circle' : 'fa-exclamation-triangle'}"></i> ${message}`;
+            notification.className = 'notification';
+            notification.classList.add(type, 'show');
+            
+            setTimeout(() => {
+                notification.classList.remove('show');
+            }, 4000);
+        }
+        
+        // Variables globales
+        let stopSpamming = false;
+        let spammingInProgress = false;
+        let sentCount = 0;
+        let totalCount = 0;
+        
+        // Iniciar spamming con optimización de velocidad
+        async function startSpamming() {
+            const webhookUrl = document.getElementById('webhook_url').value.trim();
+            let message = document.getElementById('message').value.trim();
+            let username = document.getElementById('username').value.trim();
+            let avatarUrl = document.getElementById('avatar_url').value.trim();
+            let repeatCount = parseInt(document.getElementById('repeat_count').value) || 50;
+            let delay = parseFloat(document.getElementById('delay').value) || 0.1;
+            
+            // Validaciones
+            if (!webhookUrl) {
+                showNotification('Webhook URL is required!', 'error');
+                return;
+            }
+            
+            // Usar valores por defecto si están vacíos
+            if (!username) username = "𝐑𝐚𝐭𝐚𝐋𝐢𝐟𝐞'𝐬 𝐖𝐞𝐛𝐡𝐨𝐨𝐤 𝐅𝐮𝐜𝐤𝐞𝐫";
+            if (!avatarUrl) avatarUrl = "https://i.ibb.co/gbzJqzZG/05f4d2897f81a059bdd883b485f7c352.webp";
+            if (!message) message = "Webhook fucked by RataLife https://discord.gg/uDP54jEEmy ||@here @everyone||";
+            
+            if (repeatCount < 1) repeatCount = 1;
+            if (delay < 0) delay = 0;
+            
+            // Configurar estado
+            stopSpamming = false;
+            spammingInProgress = true;
+            sentCount = 0;
+            totalCount = repeatCount;
+            
+            document.getElementById('start_btn').disabled = true;
+            document.getElementById('stop_btn').disabled = false;
+            document.getElementById('sent_count').textContent = sentCount;
+            document.getElementById('total_count').textContent = totalCount;
+            document.getElementById('progress_bar').style.width = '0%';
+            
+            // Función optimizada para enviar mensajes
+            async function sendMessage() {
+                const payload = {
+                    content: message
+                };
+                
+                if (username) payload.username = username;
+                if (avatarUrl) payload.avatar_url = avatarUrl;
+                
+                try {
+                    const response = await fetch(webhookUrl, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify(payload)
+                    });
+                    
+                    if (response.status === 204) {
+                        sentCount++;
+                        document.getElementById('sent_count').textContent = sentCount;
+                        const progress = (sentCount / totalCount) * 100;
+                        document.getElementById('progress_bar').style.width = `${progress}%`;
+                        return true;
+                    } else {
+                        const error = await response.text();
+                        showNotification(`Error: ${error}`, 'error');
+                        return false;
+                    }
+                } catch (error) {
+                    showNotification(`Request failed: ${error.message}`, 'error');
+                    return false;
+                }
+            }
+            
+            // Envío optimizado usando promesas sin esperar respuesta
+            const promises = [];
+            
+            for (let i = 0; i < repeatCount; i++) {
+                if (stopSpamming) break;
+                
+                // Enviar sin esperar respuesta para mayor velocidad
+                promises.push(sendMessage().catch(e => console.error(e)));
+                
+                // Solo esperar si hay un delay configurado
+                if (delay > 0 && i < repeatCount - 1 && !stopSpamming) {
+                    await new Promise(resolve => setTimeout(resolve, delay * 1000));
+                }
+            }
+            
+            // Esperar a que todas las promesas se completen
+            await Promise.all(promises);
+            
+            // Restablecer estado
+            spammingInProgress = false;
+            document.getElementById('start_btn').disabled = false;
+            document.getElementById('stop_btn').disabled = true;
+            
+            if (stopSpamming) {
+                showNotification('Spamming stopped by user!', 'warning');
+            } else {
+                showNotification(`Successfully sent ${sentCount} messages!`, 'success');
+            }
+        }
+        
+        // Detener spamming
+        function stopSpam() {
+            if (spammingInProgress) {
+                stopSpamming = true;
+                document.getElementById('stop_btn').disabled = true;
+                showNotification('Stopping spam process...', 'warning');
+            }
+        }
+        
+        // Eliminar webhook
+        async function deleteWebhook() {
+            const webhookUrl = document.getElementById('webhook_url').value.trim();
+            
+            if (!webhookUrl) {
+                showNotification('Webhook URL is required!', 'error');
+                return;
+            }
+            
+            // Usar valores por defecto
+            const defaultAvatar = "https://i.ibb.co/gbzJqzZG/05f4d2897f81a059bdd883b485f7c352.webp";
+            const defaultUsername = "𝐑𝐚𝐭𝐚𝐋𝐢𝐟𝐞'𝐬 𝐖𝐞𝐛𝐡𝐨𝐨𝐤 𝐅𝐮𝐜𝐤𝐞𝐫";
+            
+            try {
+                // Enviar embed final
+                const payload = {
+                    embeds: [
+                        {
+                            title: "WEBHOOK TERMINATED",
+                            description: "This webhook has been destroyed by RataLife's Webhook Fucker 😈",
+                            color: 16711680,  // Rojo
+                            footer: {
+                                text: "Developer: RataLife"
+                            },
+                            thumbnail: {
+                                url: defaultAvatar
+                            }
+                        }
+                    ],
+                    components: [
+                        {
+                            type: 1,
+                            components: [
+                                {
+                                    type: 2,
+                                    style: 5,
+                                    label: "Join RataLife",
+                                    url: "https://discord.gg/uDP54jEEmy"
+                                }
+                            ]
+                        }
+                    ],
+                    username: defaultUsername,
+                    avatar_url: defaultAvatar
+                };
+                
+                const embedResponse = await fetch(webhookUrl, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(payload)
+                });
+                
+                if (!(embedResponse.status === 200 || embedResponse.status === 204)) {
+                    const error = await embedResponse.text();
+                    showNotification(`Failed to send termination message: ${error}`, 'error');
+                    return;
+                }
+                
+                // Esperar 0.5 segundos antes de eliminar
+                await new Promise(resolve => setTimeout(resolve, 500));
+                
+                // Eliminar el webhook
+                const deleteResponse = await fetch(webhookUrl, {
+                    method: 'DELETE'
+                });
+                
+                if (deleteResponse.status === 200 || deleteResponse.status === 204) {
+                    showNotification('Webhook successfully deleted!', 'success');
+                } else {
+                    const error = await deleteResponse.text();
+                    showNotification(`Failed to delete webhook: ${error}`, 'error');
+                }
+            } catch (error) {
+                showNotification(`Error: ${error.message}`, 'error');
+            }
+        }
+        
+        // ============== MODAL FUNCTIONS ==============
+        const customModal = document.getElementById('custom-modal');
+        const modalConfirm = document.getElementById('modal-confirm');
+        const modalCancel = document.getElementById('modal-cancel');
+        
+        function showModal() {
+            customModal.classList.add('active');
+        }
+        
+        function hideModal() {
+            customModal.classList.remove('active');
+        }
+        
+        // Event Listeners
+        document.addEventListener('DOMContentLoaded', () => {
+            // Asignar eventos
+            document.getElementById('start_btn').addEventListener('click', startSpamming);
+            document.getElementById('stop_btn').addEventListener('click', stopSpam);
+            
+            // Manejar modal para eliminación
+            document.getElementById('delete_btn').addEventListener('click', () => {
+                const webhookUrl = document.getElementById('webhook_url').value.trim();
+                if (!webhookUrl) {
+                    showNotification('Webhook URL is required!', 'error');
+                    return;
+                }
+                showModal();
+            });
+            
+            modalConfirm.addEventListener('click', () => {
+                hideModal();
+                deleteWebhook();
+            });
+            
+            modalCancel.addEventListener('click', hideModal);
+            
+            // Cerrar modal al hacer clic fuera del contenido
+            customModal.addEventListener('click', (e) => {
+                if (e.target === customModal) {
+                    hideModal();
+                }
+            });
+        });
+    </script>
+</body>
+</html>
