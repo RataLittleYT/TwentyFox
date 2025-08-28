@@ -1,0 +1,1538 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Téllez Shop - Catálogo</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            background-color: #121212;
+            color: #e0e0e0;
+            overflow-x: hidden;
+            user-select: none;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            transition: background-color 0.5s ease;
+        }
+
+        body.incognito-mode {
+            background-color: #1a1a1a;
+        }
+
+        /* Estilos para partículas */
+        #particles-js {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+        }
+
+        /* Header y navegación */
+        header {
+            background-color: rgba(18, 18, 18, 0.9);
+            backdrop-filter: blur(10px);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            padding: 1rem 2rem;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+        }
+
+        body.incognito-mode header {
+            background-color: rgba(10, 10, 10, 0.95);
+        }
+
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            animation: fadeIn 1s ease;
+        }
+
+        .logo i {
+            font-size: 2rem;
+            color: #bb86fc;
+        }
+
+        body.incognito-mode .logo i {
+            color: #ff5252;
+        }
+
+        .logo h1 {
+            font-size: 1.8rem;
+            font-weight: 700;
+            background: linear-gradient(45deg, #bb86fc, #03dac6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        body.incognito-mode .logo h1 {
+            background: linear-gradient(45deg, #ff5252, #ff793f);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .nav-menu {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        .nav-menu li a {
+            text-decoration: none;
+            color: #e0e0e0;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            position: relative;
+            padding: 0.5rem 0;
+        }
+
+        .nav-menu li a:hover {
+            color: #bb86fc;
+        }
+
+        body.incognito-mode .nav-menu li a:hover {
+            color: #ff5252;
+        }
+
+        .nav-menu li a::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: 0;
+            left: 0;
+            background-color: #bb86fc;
+            transition: width 0.3s ease;
+        }
+
+        body.incognito-mode .nav-menu li a::after {
+            background-color: #ff5252;
+        }
+
+        .nav-menu li a:hover::after {
+            width: 100%;
+        }
+
+        .search-container {
+            display: flex;
+            align-items: center;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 25px;
+            padding: 0.5rem 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .search-container:focus-within {
+            box-shadow: 0 0 15px rgba(187, 134, 252, 0.5);
+            background: rgba(255, 255, 255, 0.15);
+        }
+
+        body.incognito-mode .search-container:focus-within {
+            box-shadow: 0 0 15px rgba(255, 82, 82, 0.5);
+        }
+
+        .search-container input {
+            background: transparent;
+            border: none;
+            color: #e0e0e0;
+            outline: none;
+            width: 200px;
+            padding: 0.5rem;
+        }
+
+        .search-container i {
+            color: #bb86fc;
+            font-size: 1.2rem;
+        }
+
+        body.incognito-mode .search-container i {
+            color: #ff5252;
+        }
+
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            gap: 5px;
+            cursor: pointer;
+        }
+
+        .hamburger div {
+            width: 25px;
+            height: 3px;
+            background-color: #e0e0e0;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+        }
+
+        /* Hero Section */
+        .hero {
+            text-align: center;
+            padding: 5rem 2rem;
+            background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7));
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero h2 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            animation: slideUp 1s ease;
+            background: linear-gradient(45deg, #bb86fc, #03dac6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        body.incognito-mode .hero h2 {
+            background: linear-gradient(45deg, #ff5252, #ff793f);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            max-width: 800px;
+            margin: 0 auto 2rem;
+            color: #b0b0b0;
+            animation: slideUp 1.2s ease;
+        }
+
+        .notice {
+            background: rgba(187, 134, 252, 0.1);
+            border-left: 4px solid #bb86fc;
+            padding: 1rem;
+            border-radius: 5px;
+            margin: 2rem auto;
+            max-width: 800px;
+            animation: fadeIn 1.5s ease;
+        }
+
+        body.incognito-mode .notice {
+            background: rgba(255, 82, 82, 0.1);
+            border-left: 4px solid #ff5252;
+        }
+
+        .notice i {
+            color: #bb86fc;
+            margin-right: 10px;
+        }
+
+        body.incognito-mode .notice i {
+            color: #ff5252;
+        }
+
+        /* Productos */
+        .products {
+            padding: 4rem 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 3rem;
+            font-size: 2.5rem;
+            position: relative;
+            padding-bottom: 1rem;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            width: 100px;
+            height: 3px;
+            background: linear-gradient(to right, #121212, #bb86fc, #121212);
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        body.incognito-mode .section-title::after {
+            background: linear-gradient(to right, #1a1a1a, #ff5252, #1a1a1a);
+        }
+
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 2rem;
+        }
+
+        .product-card {
+            background: rgba(30, 30, 30, 0.8);
+            border-radius: 15px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            animation: fadeIn 1s ease;
+            cursor: pointer;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        body.incognito-mode .product-card {
+            background: rgba(40, 40, 40, 0.8);
+        }
+
+        .product-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.4);
+        }
+
+        .product-image {
+            width: 100%;
+            height: 200px;
+            background-color: #333;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        .product-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        .product-card:hover .product-image img {
+            transform: scale(1.1);
+        }
+
+        .product-info {
+            padding: 1.5rem;
+        }
+
+        .product-info h3 {
+            font-size: 1.3rem;
+            margin-bottom: 0.5rem;
+            color: #fff;
+        }
+
+        .product-info p {
+            color: #b0b0b0;
+            margin-bottom: 1rem;
+            font-size: 0.9rem;
+        }
+
+        .product-price {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #bb86fc;
+            margin-bottom: 1rem;
+        }
+
+        body.incognito-mode .product-price {
+            color: #ff5252;
+        }
+
+        .click-label {
+            background: rgba(187, 134, 252, 0.2);
+            color: #bb86fc;
+            padding: 0.5rem;
+            text-align: center;
+            border-radius: 5px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        body.incognito-mode .click-label {
+            background: rgba(255, 82, 82, 0.2);
+            color: #ff5252;
+        }
+
+        .product-card:hover .click-label {
+            background: rgba(187, 134, 252, 0.3);
+        }
+
+        body.incognito-mode .product-card:hover .click-label {
+            background: rgba(255, 82, 82, 0.3);
+        }
+
+        /* Modal de productos */
+        .modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 2000;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .modal.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .modal-content {
+            background: #1e1e1e;
+            width: 90%;
+            max-width: 800px;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
+            transform: scale(0.9);
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        body.incognito-mode .modal-content {
+            background: #2a2a2a;
+        }
+
+        .modal.active .modal-content {
+            transform: scale(1);
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: rgba(0, 0, 0, 0.5);
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            z-index: 10;
+            transition: all 0.3s ease;
+        }
+
+        .modal-close:hover {
+            background: rgba(187, 134, 252, 0.2);
+        }
+
+        body.incognito-mode .modal-close:hover {
+            background: rgba(255, 82, 82, 0.2);
+        }
+
+        .modal-close i {
+            font-size: 1.5rem;
+            color: #fff;
+        }
+
+        .modal-body {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .modal-image {
+            width: 100%;
+            height: 300px;
+            background-color: #333;
+        }
+
+        .modal-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .modal-details {
+            padding: 2rem;
+        }
+
+        .modal-details h2 {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+            color: #fff;
+        }
+
+        .modal-details p {
+            color: #b0b0b0;
+            margin-bottom: 1.5rem;
+            line-height: 1.6;
+        }
+
+        .modal-price {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #bb86fc;
+            margin-bottom: 1.5rem;
+        }
+
+        body.incognito-mode .modal-price {
+            color: #ff5252;
+        }
+
+        .modal-features {
+            margin-bottom: 2rem;
+        }
+
+        .modal-features li {
+            margin-bottom: 0.5rem;
+            list-style: none;
+            display: flex;
+            align-items: center;
+        }
+
+        .modal-features li i {
+            color: #bb86fc;
+            margin-right: 10px;
+        }
+
+        body.incognito-mode .modal-features li i {
+            color: #ff5252;
+        }
+
+        .modal-buy {
+            background: linear-gradient(45deg, #bb86fc, #03dac6);
+            color: #121212;
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 50px;
+            font-size: 1.2rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        body.incognito-mode .modal-buy {
+            background: linear-gradient(45deg, #ff5252, #ff793f);
+        }
+
+        .modal-buy:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(187, 134, 252, 0.3);
+        }
+
+        body.incognito-mode .modal-buy:hover {
+            box-shadow: 0 10px 20px rgba(255, 82, 82, 0.3);
+        }
+
+        /* Modal de verificación de edad */
+        .age-verification-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.95);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 3000;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .age-verification-modal.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .age-modal-content {
+            background: #1e1e1e;
+            width: 90%;
+            max-width: 500px;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
+            transform: scale(0.9);
+            transition: all 0.3s ease;
+            position: relative;
+            padding: 2rem;
+            text-align: center;
+        }
+
+        .age-verification-modal.active .age-modal-content {
+            transform: scale(1);
+        }
+
+        .age-modal-content h2 {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+            color: #fff;
+        }
+
+        .age-modal-content p {
+            color: #b0b0b0;
+            margin-bottom: 2rem;
+            line-height: 1.6;
+        }
+
+        .age-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+        }
+
+        .age-btn {
+            padding: 1rem 2rem;
+            border-radius: 50px;
+            font-size: 1.2rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: none;
+            min-width: 120px;
+        }
+
+        .age-yes {
+            background: linear-gradient(45deg, #bb86fc, #03dac6);
+            color: #121212;
+        }
+
+        .age-no {
+            background: #333;
+            color: #fff;
+        }
+
+        .age-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Contacto */
+        .contact {
+            padding: 4rem 2rem;
+            background: rgba(30, 30, 30, 0.8);
+            text-align: center;
+        }
+
+        body.incognito-mode .contact {
+            background: rgba(40, 40, 40, 0.8);
+        }
+
+        .contact-methods {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-top: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .contact-method {
+            background: rgba(18, 18, 18, 0.8);
+            padding: 2rem;
+            border-radius: 15px;
+            width: 250px;
+            transition: all 0.3s ease;
+        }
+
+        body.incognito-mode .contact-method {
+            background: rgba(30, 30, 30, 0.8);
+        }
+
+        .contact-method:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+        }
+
+        .contact-method i {
+            font-size: 3rem;
+            color: #bb86fc;
+            margin-bottom: 1rem;
+        }
+
+        body.incognito-mode .contact-method i {
+            color: #ff5252;
+        }
+
+        .contact-method h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: #fff;
+        }
+
+        .contact-method p {
+            color: #b0b0b0;
+            margin-bottom: 1.5rem;
+        }
+
+        .contact-btn {
+            background: linear-gradient(45deg, #bb86fc, #03dac6);
+            color: #121212;
+            text-decoration: none;
+            padding: 0.8rem 1.5rem;
+            border-radius: 50px;
+            font-weight: 600;
+            display: inline-block;
+            transition: all 0.3s ease;
+        }
+
+        body.incognito-mode .contact-btn {
+            background: linear-gradient(45deg, #ff5252, #ff793f);
+        }
+
+        .contact-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(187, 134, 252, 0.3);
+        }
+
+        body.incognito-mode .contact-btn:hover {
+            box-shadow: 0 10px 20px rgba(255, 82, 82, 0.3);
+        }
+
+        /* Footer */
+        footer {
+            background: #0a0a0a;
+            padding: 3rem 2rem;
+            text-align: center;
+        }
+
+        body.incognito-mode footer {
+            background: #111;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .footer-links a {
+            color: #b0b0b0;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .footer-links a:hover {
+            color: #bb86fc;
+        }
+
+        body.incognito-mode .footer-links a:hover {
+            color: #ff5252;
+        }
+
+        .footer-text {
+            color: #666;
+            margin-top: 2rem;
+        }
+
+        .footer-text a {
+            color: #bb86fc;
+            text-decoration: none;
+        }
+
+        body.incognito-mode .footer-text a {
+            color: #ff5252;
+        }
+
+        /* Animaciones */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Responsive */
+        @media (max-width: 900px) {
+            .nav-menu {
+                position: fixed;
+                top: 80px;
+                left: -100%;
+                background: rgba(18, 18, 18, 0.95);
+                backdrop-filter: blur(10px);
+                width: 100%;
+                height: calc(100vh - 80px);
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                gap: 3rem;
+                transition: all 0.5s ease;
+            }
+
+            body.incognito-mode .nav-menu {
+                background: rgba(10, 10, 10, 0.95);
+            }
+
+            .nav-menu.active {
+                left: 0;
+            }
+
+            .hamburger {
+                display: flex;
+            }
+
+            .hamburger.active div:nth-child(1) {
+                transform: rotate(45deg) translate(5px, 5px);
+            }
+
+            .hamburger.active div:nth-child(2) {
+                opacity: 0;
+            }
+
+            .hamburger.active div:nth-child(3) {
+                transform: rotate(-45deg) translate(5px, -5px);
+            }
+
+            .search-container {
+                width: 100%;
+                margin-top: 2rem;
+            }
+
+            .hero h2 {
+                font-size: 2.5rem;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .hero h2 {
+                font-size: 2rem;
+            }
+
+            .section-title {
+                font-size: 2rem;
+            }
+
+            .modal-details {
+                padding: 1.5rem;
+            }
+
+            .modal-details h2 {
+                font-size: 1.5rem;
+            }
+
+            .modal-price {
+                font-size: 1.5rem;
+            }
+
+            .age-buttons {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Partículas de fondo -->
+    <div id="particles-js"></div>
+
+    <!-- Modal de verificación de edad -->
+    <div class="age-verification-modal">
+        <div class="age-modal-content">
+            <h2>Verificación de Edad</h2>
+            <p>Esta sección contiene contenido para mayores de 18 años. ¿Eres mayor de edad?</p>
+            <div class="age-buttons">
+                <button class="age-btn age-yes">Sí</button>
+                <button class="age-btn age-no">No</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Header con navegación -->
+    <header>
+        <div class="header-container">
+            <div class="logo">
+                <i class="fas fa-store"></i>
+                <h1>Téllez Shop</h1>
+            </div>
+
+            <ul class="nav-menu">
+                <li><a href="#home">Inicio</a></li>
+                <li><a href="#products">Productos</a></li>
+                <li><a href="#contact">Contacto</a></li>
+                <li><a href="#" id="premium-link">Privado</a></li>
+                <li><a href="https://twentyfox.lat/iachat.html">IA GRATIS</a></li>
+                <div class="search-container">
+                    <i class="fas fa-search"></i>
+                    <input type="text" id="search-input" placeholder="Buscar productos...">
+                </div>
+            </ul>
+
+            <div class="hamburger">
+                <div></div>
+                <div></div>
+                <div></div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+        <h2>Catálogo Exclusivo de Cuentas y Licencias</h2>
+        <p>Las mejores licencias y cuentas premium a precios especiales para estudiantes. Disfruta de herramientas profesionales para potenciar tu aprendizaje.</p>
+        
+        <div class="notice">
+            <i class="fas fa-exclamation-circle"></i>
+            <span>Estos precios son especiales exclusivamente para estudiantes del ITSA (atte. un wey de sistemas)</span>
+        </div>
+    </section>
+
+    <!-- Productos -->
+    <section class="products" id="products">
+        <h2 class="section-title">Nuestros Productos</h2>
+        
+        <div class="products-grid">
+            <!-- Producto 1 -->
+            <div class="product-card" data-category="cuentas" data-name="ChatGPT Plus (Sin Stock)">
+                <div class="product-image">
+                    <img src="https://famisafe.wondershare.com/images/article/2023/06/how-to-get-chatgpt-plus-1.png" alt="ChatGPT Plus">
+                </div>
+                <div class="product-info">
+                    <h3>ChatGPT Plus (Sin Stock)</h3>
+                    <p>Acceso premium a ChatGPT por 1 mes</p>
+                    <div class="product-price">$000 MXN</div>
+                    <div class="click-label">Haz click para más detalles</div>
+                </div>
+            </div>
+
+            <!-- Producto 2 -->
+            <div class="product-card" data-category="cuentas" data-name="Canva Pro">
+                <div class="product-image">
+                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSBtr6mUk0MzKHP0afTDk9nEtDyQ3zumdslmw&s" alt="Canva Pro">
+                </div>
+                <div class="product-info">
+                    <h3>Canva Pro</h3>
+                    <p>Cuenta Canva Pro por 1 mes</p>
+                    <div class="product-price">$50 MXN</div>
+                    <div class="click-label">Haz click para más detalles</div>
+                </div>
+            </div>
+
+            <!-- Producto 3 -->
+            <div class="product-card" data-category="licencias" data-name="Windows 10 Pro">
+                <div class="product-image">
+                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ5-6HNo2ufU8DnMXjDyPJBpLcbY7UsyoKOUw&s" alt="Windows 10 Pro">
+                </div>
+                <div class="product-info">
+                    <h3>Windows 10 Pro</h3>
+                    <p>Licencia permanente Windows 10 Professional</p>
+                    <div class="product-price">$150 MXN</div>
+                    <div class="click-label">Haz click para más detalles</div>
+                </div>
+            </div>
+
+            <!-- Producto 4 -->
+            <div class="product-card" data-category="licencias" data-name="Windows 11 Pro">
+                <div class="product-image">
+                    <img src="https://www.mychoicesoftware.com/cdn/shop/articles/0801_Blog_Web_Banner.jpg?v=1659134859" alt="Windows 11 Pro">
+                </div>
+                <div class="product-info">
+                    <h3>Windows 11 Pro</h3>
+                    <p>Licencia permanente Windows 11 Professional</p>
+                    <div class="product-price">$300 MXN</div>
+                    <div class="click-label">Haz click para más detalles</div>
+                </div>
+            </div>
+
+            <!-- Producto 5 -->
+            <div class="product-card" data-category="juegos" data-name="Minecraft">
+                <div class="product-image">
+                    <img src="https://assets.nintendo.com/image/upload/ar_16:9,c_lpad,w_1240/b_white/f_auto/q_auto/ncom/software/switch/70070000016597/0a33bcaba879403460afe2ff2aafaaefeede964e0fc11a430f71077867cc87f1" alt="Minecraft">
+                </div>
+                <div class="product-info">
+                    <h3>Minecraft</h3>
+                    <p>Licencia Microsoft Store Minecraft Java & Bedrock</p>
+                    <div class="product-price">$500 MXN</div>
+                    <div class="click-label">Haz click para más detalles</div>
+                </div>
+            </div>
+
+            <!-- Producto 6 -->
+            <div class="product-card" data-category="cuentas" data-name="Adobe Creative Cloud (Sin Stock)">
+                <div class="product-image">
+                    <img src="https://compusales.com.mx/36465/licencia-adobe-creative-cloud-for-teams-all-apps-multiple-platforms.jpg" alt="Adobe Creative Cloud">
+                </div>
+                <div class="product-info">
+                    <h3>Adobe Creative Cloud (Sin Stock)</h3>
+                    <p>Acceso a todas las apps de Adobe por 2 meses</p>
+                    <div class="product-price">$449 MXN</div>
+                    <div class="click-label">Haz click para más detalles</div>
+                </div>
+            </div>
+
+            <!-- Producto 7 - Spotify 1 mes -->
+            <div class="product-card" data-category="cuentas" data-name="Spotify Premium (1 Mes)">
+                <div class="product-image">
+                    <img src="https://recharge-prd.asset.akeneo.cloud/product_assets/media/recharge_com_spotify_premium_product_card.png" alt="Spotify Premium 1 Mes">
+                </div>
+                <div class="product-info">
+                    <h3>Spotify Premium (1 Mes)</h3>
+                    <p>Cuenta Spotify Premium por 1 mes</p>
+                    <div class="product-price">$60 MXN</div>
+                    <div class="click-label">Haz click para más detalles</div>
+                </div>
+            </div>
+
+            <!-- Producto 8 - Spotify 6 meses -->
+            <div class="product-card" data-category="cuentas" data-name="Spotify Premium (6 Meses)">
+                <div class="product-image">
+                    <img src="https://recharge-prd.asset.akeneo.cloud/product_assets/media/recharge_com_spotify_premium_product_card.png" alt="Spotify Premium 6 Meses">
+                </div>
+                <div class="product-info">
+                    <h3>Spotify Premium (6 Meses)</h3>
+                    <p>Cuenta Spotify Premium por 6 meses</p>
+                    <div class="product-price">$300 MXN</div>
+                    <div class="click-label">Haz click para más detalles</div>
+                </div>
+            </div>
+
+            <!-- Producto 9 - Spotify Anual -->
+            <div class="product-card" data-category="cuentas" data-name="Spotify Premium (Anual)">
+                <div class="product-image">
+                    <img src="https://recharge-prd.asset.akeneo.cloud/product_assets/media/recharge_com_spotify_premium_product_card.png" alt="Spotify Premium Anual">
+                </div>
+                <div class="product-info">
+                    <h3>Spotify Premium (Anual)</h3>
+                    <p>Cuenta Spotify Premium por 1 año</p>
+                    <div class="product-price">$550 MXN</div>
+                    <div class="click-label">Haz click para más detalles</div>
+                </div>
+            </div>
+
+            <!-- Producto 10 - Duolingo -->
+            <div class="product-card" data-category="cuentas" data-name="Duolingo Plus (Mensual)">
+                <div class="product-image">
+                    <img src="https://i.pinimg.com/736x/00/91/56/0091569055d551389ae738b1f2b104f7.jpg" alt="Duolingo Plus">
+                </div>
+                <div class="product-info">
+                    <h3>Duolingo Plus (Mensual)</h3>
+                    <p>Cuenta Duolingo Plus por 1 mes</p>
+                    <div class="product-price">$70 MXN</div>
+                    <div class="click-label">Haz click para más detalles</div>
+                </div>
+            </div>
+
+
+
+
+
+
+            <!-- Productos Premium (solo visibles en modo incógnito) -->
+
+
+
+
+            <div class="product-card premium-only" data-category="premium" data-name="OnlyFans Premium">
+                <div class="product-image">
+                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTm3G_JNbyM30UKELM362XDa2cKXd3WYNJTQg&s" alt="OnlyFans Premium">
+                </div>
+                <div class="product-info">
+                    <h3>OnlyFans Cuenta Con Saldo</h3>
+                    <p>Cuenta OnlyFans Premium Con Saldo</p>
+                    <div class="product-price">$000 MXN</div>
+                    <div class="click-label">Haz click para más detalles</div>
+                </div>
+            </div>
+
+            <div class="product-card premium-only" data-category="premium" data-name="PH Premium">
+                <div class="product-image">
+                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTrbbaKllBTl5czy-DcgUoystbhTVV8mO8KAw&s" alt="PH Premium">
+                </div>
+                <div class="product-info">
+                    <h3>PH Premium</h3>
+                    <p>Cuenta PH Premium por 1 mes</p>
+                    <div class="product-price">$180 MXN</div>
+                    <div class="click-label">Haz click para más detalles</div>
+                </div>
+            </div>
+
+            <div class="product-card premium-only" data-category="premium" data-name="Express VPN">
+                <div class="product-image">
+                    <img src="https://latestintech.com/wp-content/uploads/2020/05/express-vpn-review.jpg" alt="Express VPN">
+                </div>
+                <div class="product-info">
+                    <h3>Express VPN</h3>
+                    <p>Cuenta Express VPN por 1 mes</p>
+                    <div class="product-price">$120 MXN</div>
+                    <div class="click-label">Haz click para más detalles</div>
+                </div>
+            </div>
+
+            <div class="product-card premium-only" data-category="premium" data-name="Cuentas de Banco">
+                <div class="product-image">
+                    <img src="https://i1.wp.com/agendasettingdiario.com/wp-content/uploads/2020/04/Bancos-Mexico.jpg" alt="Cuentas de Banco">
+                </div>
+                <div class="product-info">
+                    <h3>Cuentas de Banco</h3>
+                    <p>Cuentas bancarias verificadas</p>
+                    <div class="product-price">$000 MXN</div>
+                    <div class="click-label">Haz click para más detalles</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Modal de Producto -->
+    <div class="modal">
+        <div class="modal-content">
+            <div class="modal-close">
+                <i class="fas fa-times"></i>
+            </div>
+            <div class="modal-body">
+                <div class="modal-image">
+                    <img id="modal-img" src="" alt="Product Image">
+                </div>
+                <div class="modal-details">
+                    <h2 id="modal-title"></h2>
+                    <p id="modal-description"></p>
+                    <div class="modal-price" id="modal-price"></div>
+                    <ul class="modal-features" id="modal-features"></ul>
+                    <button class="modal-buy">
+                        <i class="fas fa-shopping-cart"></i>
+                        Comprar ahora
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Contacto -->
+    <section class="contact" id="contact">
+        <h2 class="section-title">Contacto</h2>
+        <p>Puedes contactarme a través de cualquiera de estos medios</p>
+        
+        <div class="contact-methods">
+            <div class="contact-method">
+                <i class="fab fa-whatsapp"></i>
+                <h3>WhatsApp</h3>
+                <p>Contáctame directamente por WhatsApp</p>
+                <a href="https://wa.me/2441373011" class="contact-btn">Enviar mensaje</a>
+            </div>
+            
+            <div class="contact-method">
+                <i class="fab fa-instagram"></i>
+                <h3>Instagram</h3>
+                <p>Envíame un DM</p>
+                <a href="https://www.instagram.com/rat4life.rar" class="contact-btn">Enviar DM</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-links">
+                <a href="#home">Inicio</a>
+                <a href="#products">Productos</a>
+                <a href="#contact">Contacto</a>
+            </div>
+            
+            <p class="footer-text">© 2025 Téllez Shop. Todos los derechos reservados. | Diseñado por <a href="ale.html">Téllez Systems</a></p>
+        </div>
+    </footer>
+
+    <script>
+        // Configuración de partículas
+        particlesJS('particles-js', {
+            particles: {
+                number: { value: 80, density: { enable: true, value_area: 800 } },
+                color: { value: "#bb86fc" },
+                shape: { type: "circle" },
+                opacity: { value: 0.5, random: true },
+                size: { value: 3, random: true },
+                line_linked: {
+                    enable: true,
+                    distance: 150,
+                    color: "#bb86fc",
+                    opacity: 0.4,
+                    width: 1
+                },
+                move: {
+                    enable: true,
+                    speed: 2,
+                    direction: "none",
+                    random: true,
+                    straight: false,
+                    out_mode: "out",
+                    bounce: false
+                }
+            },
+            interactivity: {
+                detect_on: "canvas",
+                events: {
+                    onhover: { enable: true, mode: "repulse" },
+                    onclick: { enable: true, mode: "push" },
+                    resize: true
+                }
+            },
+            retina_detect: true
+        });
+
+        // Datos de productos
+        const products = {
+            "ChatGPT Plus (Sin Stock)": {
+                image: "https://famisafe.wondershare.com/images/article/2023/06/how-to-get-chatgpt-plus-1.png",
+                description: "Acceso premium a ChatGPT Plus por 1 mes. Disfruta de acceso prioritario incluso durante horas pico, respuestas más rápidas y acceso a nuevas funciones primero.",
+                price: "$000 MXN",
+                features: [
+                    "Sin disponibilidad actualmente",
+                    "Acceso prioritario",
+                    "Respuestas más rápidas",
+                    "Acceso a nuevas funciones primero"
+                ]
+            },
+            "Canva Pro": {
+                image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSBtr6mUk0MzKHP0afTDk9nEtDyQ3zumdslmw&s",
+                description: "Cuenta Canva Pro por 1 mes. Accede a más de 60 millones de imágenes premium, carga tus propias fuentes y guarda tus marcas para diseños consistentes.",
+                price: "$50 MXN",
+                features: [
+                    "Acceso a biblioteca premium de imágenes",
+                    "Herramientas de diseño avanzadas",
+                    "Guardar marcas y fuentes personalizadas",
+                    "Espacio de trabajo ilimitado"
+                ]
+            },
+            "Windows 10 Pro": {
+                image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ5-6HNo2ufU8DnMXjDyPJBpLcbY7UsyoKOUw&s",
+                description: "Licencia permanente de Windows 10 Professional. Incluye todas las funciones de seguridad empresarial, escritorio remoto, BitLocker y más.",
+                price: "$150 MXN",
+                features: [
+                    "Licencia permanente",
+                    "Actualizaciones gratuitas",
+                    "Seguridad avanzada",
+                    "Soporte completo"
+                ]
+            },
+            "Windows 11 Pro": {
+                image: "https://www.mychoicesoftware.com/cdn/shop/articles/0801_Blog_Web_Banner.jpg?v=1659134859",
+                description: "Licencia permanente de Windows 11 Professional. Disfruta de la última versión de Windows con todas las funciones premium y diseño renovado.",
+                price: "$300 MXN",
+                features: [
+                    "Licencia permanente",
+                    "Interfaz renovada",
+                    "Mayor seguridad",
+                    "Optimizado para productividad"
+                ]
+            },
+            "Minecraft": {
+                image: "https://assets.nintendo.com/image/upload/ar_16:9,c_lpad,w_1240/b_white/f_auto/q_auto/ncom/software/switch/70070000016597/0a33bcaba879403460afe2ff2aafaaefeede964e0fc11a430f71077867cc87f1",
+                description: "Licencia oficial de Minecraft Java & Bedrock Edition para Microsoft Store. Juega en cualquier dispositivo con tu cuenta Microsoft.",
+                price: "$400 MXN",
+                features: [
+                    "Edición Java + Bedrock",
+                    "Acceso multiplataforma",
+                    "Actualizaciones gratuitas",
+                    "Cuenta Microsoft permanente"
+                ]
+            },
+            "Adobe Creative Cloud (Sin Stock)": {
+                image: "https://compusales.com.mx/36465/licencia-adobe-creative-cloud-for-teams-all-apps-multiple-platforms.jpg",
+                description: "Acceso a todas las aplicaciones de Adobe Creative Cloud por 2 meses. Incluye Photoshop, Illustrator, Premiere Pro, After Effects y más.",
+                price: "$449 MXN",
+                features: [
+                    "Sin stock actualmente",
+                    "Todas las aplicaciones de Adobe",
+                    "100GB de almacenamiento en la nube",
+                    "Actualizaciones incluidas"
+                ]
+            },
+            "Spotify Premium (1 Mes)": {
+                image: "https://recharge-prd.asset.akeneo.cloud/product_assets/media/recharge_com_spotify_premium_product_card.png",
+                description: "Cuenta Spotify Premium por 1 mes. Disfruta de música sin anuncios, modo sin conexión y audio de alta calidad.",
+                price: "$60 MXN",
+                features: [
+                    "Música sin anuncios",
+                    "Descarga para modo offline",
+                    "Audio de alta calidad",
+                    "Reproducción ilimitada"
+                ]
+            },
+            "Spotify Premium (6 Meses)": {
+                image: "https://recharge-prd.asset.akeneo.cloud/product_assets/media/recharge_com_spotify_premium_product_card.png",
+                description: "Cuenta Spotify Premium por 6 meses. Ahorra al comprar múltiples meses de música premium sin interrupciones.",
+                price: "$300 MXN",
+                features: [
+                    "6 meses de Premium",
+                    "Música sin anuncios",
+                    "Descarga para modo offline",
+                    "Audio de alta calidad"
+                ]
+            },
+            "Spotify Premium (Anual)": {
+                image: "https://recharge-prd.asset.akeneo.cloud/product_assets/media/recharge_com_spotify_premium_product_card.png",
+                description: "Cuenta Spotify Premium por 1 año. La mejor opción para disfrutar de música sin límites todo el año.",
+                price: "$550 MXN",
+                features: [
+                    "12 meses de Premium",
+                    "Ahorro significativo",
+                    "Música sin anuncios",
+                    "Experiencia completa sin interrupciones"
+                ]
+            },
+            "Duolingo Plus (Mensual)": {
+                image: "https://i.pinimg.com/736x/00/91/56/0091569055d551389ae738b1f2b104f7.jpg",
+                description: "Cuenta Duolingo Plus por 1 mes. Aprende idiomas sin anuncios y con lecciones offline.",
+                price: "$70 MXN",
+                features: [
+                    "Sin anuncios",
+                    "Lecciones offline",
+                    "Progreso ilimitado",
+                    "Modo seguro"
+                ]
+            },
+            "OnlyFans Premium": {
+                image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTm3G_JNbyM30UKELM362XDa2cKXd3WYNJTQg&s",
+                description: "Cuenta OnlyFans Con Saldo. Acceso a contenido exclusivo de creadores verificados.",
+                price: "$000 MXN",
+                features: [
+                    "Acceso a contenido exclusivo",
+                    "Sin restricciones",
+                    "Soporte 24/7",
+                ]
+            },
+            "PH Premium": {
+                image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTrbbaKllBTl5czy-DcgUoystbhTVV8mO8KAw&s",
+                description: "Cuenta PH Premium por 1 mes. Disfruta de videos en alta calidad, sin anuncios y descargas exclusivas.",
+                price: "$180 MXN",
+                features: [
+                    "Videos en alta calidad",
+                    "Sin anuncios",
+                    "Descargas exclusivas",
+                    "Acceso completo"
+                ]
+            },
+            "Express VPN": {
+                image: "https://latestintech.com/wp-content/uploads/2020/05/express-vpn-review.jpg",
+                description: "Cuenta Express VPN por 1 mes. Navegación segura y anónima con la mejor VPN del mercado.",
+                price: "$120 MXN",
+                features: [
+                    "Protección de privacidad",
+                    "Acceso a contenido global",
+                    "Alta velocidad",
+                    "Sin registros de actividad"
+                ]
+            },
+            "Cuentas de Banco": {
+                image: "https://i1.wp.com/agendasettingdiario.com/wp-content/uploads/2020/04/Bancos-Mexico.jpg",
+                description: "Cuentas bancarias verificadas listas para usar. Incluyen toda la documentación necesaria.",
+                price: "$000 MXN",
+                features: [
+                    "Completamente verificadas",
+                    "Documentación incluida",
+                    "Listas para usar",
+                    "Soporte para configuración"
+                ]
+            }
+        };
+
+        // Variables globales
+        const modal = document.querySelector('.modal');
+        const ageModal = document.querySelector('.age-verification-modal');
+        const modalClose = document.querySelector('.modal-close');
+        const modalImage = document.getElementById('modal-img');
+        const modalTitle = document.getElementById('modal-title');
+        const modalDescription = document.getElementById('modal-description');
+        const modalPrice = document.getElementById('modal-price');
+        const modalFeatures = document.getElementById('modal-features');
+        const productCards = document.querySelectorAll('.product-card');
+        const hamburger = document.querySelector('.hamburger');
+        const navMenu = document.querySelector('.nav-menu');
+        const searchInput = document.getElementById('search-input');
+        const premiumLink = document.getElementById('premium-link');
+        const ageYesBtn = document.querySelector('.age-yes');
+        const ageNoBtn = document.querySelector('.age-no');
+        const premiumProducts = document.querySelectorAll('.premium-only');
+
+        // Inicialización
+        document.addEventListener('DOMContentLoaded', () => {
+            initApp();
+        });
+
+        function initApp() {
+            // Ocultar productos premium al inicio
+            premiumProducts.forEach(product => {
+                product.style.display = 'none';
+            });
+
+            // Event Listeners
+            productCards.forEach(card => {
+                card.addEventListener('click', () => {
+                    const productName = card.getAttribute('data-name');
+                    openProductModal(productName);
+                });
+            });
+
+            modalClose.addEventListener('click', closeModal);
+            modal.addEventListener('click', (e) => {
+                if (e.target === modal) {
+                    closeModal();
+                }
+            });
+
+            hamburger.addEventListener('click', toggleMobileMenu);
+
+            searchInput.addEventListener('input', filterProducts);
+
+            premiumLink.addEventListener('click', (e) => {
+                e.preventDefault();
+                openAgeVerification();
+            });
+
+            ageYesBtn.addEventListener('click', activateIncognitoMode);
+            ageNoBtn.addEventListener('click', closeAgeVerification);
+
+            // Cerrar modal con Escape key
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape') {
+                    closeModal();
+                    closeAgeVerification();
+                }
+            });
+        }
+
+        function openProductModal(productName) {
+            const productData = products[productName];
+            
+            if (productData) {
+                modalImage.src = productData.image;
+                modalImage.alt = productName;
+                modalTitle.textContent = productName;
+                modalDescription.textContent = productData.description;
+                modalPrice.textContent = productData.price;
+                
+                // Limpiar características anteriores
+                modalFeatures.innerHTML = '';
+                
+                // Añadir nuevas características
+                productData.features.forEach(feature => {
+                    const li = document.createElement('li');
+                    li.innerHTML = `<i class="fas fa-check"></i> ${feature}`;
+                    modalFeatures.appendChild(li);
+                });
+                
+                // Mostrar modal
+                modal.classList.add('active');
+                document.body.style.overflow = 'hidden';
+            }
+        }
+
+        function closeModal() {
+            modal.classList.remove('active');
+            document.body.style.overflow = 'auto';
+        }
+
+        function toggleMobileMenu() {
+            hamburger.classList.toggle('active');
+            navMenu.classList.toggle('active');
+        }
+
+        function filterProducts() {
+            const searchTerm = searchInput.value.toLowerCase();
+            
+            productCards.forEach(card => {
+                const productName = card.getAttribute('data-name').toLowerCase();
+                const productCategory = card.getAttribute('data-category').toLowerCase();
+                
+                if (productName.includes(searchTerm) || productCategory.includes(searchTerm)) {
+                    card.style.display = 'block';
+                    setTimeout(() => {
+                        card.style.opacity = '1';
+                        card.style.transform = 'translateY(0)';
+                    }, 10);
+                } else {
+                    card.style.opacity = '0';
+                    card.style.transform = 'translateY(20px)';
+                    setTimeout(() => {
+                        card.style.display = 'none';
+                    }, 300);
+                }
+            });
+        }
+
+        function openAgeVerification() {
+            ageModal.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeAgeVerification() {
+            ageModal.classList.remove('active');
+            document.body.style.overflow = 'auto';
+        }
+
+        function activateIncognitoMode() {
+            document.body.classList.add('incognito-mode');
+            closeAgeVerification();
+            
+            // Mostrar productos premium
+            premiumProducts.forEach(product => {
+                product.style.display = 'block';
+                setTimeout(() => {
+                    product.style.opacity = '1';
+                    product.style.transform = 'translateY(0)';
+                }, 10);
+            });
+            
+            // Cambiar colores de partículas
+            particlesJS('particles-js', {
+                particles: {
+                    number: { value: 80, density: { enable: true, value_area: 800 } },
+                    color: { value: "#ff5252" },
+                    shape: { type: "circle" },
+                    opacity: { value: 0.5, random: true },
+                    size: { value: 3, random: true },
+                    line_linked: {
+                        enable: true,
+                        distance: 150,
+                        color: "#ff5252",
+                        opacity: 0.4,
+                        width: 1
+                    },
+                    move: {
+                        enable: true,
+                        speed: 2,
+                        direction: "none",
+                        random: true,
+                        straight: false,
+                        out_mode: "out",
+                        bounce: false
+                    }
+                },
+                interactivity: {
+                    detect_on: "canvas",
+                    events: {
+                        onhover: { enable: true, mode: "repulse" },
+                        onclick: { enable: true, mode: "push" },
+                        resize: true
+                    }
+                },
+                retina_detect: true
+            });
+        }
+    </script>
+</body>
+</html>
